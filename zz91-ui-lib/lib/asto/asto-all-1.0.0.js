@@ -466,7 +466,7 @@ Asto.util.Selector=function(config){
 	config = config||{};
     this.url=config.url||"/category/areaChild.htm";
     this.assistUrl=config.assistUrl||"/category/areaChild.htm";
-    this.changCallback=config.changeCallback||function(){};
+    this.changeCallback=config.changeCallback||function(){};
     this.field=config.field||{code:"code",label:"label"};
     this.selectors=config.selects||[];
     this.assistSelectors = config.assistSelects||[];
@@ -488,7 +488,7 @@ Asto.util.Selector=function(config){
             selinstance.fillAssistOption(initCode, initAssistCode, assistSelectors[0]);
         }
         jQuery(selectors).each(function(idx,e){
-            //初始化选择项    
+            //初始化选择项
             if(initCode.length>rootCode.length){
                 if((rootCode.length+((idx+1)*codeLength))<=initCode.length){
                     var p=initCode.substring(0, rootCode.length+(idx*codeLength));
@@ -534,7 +534,7 @@ Asto.util.Selector=function(config){
 	                }
                 }
                 
-                selinstance.changCallback(selinstance, idx);
+                selinstance.changeCallback(selinstance, idx);
             });
         });
     }
