@@ -207,6 +207,11 @@ public class MailSendServiceImpl implements MailSendService {
 	 * @return
 	 */
 	public Integer doSendMail(MailInfoDomain mailInfoDomain) {
+		
+		if(StringUtils.isEmpty(mailInfoDomain.getReceiver())){
+			return FAILURE;
+		}
+		
 		Properties props = getSmtpConfig(mailInfoDomain);
 
 		final String username=mailInfoDomain.getSendName();

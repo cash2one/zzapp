@@ -5,9 +5,14 @@
  */
 package com.zz91.mail.thread;
 
+import java.io.IOException;
+import java.util.Map;
+
 import com.zz91.mail.domain.MailInfoDomain;
 import com.zz91.mail.service.MailInfoService;
 import com.zz91.mail.service.MailSendService;
+import com.zz91.util.file.FileUtils;
+import com.zz91.util.http.HttpUtils;
 
 /**
  * 邮件发送线程，将邮件信息提交给邮件服务器
@@ -22,6 +27,9 @@ public class MailSendThread extends Thread {
 	private MailInfoDomain mailInfo;
 	private MailInfoService mailInfoService;
 	private MailSendService mailSendService;
+	
+	public final static String SYS_FLAG="asto.mail";
+	public final static String MAIL_LIST_PROP="file:/usr/tools/config/mail/maillist.properties";
 
 	public MailSendThread() {
 		
@@ -35,12 +43,20 @@ public class MailSendThread extends Thread {
 		this.mailInfoService = mailInfoService;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
 
 		String receiver = mailInfo.getReceiver();
 		String tmp = receiver.substring(receiver.indexOf("@") + 1, receiver
 				.length());
+		if(SYS_FLAG.equalsIgnoreCase(tmp)){
+			try {
+				Map map=FileUtils.readPropertyFile(MAIL_LIST_PROP, HttpUtils.CHARSET_UTF8);
+				mailInfo.setReceiver(String.valueOf(map.get(receiver)));
+			} catch (IOException e) {
+			}
+		}
 
 		long now = System.currentTimeMillis();
 //		long start = System.currentTimeMillis();
@@ -57,6 +73,7 @@ public class MailSendThread extends Thread {
 
 		Integer sendStatus = mailSendService.doSendMail(mailInfo);
 		mailInfoService.updateComplete(mailInfo.getId(), sendStatus);
+//		mailInfoService.updateComplete(mailInfo.getId(), 1);
 //
 //		System.out.println("发送邮件："
 //				+ tmp
