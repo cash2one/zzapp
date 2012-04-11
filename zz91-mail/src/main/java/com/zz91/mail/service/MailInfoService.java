@@ -5,10 +5,12 @@
  */
 package com.zz91.mail.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.zz91.mail.domain.MailInfoDomain;
+import com.zz91.mail.domain.dto.PageDto;
 
 /**
  * @author kongsj
@@ -34,14 +36,23 @@ public interface MailInfoService {
 
 	public List<MailInfoDomain> selectMailQueue(Map<String, Object> map);
 
+	/***********************/
+	
 	public List<MailInfoDomain> queryMailForSend(Integer i);
 
 	public Integer updateSending(Integer id);
 
 	public Integer updateComplete(Integer id, Integer sendStatus);
 	
-	/**
-	 * 系统被强制关闭后的故障恢复
-	 */
 	public boolean shutdownRecovery(Integer fromStatus, Integer toStatus);
+	
+	
+	/********************************************************************/
+	public  MailInfoDomain queryOne(Integer id);
+	
+	public Boolean resend(Integer id);
+	
+	public PageDto<MailInfoDomain> pageMail(Date from,Date to,Integer priority,PageDto<MailInfoDomain> page);
+	
+	public Boolean sendMail(String title,String code,String receiver,String content);
 }

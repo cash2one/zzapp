@@ -5,7 +5,13 @@
  */
 package com.zz91.mail.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -14,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import com.zz91.mail.dao.MailInfoDao;
 import com.zz91.mail.domain.MailInfoDomain;
+import com.zz91.mail.domain.dto.PageDto;
 import com.zz91.mail.service.MailInfoService;
+import com.zz91.mail.service.MailSendService;
 
 /**
  * @author kongsj
@@ -26,7 +34,8 @@ public class MailInfoServiceImpl implements MailInfoService {
 
     @Resource
     private MailInfoDao mailInfoDao;
-
+    @Resource
+    private MailSendService mailSendService;
     @Override
     public MailInfoDomain selectById(Integer id) {
         return mailInfoDao.selectById(id);
@@ -87,6 +96,44 @@ public class MailInfoServiceImpl implements MailInfoService {
 			return true;
 		}
 		return false;
+	}
+	
+	
+	/***************************************************************************/
+
+	@Override
+	public PageDto<MailInfoDomain> pageMail(Date from, Date to,
+			Integer priority, PageDto<MailInfoDomain> page) {
+		page.setRecords(mailInfoDao.queryMail(from, to, priority, page));
+		page.setTotals(mailInfoDao.queryMailCount(from, to, priority));
+		return page;
+	}
+
+	@Override
+	public MailInfoDomain queryOne(Integer id) {
+		return mailInfoDao.queryOne(id);
+	}
+
+	@Override
+	public Boolean resend(Integer id) {
+		Integer i=mailInfoDao.updateSendStatus(id, SEND_WAITING);		
+		if(i!=null && i.intValue()>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean sendMail(String title,String code, String receiver, String content) {
+//		MailInfoDomain domain=new MailInfoDomain();
+//		domain.setEmailTitle(title);
+//		domain.setAccountCode(code);
+//		domain.setReceiver(receiver);
+//		domain.setContent(content);
+//		List list=new ArrayList();
+//		list.add(domain);
+//		Integer integer=mailInfoDao.queryMailForSend(i)
+		return true;
 	}
 
 }
