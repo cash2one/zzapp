@@ -103,7 +103,7 @@ public class MailInfoDaoImpl extends BaseDao implements MailInfoDao {
 		Map<String,Object>list=new HashMap<String,Object>();
 		list.put("from", from);
 		list.put("to", to);
-		list.put("priority", priority);		
+		list.put("priority", priority);	
 		return (Integer) getSqlMapClientTemplate().queryForObject(buildId(SQL_PREFIX,"queryMailCount"),list);
 	}
 

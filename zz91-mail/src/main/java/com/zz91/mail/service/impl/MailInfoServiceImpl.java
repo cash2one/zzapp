@@ -5,17 +5,10 @@
  */
 package com.zz91.mail.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 
 import com.zz91.mail.dao.MailInfoDao;
