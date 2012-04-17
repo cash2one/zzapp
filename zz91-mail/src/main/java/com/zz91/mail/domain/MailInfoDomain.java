@@ -38,7 +38,8 @@ public class MailInfoDomain {
     private Boolean isImmediate;// 是否立即发送
 
     public MailInfoDomain(Integer id, String sender, String receiver, String emailTitle, String templateId, Date gmtCreated,
-            Date gmtModified, Map<String, Object> emailParameter, String content, Date gmtPost, Boolean isImmediate, Integer sendStatus) {
+            Date gmtModified, Map<String, Object> emailParameter, String content, 
+            Date gmtPost, Boolean isImmediate, Integer sendStatus,Integer priority) {
         super();
         this.id = id;
         this.sender = sender;
@@ -50,9 +51,28 @@ public class MailInfoDomain {
         this.content = content;
         this.gmtPost = gmtPost;
         this.sendStatus = sendStatus;
+        this.emailParameter=emailParameter;
+        this.priority=priority;
+    }
+    public MailInfoDomain(Integer id, String sender, String receiver, String emailTitle, String templateId, Date gmtCreated,
+            Date gmtModified,String content, 
+            Date gmtPost, Integer sendStatus,Integer priority) {
+        super();
+        this.id = id;
+        this.sender = sender;
+        this.receiver = receiver;
+        this.emailTitle = emailTitle;
+        this.templateId = templateId;
+        this.gmtCreated = gmtCreated;
+        this.gmtModified = gmtModified;
+        this.content = content;
+        this.gmtPost = gmtPost;
+        this.sendStatus = sendStatus;
+        this.priority=priority;
     }
 
     public MailInfoDomain() {
+    	super();
     }
 
     public String getSender() {

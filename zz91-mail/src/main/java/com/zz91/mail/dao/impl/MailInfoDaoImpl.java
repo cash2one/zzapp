@@ -5,15 +5,18 @@
  */
 package com.zz91.mail.dao.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
 import com.zz91.mail.dao.BaseDao;
 import com.zz91.mail.dao.MailInfoDao;
 import com.zz91.mail.domain.MailInfoDomain;
+import com.zz91.mail.domain.dto.PageDto;
 
 /**
  * @author kongsj
@@ -38,11 +41,6 @@ public class MailInfoDaoImpl extends BaseDao implements MailInfoDao {
     @Override
     public Integer update(MailInfoDomain mto) {
         return (Integer) getSqlMapClientTemplate().update(buildId(SQL_PREFIX, "update"), mto);
-    }
-
-    @Override
-    public Integer deleteById(Integer id) {
-        return (Integer) getSqlMapClientTemplate().delete(buildId(SQL_PREFIX, "deleteById"), id);
     }
 
     @Override
@@ -75,14 +73,39 @@ public class MailInfoDaoImpl extends BaseDao implements MailInfoDao {
 		return getSqlMapClientTemplate().update(buildId(SQL_PREFIX, "recoverStatus"), root);
 	}
 
-//    @Override
-//    public Integer updateSending(Integer id) {
-//        return (Integer) getSqlMapClientTemplate().update(buildId(SQL_PREFIX, "updateSending"), id);
-//    }
-//
-//    @Override
-//    public Integer updateComplete(Map<String, Integer> map) {
-//        return (Integer) getSqlMapClientTemplate().update(buildId(SQL_PREFIX, "updateComplete"), map);
-//    }
+	/********************************/
+	@Override
+	public MailInfoDomain queryOne(Integer id) {
+		Assert.notNull(id, "The id can not be null");
+		return (MailInfoDomain) getSqlMapClientTemplate().queryForObject(buildId(SQL_PREFIX, "queryOne"), id);
+	}
+
+    @Override
+    public Integer deleteById(Integer id) {   	
+        return (Integer) getSqlMapClientTemplate().delete(buildId(SQL_PREFIX, "deleteById"), id);
+    }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<MailInfoDomain> queryMail(Date from, Date to, Integer priority,
+			PageDto<MailInfoDomain> page) {
+		Map<String,Object> list=new HashMap<String,Object>();
+		list.put("from", from);
+		list.put("to", to);
+		list.put("priority", priority);
+		list.put("page", page);
+		return getSqlMapClientTemplate().queryForList(buildId(SQL_PREFIX,"queryMail"),list);
+	}
+
+	@Override
+	public Integer queryMailCount(Date from,
+			Date to, Integer priority) {
+		Map<String,Object>list=new HashMap<String,Object>();
+		list.put("from", from);
+		list.put("to", to);
+		list.put("priority", priority);	
+		return (Integer) getSqlMapClientTemplate().queryForObject(buildId(SQL_PREFIX,"queryMailCount"),list);
+	}
+
 
 }

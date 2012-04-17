@@ -34,18 +34,18 @@ import com.zz91.util.lang.StringUtils;
 
 @Service("mailSendService")
 public class MailSendServiceImpl implements MailSendService {
-	
+
 	private static Logger LOG = Logger.getLogger(MailSendServiceImpl.class);
-	
-	private static final String MAIL_TYPE="text/html;charset=utf-8";
+
+	private static final String MAIL_TYPE = "text/html;charset=utf-8";
 	public final static int SUCCESS = 1;
 	public final static int FAILURE = 2;
-	
-//	private static final String DEFAULT_ACCOUNT = "master@zz91.cn";
-//	private static final String DEFAULT_PASSWORD = "88888888";
-//	private static final String DEFAULT_HOST = "mail.zz91.cn";
-//	private static final String DEFAULT_FROM = "service@zz91.cn";
-	
+
+	// private static final String DEFAULT_ACCOUNT = "master@zz91.cn";
+	// private static final String DEFAULT_PASSWORD = "88888888";
+	// private static final String DEFAULT_HOST = "mail.zz91.cn";
+	// private static final String DEFAULT_FROM = "service@zz91.cn";
+
 	@Resource
 	private TemplateDao templateDao;
 	@Resource
@@ -57,8 +57,9 @@ public class MailSendServiceImpl implements MailSendService {
 	 * 根据模板编号获取模板内容
 	 */
 	private String getTemplateContentByTemplateCode(String templateCode) {
-		TemplateDomain templateDomain = templateDao.queryTemplateByCode(templateCode);
-		if (templateDomain != null && templateDomain.gettContent() !=null) {
+		TemplateDomain templateDomain = templateDao
+				.queryTemplateByCode(templateCode);
+		if (templateDomain != null && templateDomain.gettContent() != null) {
 			return templateDomain.gettContent();
 		} else {
 			return "";
@@ -121,16 +122,16 @@ public class MailSendServiceImpl implements MailSendService {
 	 * 
 	 * @param mailSubject
 	 */
-//	private void setTitle(String mailTitle, MimeMessage mimeMsg) {
-//		if (!mailTitle.equals("") && mailTitle != null) {
-//			try {
-//				mimeMsg.setSubject(mailTitle);
-//			} catch (MessagingException e) {
-//				LOG.error("setTitle error");
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	// private void setTitle(String mailTitle, MimeMessage mimeMsg) {
+	// if (!mailTitle.equals("") && mailTitle != null) {
+	// try {
+	// mimeMsg.setSubject(mailTitle);
+	// } catch (MessagingException e) {
+	// LOG.error("setTitle error");
+	// e.printStackTrace();
+	// }
+	// }
+	// }
 
 	/**
 	 * set邮件正文
@@ -138,18 +139,18 @@ public class MailSendServiceImpl implements MailSendService {
 	 * @param contentId
 	 * @param map
 	 */
-//	private void setEmailContent(String emailContent, Multipart mp) {
-//		BodyPart bp = new MimeBodyPart();
-//		try {
-//			bp.setContent(
-//					"<meta http-equiv=Context-Type context=text/html;charset=gb2312>"
-//							+ emailContent, "text/html;charset=GB2312");
-//			mp.addBodyPart(bp);
-//		} catch (MessagingException e) {
-//			LOG.debug("setEmailContent error");
-//			e.printStackTrace();
-//		}
-//	}
+	// private void setEmailContent(String emailContent, Multipart mp) {
+	// BodyPart bp = new MimeBodyPart();
+	// try {
+	// bp.setContent(
+	// "<meta http-equiv=Context-Type context=text/html;charset=gb2312>"
+	// + emailContent, "text/html;charset=GB2312");
+	// mp.addBodyPart(bp);
+	// } catch (MessagingException e) {
+	// LOG.debug("setEmailContent error");
+	// e.printStackTrace();
+	// }
+	// }
 
 	/**
 	 * 添加附件
@@ -174,29 +175,29 @@ public class MailSendServiceImpl implements MailSendService {
 	 * 
 	 * @param from
 	 */
-//	private void setFrom(String from, MimeMessage mimeMsg) {
-//		LOG.debug("Set From .");
-//		try {
-//			mimeMsg.setFrom(new InternetAddress(from));
-//		} catch (Exception e) {
-//			LOG.error("setFrom error");
-//		}
-//	}
+	// private void setFrom(String from, MimeMessage mimeMsg) {
+	// LOG.debug("Set From .");
+	// try {
+	// mimeMsg.setFrom(new InternetAddress(from));
+	// } catch (Exception e) {
+	// LOG.error("setFrom error");
+	// }
+	// }
 
 	/**
 	 * set邮件接收者
 	 * 
 	 * @param to
 	 */
-//	private void setTo(String to, MimeMessage mimeMsg) {
-//		LOG.debug("Set to.");
-//		try {
-//			mimeMsg.setRecipients(Message.RecipientType.TO, InternetAddress
-//					.parse(to));
-//		} catch (Exception e) {
-//			LOG.error("setTo error");
-//		}
-//	}
+	// private void setTo(String to, MimeMessage mimeMsg) {
+	// LOG.debug("Set to.");
+	// try {
+	// mimeMsg.setRecipients(Message.RecipientType.TO, InternetAddress
+	// .parse(to));
+	// } catch (Exception e) {
+	// LOG.error("setTo error");
+	// }
+	// }
 
 	/**
 	 * 发送邮件
@@ -207,48 +208,49 @@ public class MailSendServiceImpl implements MailSendService {
 	 * @return
 	 */
 	public Integer doSendMail(MailInfoDomain mailInfoDomain) {
-		
-		if(StringUtils.isEmpty(mailInfoDomain.getReceiver())){
+
+		if (StringUtils.isEmpty(mailInfoDomain.getReceiver())) {
 			return FAILURE;
 		}
-		
+
 		Properties props = getSmtpConfig(mailInfoDomain);
 
-		final String username=mailInfoDomain.getSendName();
-		final String pwd=mailInfoDomain.getSendPassword();
-		
+		final String username = mailInfoDomain.getSendName();
+		final String pwd = mailInfoDomain.getSendPassword();
+
 		Session session = Session.getInstance(props, new Authenticator() {
 			@Override
 			public PasswordAuthentication getPasswordAuthentication() {
 				return new PasswordAuthentication(username, pwd);
 			}
 		});
-		
-//		session.setDebug(true);
-		
+
+		// session.setDebug(true);
+
 		MimeMessage msg = new MimeMessage(session);
 		try {
-			InternetAddress[] address = InternetAddress.parse(mailInfoDomain.getReceiver(), false);
-			if(StringUtils.isEmpty(mailInfoDomain.getNickname())){
+			InternetAddress[] address = InternetAddress.parse(mailInfoDomain
+					.getReceiver(), false);
+			if (StringUtils.isEmpty(mailInfoDomain.getNickname())) {
 				msg.setFrom(new InternetAddress(mailInfoDomain.getSender()));
-			}else{
-				msg.setFrom(new InternetAddress(mailInfoDomain.getSender(), mailInfoDomain.getNickname()));
+			} else {
+				msg.setFrom(new InternetAddress(mailInfoDomain.getSender(),
+						mailInfoDomain.getNickname()));
 			}
 			msg.setRecipients(Message.RecipientType.TO, address);
-			
+
 			msg.setSubject(mailInfoDomain.getEmailTitle());
 			msg.setContent(mailInfoDomain.getContent(), MAIL_TYPE);
 			msg.setSentDate(new Date());
-			
+
 			msg.saveChanges();
-			
+
 			Transport.send(msg);
 			return SUCCESS;
 		} catch (Exception e) {
 			LOG.error("Send Mail error. Mail:[subject]"
-							+ mailInfoDomain.getEmailTitle() + "[form]"
-							+ mailInfoDomain.getSender() + " error:"
-							+ e.getMessage());
+					+ mailInfoDomain.getEmailTitle() + "[form]"
+					+ mailInfoDomain.getSender() + " error:" + e.getMessage());
 		}
 		return FAILURE;
 	}
@@ -296,7 +298,7 @@ public class MailSendServiceImpl implements MailSendService {
 		mailInfoDomain.setSendHost(accountDomain.getHost());
 		mailInfoDomain.setNickname(accountDomain.getNickname());
 		mailInfoDomain.setSendStatus(0);
-		
+
 		return mailInfoDao.insert(mailInfoDomain);
 	}
 
@@ -315,17 +317,17 @@ public class MailSendServiceImpl implements MailSendService {
 								.getEmailParameter()));
 		AccountDomain accountDomain = accountService
 				.queryAccountByUsername(mailInfoDomain.getSendName());
-		
-		if(accountDomain==null){
+
+		if (accountDomain == null) {
 			return null;
 		}
-		
+
 		if (accountDomain != null) {
 			mailInfoDomain.setSender(accountDomain.getEmail());
 			mailInfoDomain.setSendHost(accountDomain.getHost());
 			mailInfoDomain.setSendPassword(accountDomain.getPassword());
 		}
-		
+
 		mailInfoDomain.setSendStatus(0);
 		return mailInfoDao.insert(mailInfoDomain);
 	}
@@ -350,13 +352,14 @@ public class MailSendServiceImpl implements MailSendService {
 		return doSendMail(mailInfoDomain);
 	}
 
-//	final static Map<String, String> SMTP_MAP = new HashMap<String, String>();
-//	static {
-//		SMTP_MAP.put("huanbao.com", "mail.huanbao.com");
-//		SMTP_MAP.put("zz91.com", "mail.zz91.com");
-//		SMTP_MAP.put("zz91.cn", "mail.zz91.cn");
-//		SMTP_MAP.put("zz91.net", "mail.zz91.net");
-//	}
+	// final static Map<String, String> SMTP_MAP = new HashMap<String,
+	// String>();
+	// static {
+	// SMTP_MAP.put("huanbao.com", "mail.huanbao.com");
+	// SMTP_MAP.put("zz91.com", "mail.zz91.com");
+	// SMTP_MAP.put("zz91.cn", "mail.zz91.cn");
+	// SMTP_MAP.put("zz91.net", "mail.zz91.net");
+	// }
 
 	// private String getSmtpHost(String email) {
 	// if (!StringUtils.isEmail(email)) {
@@ -366,7 +369,7 @@ public class MailSendServiceImpl implements MailSendService {
 	// String domain = email.substring(d, email.length());
 	// return SMTP_MAP.get(domain);
 	// }
-	
+
 	/**
 	 * set default host,account,password
 	 * 
@@ -374,11 +377,11 @@ public class MailSendServiceImpl implements MailSendService {
 	 */
 	private void setDefaultHostInfo(MailInfoDomain mailInfoDomain) {
 		mailInfoDomain.setSendHost("mail.zz91.cn");
-		if(StringUtils.isNotEmpty(mailInfoDomain.getSendName()) 
-				&& StringUtils.isNotEmpty(mailInfoDomain.getSendPassword())){
+		if (StringUtils.isNotEmpty(mailInfoDomain.getSendName())
+				&& StringUtils.isNotEmpty(mailInfoDomain.getSendPassword())) {
 			mailInfoDomain.setSendName(mailInfoDomain.getSendName());
 			mailInfoDomain.setSendPassword(mailInfoDomain.getSendPassword());
-		}else{
+		} else {
 			mailInfoDomain.setSendName("master@zz91.cn");
 			mailInfoDomain.setSendPassword("88888888");
 		}

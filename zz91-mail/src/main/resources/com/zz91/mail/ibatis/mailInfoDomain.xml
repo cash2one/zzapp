@@ -30,7 +30,8 @@
 		template_id,send_name,send_password,send_host,
 		nickname
 	</sql>
-
+	 
+	
 	<!-- select mailInfo by id -->
 	<select id="selectById" parameterClass="java.lang.Integer"
 		resultMap="mailInfoDomainResult">
@@ -59,15 +60,14 @@
 		</isNotNull>
 		<isNotEmpty prepend="," property="sendName"> send_name = #sendName#
 		</isNotEmpty>
+		<isNotEmpty prepend="," property="emailTitle"> email_title = #emailTitle#
+		</isNotEmpty>
 		<isNotEmpty prepend="," property="sendPassword"> send_password =	#sendPassword#</isNotEmpty>
 		<isNotEmpty prepend="," property="sendHost"> send_host = #sendHost#
 		</isNotEmpty>
 		where id = #id#
 	</update>
-	<delete id="deleteById" parameterClass="java.lang.Integer">
-		delete from mail_info
-		where id = #value#
-	</delete>
+	
 	<select id="selectMailQueue" parameterClass="java.util.Map"
 		resultMap="mailInfoDomainResult">
 		select
@@ -86,6 +86,8 @@
 		order by priority asc, gmt_post asc
 		limit 0,#value#
 	</select>
+	
+	
 	<!--
 		<update id="updateSending" parameterClass="java.lang.Integer"> update
 		mail_info set gmt_modified =now() , send_status=3 where id =#id#
@@ -106,5 +108,69 @@
 		gmt_modified = now()
 		where send_status=#fromStatus#
 	</update>
+	
 
+
+	
+	<!--zji xie*************************************************************************-->
+	
+	
+	<resultMap id="queryOneResult" class="mailInfoDomain">
+		<result property="id" column="id"/>
+		<result property="content" column="email_content" />
+		<result property="emailTitle" column="email_title"/>
+	</resultMap>	
+	<select id="queryOne" parameterClass="java.lang.Integer" resultMap="queryOneResult">
+		select
+	  		id,email_content,email_title
+		from mail_info 
+		where id=#id#																													
+		limit 1 
+	</select>
+	
+	<delete id="deleteById" parameterClass="java.lang.Integer">
+			delete from mail_info
+		where id = #value#
+	</delete>
+	
+	<resultMap id="queryMailResult" class="mailInfoDomain">
+		<result property="id" column="id" />
+		<result property="templateId" column="template_id"/>
+		<result property="emailTitle" column="email_title"/>
+		<result property="sendStatus" column="send_status"/>
+		<result property="gmtPost" column="gmt_post"/>
+		<result property="priority" column="priority"/>
+		<result property="receiver" column="receiver_email"/>
+		<result property="sender" column="send_email"/>
+	</resultMap>
+	<sql id="queryMailColumn">
+		id,template_id, email_title,send_status,gmt_post,priority,
+		receiver_email,send_email
+	</sql>	
+	<sql id="queryMailWhere">
+		<dynamic prepend="where">
+			<isNotEmpty property="priority" prepend="and">
+				priority=#priority#
+			</isNotEmpty>
+			<isNotEmpty property="from" prepend="and">
+				gmt_post>=#from#
+			</isNotEmpty>
+			<isNotEmpty property="to" prepend="and">
+				#to#>=gmt_post
+			</isNotEmpty>
+		</dynamic>
+	</sql>	
+	<select id="queryMail" parameterClass="java.util.HashMap" resultMap="queryMailResult">
+		select
+			<include refid="mailInfo.queryMailColumn" />
+		from mail_info		
+			<include refid="mailInfo.queryMailWhere" />
+			<include refid="common.pageOrderBy" />
+			<include refid="common.pageLimit" />
+	</select>
+	
+	<select id="queryMailCount" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(*)	from mail_info
+			<include refid="mailInfo.queryMailWhere" />
+	</select>
 </sqlMap>

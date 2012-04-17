@@ -5,12 +5,15 @@
  */
 package com.zz91.mail.dao;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import com.zz91.mail.domain.MailInfoDomain;
+import com.zz91.mail.domain.dto.PageDto;
 
 /**
+ * 邮件消息
  * @author kongsj
  * @email kongsj@zz91.net
  * @date 2011-11-10
@@ -21,8 +24,6 @@ public interface MailInfoDao {
     public Integer insert(MailInfoDomain mto);
 
     public Integer update(MailInfoDomain mto);
-
-    public Integer deleteById(Integer id);
 
     public List<MailInfoDomain> selectMailQueue(Map<String,Object>map);
     
@@ -35,4 +36,14 @@ public interface MailInfoDao {
     public Integer updateSendStatus(Integer id, Integer status);
     
     public Integer recoverStatus(Integer fromStatus, Integer toStatus);
+    
+    
+    /**************************************/
+    public MailInfoDomain queryOne(Integer id);
+    
+    public Integer deleteById(Integer id);
+    
+    public Integer queryMailCount(Date from,Date to,Integer priority);
+    
+    public List<MailInfoDomain> queryMail(Date from,Date to,Integer priority,PageDto<MailInfoDomain> page);
 }

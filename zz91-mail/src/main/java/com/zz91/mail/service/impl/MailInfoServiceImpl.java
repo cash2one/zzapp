@@ -5,15 +5,17 @@
  */
 package com.zz91.mail.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
 import javax.annotation.Resource;
-
 import org.springframework.stereotype.Service;
 
 import com.zz91.mail.dao.MailInfoDao;
+import com.zz91.mail.domain.AccountDomain;
 import com.zz91.mail.domain.MailInfoDomain;
+import com.zz91.mail.domain.dto.PageDto;
+import com.zz91.mail.service.AccountService;
 import com.zz91.mail.service.MailInfoService;
 
 /**
@@ -26,7 +28,8 @@ public class MailInfoServiceImpl implements MailInfoService {
 
     @Resource
     private MailInfoDao mailInfoDao;
-
+    @Resource
+    private AccountService accountService;
     @Override
     public MailInfoDomain selectById(Integer id) {
         return mailInfoDao.selectById(id);
@@ -87,6 +90,51 @@ public class MailInfoServiceImpl implements MailInfoService {
 			return true;
 		}
 		return false;
+	}
+	
+	
+	/***************************************************************************/
+
+	@Override
+	public PageDto<MailInfoDomain> pageMail(Date from, Date to,
+			Integer priority, PageDto<MailInfoDomain> page) {
+		page.setRecords(mailInfoDao.queryMail(from, to, priority, page));
+		page.setTotals(mailInfoDao.queryMailCount(from, to, priority));
+		return page;
+	}
+
+	@Override
+	public MailInfoDomain queryOne(Integer id) {
+		return mailInfoDao.queryOne(id);
+	}
+
+	@Override
+	public Boolean resend(Integer id) {
+		Integer i=mailInfoDao.updateSendStatus(id, SEND_WAITING);
+		if(i!=null && i.intValue()>0){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Boolean sendMail(String title,String code, String receiver, String content) {
+		MailInfoDomain mailInfoDomain=new MailInfoDomain();
+		code = mailInfoDomain.getAccountCode();
+		AccountDomain accountDomain = accountService
+		.randomAccountFromCache(code);
+		if (accountDomain == null) {
+			return null;
+		}
+		mailInfoDomain.setEmailTitle(title);
+		mailInfoDomain.setReceiver(receiver);
+		mailInfoDomain.setContent(content);
+		mailInfoDomain.setSendStatus(0);
+		mailInfoDomain.setSender(accountDomain.getEmail());
+		mailInfoDomain.setSendHost(accountDomain.getHost());
+		mailInfoDomain.setSendPassword(accountDomain.getPassword());
+		mailInfoDao.insert(mailInfoDomain);
+		return true;
 	}
 
 }
