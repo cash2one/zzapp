@@ -127,7 +127,5 @@ public class AccountDomain {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-    
-    
 
 }

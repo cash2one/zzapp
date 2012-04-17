@@ -46,5 +46,4 @@ public interface MailInfoDao {
     public Integer queryMailCount(Date from,Date to,Integer priority);
     
     public List<MailInfoDomain> queryMail(Date from,Date to,Integer priority,PageDto<MailInfoDomain> page);
-    
 }
