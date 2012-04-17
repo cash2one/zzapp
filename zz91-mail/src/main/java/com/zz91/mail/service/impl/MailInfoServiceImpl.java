@@ -98,6 +98,13 @@ public class MailInfoServiceImpl implements MailInfoService {
 	@Override
 	public PageDto<MailInfoDomain> pageMail(Date from, Date to,
 			Integer priority, PageDto<MailInfoDomain> page) {
+		if(page.getSort()==null){
+			page.setSort("gmt_post");
+		}
+		if(page.getDir()==null){
+			page.setDir("desc");
+		}
+			
 		page.setRecords(mailInfoDao.queryMail(from, to, priority, page));
 		page.setTotals(mailInfoDao.queryMailCount(from, to, priority));
 		return page;
@@ -120,12 +127,13 @@ public class MailInfoServiceImpl implements MailInfoService {
 	@Override
 	public Boolean sendMail(String title,String code, String receiver, String content) {
 		MailInfoDomain mailInfoDomain=new MailInfoDomain();
-		code = mailInfoDomain.getAccountCode();
 		AccountDomain accountDomain = accountService
 		.randomAccountFromCache(code);
 		if (accountDomain == null) {
 			return null;
 		}
+		
+		mailInfoDomain.setTemplateId("");
 		mailInfoDomain.setEmailTitle(title);
 		mailInfoDomain.setReceiver(receiver);
 		mailInfoDomain.setContent(content);
@@ -133,8 +141,14 @@ public class MailInfoServiceImpl implements MailInfoService {
 		mailInfoDomain.setSender(accountDomain.getEmail());
 		mailInfoDomain.setSendHost(accountDomain.getHost());
 		mailInfoDomain.setSendPassword(accountDomain.getPassword());
-		mailInfoDao.insert(mailInfoDomain);
-		return true;
+		mailInfoDomain.setPriority(0);
+		mailInfoDomain.setGmtPost(new Date());
+		
+		Integer i=mailInfoDao.insert(mailInfoDomain);
+		if(i!=null && i.intValue()>0){
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -149,6 +149,10 @@
 		</property>
 	</bean>
 
-
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="webBindingInitializer">
+			<bean class="com.zz91.mail.util.EditorBindingInitializer" />
+		</property>
+	</bean>
 
 </beans>

@@ -10,10 +10,11 @@ com.zz91.zzmail.mailinfo.Field=[
 	{name:"id",mapping:"id"},
 	{name:"template",mapping:"templateId"},
 	{name:"title",mapping:"emailTitle"},
-	{name:"gmtPost",mapping:"gmtPost"},
+	{name:"gmt_post",mapping:"gmtPost"},
 	{name:"priority",mapping:"priority"},
 	{name:"receiver",mapping:"receiver"},
 	{name:"sender",mapping:"sender"},
+	{name:"sendStatus",mapping:"sendStatus"},
 	{name:"content",mapping:"content"}
 ];
 
@@ -45,8 +46,9 @@ com.zz91.zzmail.mailinfo.Grid = Ext.extend(Ext.grid.GridPanel,{
 				dataIndex:"title"
 			},{
 				header : "计划发送时间",
-				sortable : false,
-				dataIndex : "gmtPost",
+				sortable : true,
+				dataIndex :"gmt_post",
+				width:150,
 				renderer : function(value, metadata, record, rowIndex,colIndex, store) {
 					if(value!=null){
 						return Ext.util.Format.date(new Date(value.time), 'Y-m-d h:m:s');
@@ -55,16 +57,38 @@ com.zz91.zzmail.mailinfo.Grid = Ext.extend(Ext.grid.GridPanel,{
 					}
 				}
 			},{
+				header:"发送状态",
+				sortable:false,
+				dataIndex:"sendStatus",
+				renderer : function(value, metadata, record, rowIndex,colIndex, store) {
+					if(value==0){
+						return "等待发送";
+					}
+					if(value==1){
+						return "发送成功";
+					}
+					if(value==2){
+						return "发送失败";
+					}
+					if(value==3){
+						return "发送中...";
+					}
+				}
+				
+			},{
 				header :"优先级",
 				sortable : false,
 				dataIndex:"priority"
+				
 			},{
 				header :"收件人",
 				sortable : false,
+				width:200,
 				dataIndex:"receiver"
 			},{
 				header :"发送地址",
 				sortable : false,
+				width:200,
 				dataIndex:"sender"
 			}
 		]);
@@ -174,48 +198,58 @@ com.zz91.zzmail.mailinfo.Grid = Ext.extend(Ext.grid.GridPanel,{
 			}
 		}
 	},{
-		text : '群发',
-		tooltip : '群发',
+		text : '发送邮件',
 		iconCls : 'mail16',
 		handler:function(btn){
 			com.zz91.zzmail.mailinfo.sendMail();
 	}
-	},"->",{
-		xtype:"combo",
-		itemCls:"required",
-		name:"categoryCombo",
-		mode:"local",
-		emptyText:"未发送/成功/失败/发送中",
-		triggerAction:"all",
-		forceSelection: true,
-		displayField:'name',
-		valueField:'value',
-		autoSelect:true,
-		store:new Ext.data.JsonStore({
-			fields : ['name', 'value'],
-			data   : [
-				{name:'未发送',value:'0'},
-				{name:'发送成功',value:'1'},
-				{name:'发送失败',value:'2'},
-				{name:'发送中',value:'3'}
-			]
-		})
-	},{
+	},"->",
+//	{
+//		xtype:"combo",
+//		itemCls:"required",
+//		name:"categoryCombo",
+//		mode:"local",
+//		emptyText:"选择发送状态",
+//		triggerAction:"all",
+//		forceSelection: true,
+//		displayField:'name',
+//		valueField:'value',
+//		autoSelect:true,
+//		store:new Ext.data.JsonStore({
+//			fields : ['name', 'value'],
+//			data   : [
+//				{name:'未发送',value:'0'},
+//				{name:'发送成功',value:'1'},
+//				{name:'发送失败',value:'2'},
+//				{name:'发送中',value:'3'}
+//			]
+//		}),
+//		listeners:{
+//			"blur":function(field){
+//				var _store=Ext.getCmp(MAILINFO.MAILINFO_GRID).getStore();
+//				
+//				if(field.getValue()!=""){
+//					_store.baseParams["status"]= field.getValue();
+//				}else{
+//					_store.baseParams["status"]=null;
+//				}
+//				_store.reload({"params":{start:0,"limit":Context.PAGE_SIZE}});
+//			}
+//		}
+//	},
+	{
 		xtype : "datefield",
 		format:"Y-m-d",
 		name : "from",
 		emptyText:"计划开始",
 		listeners:{
 			"blur":function(field){
-				var store=Ext.getCmp(MAILINFO.MAILINFO_GRID).getStore();
-				var B	= _store.baseParams;
-				B	= B ||{};
-				if(val!=""){
-					B["gmtTarget"]= Date.parse(store);
+				var _store=Ext.getCmp(MAILINFO.MAILINFO_GRID).getStore();
+				if(field.getValue()!=""){
+					_store.baseParams["from"]= Ext.util.Format.date(field.getValue(), 'Y-m-d h:m:s');
 				}else{
-					B["gmtTarget"]=null;
+					_store.baseParams["from"]=null;
 				}
-				_store.baseParams = B;
 				_store.reload({"params":{start:0,"limit":Context.PAGE_SIZE}});
 			}
 		}
@@ -226,11 +260,13 @@ com.zz91.zzmail.mailinfo.Grid = Ext.extend(Ext.grid.GridPanel,{
 		emptyText:"计划结束",
 		listeners:{
 			"blur":function(field){
-		
-		var store=Ext.getCmp(MAILINFO.MAILINFO_GRID).getStore();
-		store.baseParams["to"]="";
-		
-		store.reload();
+				var _store=Ext.getCmp(MAILINFO.MAILINFO_GRID).getStore();
+				if(field.getValue()!=""){
+					_store.baseParams["to"]= Ext.util.Format.date(field.getValue(), 'Y-m-d h:m:s');
+				}else{
+					_store.baseParams["to"]=null;
+				}
+				_store.reload({"params":{start:0,"limit":Context.PAGE_SIZE}});
 			}
 		}
 	}]
