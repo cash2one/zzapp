@@ -594,32 +594,27 @@
                 margin-top:10px;
         }
         .pages a{
-                border:1px solid #cbdbe5;
-                padding:3px 6px;
-                margin:0 2px;
-              
-                text-decoration:none
-        }
-        .pages a:hover {
-                border:1px solid #cbdbe5;
-                padding:3px 6px;
+                padding:6px 8px;
                 margin:0 2px;
                 text-decoration:none;
-                color:#333;
-				background-color:#CCC;
+				background-color:#F0F0F0;
+        }
+        .pages a:hover {
+                padding:6px 8px;
+                margin:0 2px;
+                text-decoration:none;
+                color:#FFF;
+				background-color:#047636;
         }
         .pages a.click {
-			    padding:3px 6px;
-				margin:0 2px;
-                color:#040;
+			    padding:6px 8px;
+                color:#FFF;
                 font-weight:bold;
-                border:1px solid #CCC;
-				background-color:#CCC;
+				background-color:#047636;
         }
         .pages a:hover.click {
-                color:#ff6600;
                 font-weight:bold;
-                border:1px solid #cbdbe5;
+				text-decoration:underline;
 				cursor:default;
         }
 	</style>
@@ -635,7 +630,7 @@
     		#set($startIndex = 0)
     	#end
     	<a href='$!{url}?startIndex=$!startIndex&pageSize=$!{currentPage.pageSize}&$!{suffixUrl}' >上一页</a>
-    	#foreach($jj in [-5..5])
+    	#foreach($jj in [-6..4])
     		#if(($currentPage+$jj)>=0 && $totalPage > ($currentPage+$jj))
     			#set($startIndex = ($currentPage + $jj)*${pageContext.pageSize} )
     			#set($nowPage = $currentPage + $jj + 1)
@@ -666,7 +661,7 @@
     		#set($startIndex = 0)
     	#end
     	<a href='$!{uri}$!{suffixUrl}--s$!{startIndex}--l$!{pageContext.pageSize}.htm' >上一页</a>
-    	#foreach($jj in [-5..5])
+    	#foreach($jj in [-6..4])
     		#if(($currentPage+$jj)>=0 && $totalPage > ($currentPage+$jj))
     			#set($startIndex = ($currentPage + $jj)*${pageContext.pageSize} )
     			#set($nowPage = $currentPage + $jj + 1)
@@ -689,3 +684,6 @@
 
 #macro(printTitle $word $maxSize $prefix)#set($word=$word.trim())#if($word.length() >$maxSize)$word.substring(0, $maxSize)$prefix#else$word#end#end
 
+#macro(printProductType $code $left $right)#if($code=="10331000")$!{left}供应$!{right}#elseif($code=="10331001")$!{left}求购$!{right}#elseif($code=="10331002")$!{left}合作$!{right}#end#end
+
+#macro(printFragmentDate $format $d)#if($d!="null")$!date.format("$format",${d.time})#end#end

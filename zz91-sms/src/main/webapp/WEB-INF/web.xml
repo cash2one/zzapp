@@ -63,7 +63,7 @@
 		</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring-mail-config.xml</param-value>
+			<param-value>classpath:spring-sms-config.xml</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
@@ -82,13 +82,5 @@
 		<welcome-file>index.htm</welcome-file>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-	
-	<!--  
-	<servlet>
-        <servlet-name>initSystem</servlet-name>
-        <servlet-class>com.zz91.mail.config.InitSystem</servlet-class>
-        <load-on-startup>2</load-on-startup>
-    </servlet>
-	-->
 	
 </web-app>
