@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.zz91.sms.dao.gateway.GatewayDao;
 import com.zz91.sms.domain.Gateway;
 import com.zz91.sms.service.gateway.GatewayService;
+import com.zz91.util.Assert;
 
 @Component("gatewayService")
 public class GatewayServiceImpl implements GatewayService {
@@ -43,6 +44,7 @@ public class GatewayServiceImpl implements GatewayService {
 
 	@Override
 	public Integer remove(Integer id) {
+		Assert.notNull(id, "the id can not be null!");
 		return gatewayDao.delete(id);
 	}
 

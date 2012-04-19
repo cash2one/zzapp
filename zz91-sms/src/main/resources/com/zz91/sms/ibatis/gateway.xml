@@ -56,7 +56,7 @@
 		<result property="gmtModified" column="gmt_modified"/>
 	</resultMap>
 	
-	<select id="query" parameterClass="java.lang.Integer" resultMap="gatewayResult">
+	<select id="query" parameterClass="java.util.Map" resultMap="gatewayResult">
 		SELECT 
 			g.id,
 			g.code,
@@ -69,13 +69,14 @@
 			g.gmt_created,
 			g.gmt_modified
 		FROM gateway g
-		WHERE 1 = 1
-		<isNotEmpty prepend="and" property="enabled">
-			g.enabled = #value#
-		</isNotEmpty>
+		<dynamic prepend="where ">
+			<isNotEmpty prepend="and" property="enabled">
+				g.enabled = #enabled#
+			</isNotEmpty>
+		</dynamic>
 	</select>
 	
-	<select id="queryOne" parameterClass="java.lang.Integer" resultMap="gatewayResult">
+	<select id="queryOne" parameterClass="java.util.Map" resultMap="gatewayResult">
 		SELECT 
 			g.id,
 			g.code,

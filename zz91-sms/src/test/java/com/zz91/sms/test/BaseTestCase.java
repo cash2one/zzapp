@@ -21,7 +21,7 @@ public class BaseTestCase extends
 	private SqlMapClientFactoryBean sqlMapClient;
 
 	protected String[] getConfigLocations() {
-		return new String[] { "spring-mail-config.xml" };
+		return new String[] { "spring-sms-config.xml" };
 	}
 
 	public void test_demo() {

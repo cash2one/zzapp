@@ -52,6 +52,6 @@
 			t.signed,
 			t.gmt_created,
 			t.gmt_modified
-		FROM template
+		FROM template t
 	</select>
 </sqlMap>
