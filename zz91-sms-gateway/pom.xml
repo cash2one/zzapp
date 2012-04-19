@@ -20,10 +20,19 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 		</dependency>
-		<!-- sms-common -->
 		<dependency>
 			<groupId>com.zz91</groupId>
 			<artifactId>zz91-sms-common</artifactId>
+		</dependency>
+		<!-- zzutil  -->
+		<dependency>
+			<groupId>com.zz91</groupId>
+			<artifactId>zz91-utils</artifactId>
+		</dependency>
+		<!-- emay jar -->
+		<dependency>
+			<groupId>cn.emay</groupId>
+			<artifactId>emaysdkclient</artifactId>
 		</dependency>
 	</dependencies>
 	<properties>
