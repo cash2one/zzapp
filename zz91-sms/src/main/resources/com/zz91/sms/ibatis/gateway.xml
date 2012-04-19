@@ -52,6 +52,8 @@
 		<result property="serialPas" column="serial_pas"/>
 		<result property="apiJar" column="api_jar"/>
 		<result property="docs" column="docs"/>
+		<result property="gmtCreated" column="gmt_created"/>
+		<result property="gmtModified" column="gmt_modified"/>
 	</resultMap>
 	
 	<select id="query" parameterClass="java.lang.Integer" resultMap="gatewayResult">
@@ -63,7 +65,9 @@
 			g.serial_no,
 			g.serial_pas,
 			g.api_jar,
-			g.docs
+			g.docs,
+			g.gmt_created,
+			g.gmt_modified
 		FROM gateway g
 		WHERE 1 = 1
 		<isNotEmpty prepend="and" property="enabled">
@@ -80,7 +84,9 @@
 			g.serial_no,
 			g.serial_pas,
 			g.api_jar,
-			g.docs
+			g.docs,
+			g.gmt_created,
+			g.gmt_modified
 		FROM gateway g
 		WHERE g.id = #id#
 	</select>

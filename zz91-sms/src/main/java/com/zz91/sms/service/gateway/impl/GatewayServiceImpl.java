@@ -43,11 +43,7 @@ public class GatewayServiceImpl implements GatewayService {
 
 	@Override
 	public Integer remove(Integer id) {
-		Integer i = gatewayDao.delete(id);
-		if(i!=null && i.intValue()>0) {
-			return i;
-		}
-		return 0;
+		return gatewayDao.delete(id);
 	}
 
 	@Override
