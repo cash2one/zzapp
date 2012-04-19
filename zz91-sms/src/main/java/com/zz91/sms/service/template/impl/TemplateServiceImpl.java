@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.zz91.sms.dao.template.TemplateDao;
 import com.zz91.sms.domain.Template;
 import com.zz91.sms.service.template.TemplateService;
+import com.zz91.util.Assert;
 
 @Component("templateService")
 public class TemplateServiceImpl implements TemplateService{
@@ -28,6 +29,7 @@ public class TemplateServiceImpl implements TemplateService{
 
 	@Override
 	public Integer remove(Integer id) {
+		Assert.notNull(id, "the id can not be null!");
 		return templateDao.delete(id);
 	}
 

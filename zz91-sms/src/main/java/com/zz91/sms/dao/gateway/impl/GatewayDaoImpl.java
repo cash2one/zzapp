@@ -42,11 +42,15 @@ public class GatewayDaoImpl extends BaseDaoSupport implements GatewayDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Gateway> query(Integer enabled) {
-		return getSqlMapClientTemplate().queryForList(addSqlKeyPreFix(SQL_PREFIX, "query"), enabled);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("enabled",enabled);
+		return getSqlMapClientTemplate().queryForList(addSqlKeyPreFix(SQL_PREFIX, "query"), map);
 	}
 
 	@Override
 	public Gateway queryOne(Integer id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
 		return (Gateway)getSqlMapClientTemplate().queryForObject(addSqlKeyPreFix(SQL_PREFIX, "queryOne"), id);
 	}
 

@@ -15,18 +15,18 @@ public class Template implements Serializable {
 	private String titles;//模板名称
 	private String content;//模板内容
 	private String signed;//短信签名
-	private Date gmtGreated;
+	private Date gmtCreated;
 	private Date gmtModified;
 
 	public Template(Integer id, String code, String titles, String content,
-			String signed, Date gmtGreated, Date gmtModified) {
+			String signed, Date gmtCreated, Date gmtModified) {
 		super();
 		this.id = id;
 		this.code = code;
 		this.titles = titles;
 		this.content = content;
 		this.signed = signed;
-		this.gmtGreated = gmtGreated;
+		this.gmtCreated = gmtCreated;
 		this.gmtModified = gmtModified;
 	}
 
@@ -74,12 +74,12 @@ public class Template implements Serializable {
 		this.signed = signed;
 	}
 
-	public Date getGmtGreated() {
-		return gmtGreated;
+	public Date getCmtGreated() {
+		return gmtCreated;
 	}
 
-	public void setGmtGreated(Date gmtGreated) {
-		this.gmtGreated = gmtGreated;
+	public void setCmtGreated(Date gmtCreated) {
+		this.gmtCreated = gmtCreated;
 	}
 
 	public Date getGmtModified() {
