@@ -18,7 +18,7 @@
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="locations">
 			<list>
-				<value>file:/usr/tools/config/db/db-zzsms.properties</value>
+				<value>file:/usr/tools/config/db/db-sms.properties</value>
 				<value>classpath:/web.properties</value>
 			</list>
 		</property>

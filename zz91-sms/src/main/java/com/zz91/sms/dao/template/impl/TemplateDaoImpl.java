@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.zz91.sms.dao.BaseDaoSupport;
+import com.zz91.sms.dao.smslog.BaseDaoSupport;
 import com.zz91.sms.dao.template.TemplateDao;
 import com.zz91.sms.domain.Template;
 

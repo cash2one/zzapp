@@ -5,13 +5,12 @@
 	"http://ibatis.apache.org/dtd/sql-map-2.dtd">
 	
 <sqlMap namespace="smsLog">
-	<typeAlias alias="smsLogDomain" type="com.zz91.sms.domain.SmsLogDomain" />
-	
+	<typeAlias alias="smsLog" type="com.zz91.sms.domain.SmsLog" />
 	<delete id="deleteById" parameterClass="java.lang.Integer">
 		delete from sms_log where id=#value#
 	</delete>
 	
-	<resultMap id="queryLogResult" class="smsLogDomain">
+	<resultMap id="querySmsLogResult" class="smsLog">
 		<result property="id" column="id"/>
 		<result property="receiver" column="receiver"/>
 		<result property="priority" column="priority"/>
@@ -37,7 +36,7 @@
 		</dynamic>
 	</sql>
 	
-	<select id="querySmsLog" parameterClass="java.util.HashMap" resultMap="queryLogResult">
+	<select id="querySmsLog" parameterClass="java.util.HashMap" resultMap="querySmsLogResult">
 		select 
 				<include refid="smsLog.querySmsLogColumn" />
 		from sms_log
