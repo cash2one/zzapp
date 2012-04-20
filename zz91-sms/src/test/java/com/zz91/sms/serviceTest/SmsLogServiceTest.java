@@ -7,10 +7,8 @@ import java.util.Date;
 
 import javax.annotation.Resource;
 
-import org.junit.Assert;
-
 import com.zz91.sms.domain.SmsLog;
-import com.zz91.sms.domain.dto.PageDto;
+import com.zz91.sms.dto.Pager;
 import com.zz91.sms.service.smslog.SmsLogService;
 import com.zz91.util.datetime.DateUtil;
 
@@ -22,20 +20,34 @@ public class SmsLogServiceTest extends BaseServiceTestCase {
 	// 移除
 	public void test_removeById_id_null(Integer id) {
 		clear();
-		Integer i = smsLogService.remove(null);
-		Assert.assertNotNull(i);
-		Assert.assertEquals(i, 0);
+		try{
+		smsLogService.remove(null);
+		fail();
+		}catch(Exception e){
+		assertEquals("the id can not be null", e.getMessage());
+		}
 	}
 
 	public void test_removeById_id_notnull() {
 		clear();
-		createOne(1);
-		Integer id = createOne(2);
-		createOne(3);
-		Assert.assertNotNull(id);
-		Integer i = smsLogService.remove(id);
-		Assert.assertNotNull(i);
-		Assert.assertEquals(i, 1);
+		int id1=createOne(1);
+		int id2=createOne(1);
+		Integer a=smsLogService.remove(id1);
+		assertNotNull(a);
+		assertEquals(1, a.intValue());
+		
+		SmsLog sLog=queryOne(id1);
+		assertNull(sLog);
+		
+		SmsLog sLog2=queryOne(id2);
+		assertNotNull(sLog2);
+//		createOne(1);
+//		Integer id = createOne(2);
+//		createOne(3);
+//		Assert.assertNotNull(id);
+//		Integer i = smsLogService.remove(id);
+//		Assert.assertNotNull(i);
+//		Assert.assertEquals(i, 1);
 	}
 
 	// 重发
@@ -55,7 +67,7 @@ public class SmsLogServiceTest extends BaseServiceTestCase {
 		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
 		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
 		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
-		PageDto<SmsLog> page=new PageDto<SmsLog>();
+		Pager<SmsLog> page=new Pager<SmsLog>();
 		page.setStart(0);
 		page.setLimit(5);
 		page = smsLogService.pageLog(null, null, 0, page);
@@ -77,7 +89,7 @@ public class SmsLogServiceTest extends BaseServiceTestCase {
 		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
 		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
 		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
-		PageDto<SmsLog> page = new PageDto<SmsLog>();
+		Pager<SmsLog> page = new Pager<SmsLog>();
 		page.setStart(0);
 		page.setLimit(5);
 		page = smsLogService.pageLog(DateUtil.getDate("2012-04-01",
@@ -101,7 +113,7 @@ public class SmsLogServiceTest extends BaseServiceTestCase {
 		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
 		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
 		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
-		PageDto<SmsLog> page = new PageDto<SmsLog>();
+		Pager<SmsLog> page = new Pager<SmsLog>();
 		page.setStart(0);
 		page.setLimit(5);
 		page =  smsLogService.pageLog(null, DateUtil.getDate("2012-04-03",
@@ -125,7 +137,7 @@ public class SmsLogServiceTest extends BaseServiceTestCase {
 		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
 		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
 		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
-		PageDto<SmsLog> page = new PageDto<SmsLog>();
+		Pager<SmsLog> page = new Pager<SmsLog>();
 		page.setStart(0);
 		page.setLimit(5);
 		page =  smsLogService.pageLog(DateUtil.getDate("2012-04-01",

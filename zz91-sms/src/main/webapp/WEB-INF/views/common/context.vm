@@ -3,11 +3,11 @@
 	Ext.namespace("com.zz91");
 	Ext.QuickTips.init();
 	Ext.form.Field.prototype.msgTarget = 'under';
-	Ext.BLANK_IMAGE_URL = "#springUrl('/js/ext32/resources/images/default/s.gif')";
+	Ext.BLANK_IMAGE_URL = "http://img0.zz91.com/lib/extjs/3.2/resources/images/default/s.gif";
 	
 	var Context = new function(){
 		this.ROOT = "#springUrl('')";
-		this.ROOT_IMAGE="http://img1.zz91.com/ep";
+		this.ROOT_IMAGE="http://img1.zz91.com";
 		this.PAGE_SIZE = 20;
 		this.LOGIN_USER="$!{loginuser}";
 	}

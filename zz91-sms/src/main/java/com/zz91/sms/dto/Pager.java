@@ -1,11 +1,11 @@
-package com.zz91.sms.domain.dto;
+package com.zz91.sms.dto;
 
 
 import java.io.Serializable;
 import java.util.List;
 
 
-public class PageDto<E> implements Serializable{
+public class Pager<E> implements Serializable{
 
 	public static final String SQL_KEY="page";
 	
@@ -21,15 +21,15 @@ public class PageDto<E> implements Serializable{
  
 	private List<E> records;// 记录集
 
-	public PageDto() {
+	public Pager() {
 		this(DEFAULT_SIZE,null,DEFAULT_DIR);
 	}
 
-	public PageDto(int pageSize){
+	public Pager(int pageSize){
 		this(pageSize,null,DEFAULT_DIR);
 	}
 
-	public PageDto(int limit, String sort, String dir){
+	public Pager(int limit, String sort, String dir){
 		if(limit<=0){
 			limit=DEFAULT_SIZE;
 		}

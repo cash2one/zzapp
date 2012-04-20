@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.zz91.sms.dto.ExtResult;
 import com.zz91.util.auth.AuthConst;
 import com.zz91.util.auth.AuthMenu;
 import com.zz91.util.auth.AuthUtils;
@@ -55,17 +56,16 @@ public class RootController extends BaseController {
     @RequestMapping
     public ModelAndView checkuser(Map<String, Object> out, HttpServletRequest request, HttpServletResponse response, String account,
             String password) {
-//        SessionUser sessionUser = AuthUtils.getInstance().validateUser(response, account, password, AuthConst.PROJECT_CODE,
-//                AuthConst.PROJECT_PASSWORD);
-//        ExtResult result = new ExtResult();
-//        if (sessionUser != null) {
-//            setSessionUser(request, sessionUser);
-//            result.setSuccess(true);
-//        } else {
-//            result.setData("用户名或者密码写错了，检查下大小写是否都正确了，再试一次吧 :)");
-//        }
-//        return printJson(result, out);
-        return null;
+        SessionUser sessionUser = AuthUtils.getInstance().validateUser(response, account, password, AuthConst.PROJECT_CODE,
+                AuthConst.PROJECT_PASSWORD);
+        ExtResult result = new ExtResult();
+        if (sessionUser != null) {
+            setSessionUser(request, sessionUser);
+            result.setSuccess(true);
+        } else {
+            result.setData("用户名或者密码写错了，检查下大小写是否都正确了，再试一次吧 :)");
+        }
+        return printJson(result, out);
     }
 
     @RequestMapping
