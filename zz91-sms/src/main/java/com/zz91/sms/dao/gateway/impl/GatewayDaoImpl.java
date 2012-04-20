@@ -51,7 +51,7 @@ public class GatewayDaoImpl extends BaseDaoSupport implements GatewayDao {
 	public Gateway queryOne(Integer id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("id", id);
-		return (Gateway)getSqlMapClientTemplate().queryForObject(addSqlKeyPreFix(SQL_PREFIX, "queryOne"), id);
+		return (Gateway)getSqlMapClientTemplate().queryForObject(addSqlKeyPreFix(SQL_PREFIX, "queryOne"), map);
 	}
 
 }
