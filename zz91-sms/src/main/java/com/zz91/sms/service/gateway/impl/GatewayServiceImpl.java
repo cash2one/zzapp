@@ -58,4 +58,9 @@ public class GatewayServiceImpl implements GatewayService {
 		return gatewayDao.query(enabled);
 	}
 
+	@Override
+	public Gateway queryOne(Integer id) {
+		return gatewayDao.queryOne(id);
+	}
+
 }

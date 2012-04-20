@@ -36,11 +36,11 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao{
 
 	@Override
 	public Integer queryLogCount(Date from, Date to, Integer sendStatus) {
-		Map<String, Object> listMap=new HashMap<String, Object>();
-		listMap.put("from", from);
-		listMap.put("to", to);
-		listMap.put("sendStatus", sendStatus);
-		return (Integer) getSqlMapClientTemplate().queryForObject(buildId(SQL_PREFIX,"querySmsLogCount"),listMap);
+		Map<String, Object> list=new HashMap<String, Object>();
+		list.put("from", from);
+		list.put("to", to);
+		list.put("sendStatus", sendStatus);
+		return (Integer) getSqlMapClientTemplate().queryForObject(buildId(SQL_PREFIX,"querySmsLogCount"),list);
 	}
 
 	@Override

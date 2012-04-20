@@ -25,4 +25,6 @@ public interface GatewayService {
 	
 	public List<Gateway> query(Integer enabled);
 	
+	public Gateway queryOne(Integer id);
+	
 }
