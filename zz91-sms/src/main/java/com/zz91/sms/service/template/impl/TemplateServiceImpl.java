@@ -38,4 +38,10 @@ public class TemplateServiceImpl implements TemplateService{
 		return templateDao.update(template);
 	}
 
+	@Override
+	public Template queryOne(Integer id) {
+		Assert.notNull(id, "the id can not be null!");
+		return templateDao.queryOne(id);
+	}
+
 }

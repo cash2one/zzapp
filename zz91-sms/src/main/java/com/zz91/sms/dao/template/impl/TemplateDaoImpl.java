@@ -1,6 +1,8 @@
 package com.zz91.sms.dao.template.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
@@ -32,6 +34,13 @@ public class TemplateDaoImpl extends BaseDaoSupport implements TemplateDao {
 	@Override
 	public Integer update(Template template) {
 		return getSqlMapClientTemplate().update(addSqlKeyPreFix(SQL_PREFIX, "update"), template);
+	}
+
+	@Override
+	public Template queryOne(Integer id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("id", id);
+		return (Template)getSqlMapClientTemplate().queryForObject(addSqlKeyPreFix(SQL_PREFIX, "queryOne"), map);
 	}
 
 }

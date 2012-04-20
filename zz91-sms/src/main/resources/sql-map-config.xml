@@ -11,4 +11,5 @@
 	
 	<sqlMap resource="com/zz91/sms/ibatis/sms_log.xml" />
 	<sqlMap resource="com/zz91/sms/ibatis/gateway.xml"/>
+	<sqlMap resource="com/zz91/sms/ibatis/template.xml"/>
 </sqlMapConfig>

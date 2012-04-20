@@ -98,9 +98,19 @@ public class TemplateServiceImplTest extends BaseTestCase {
 
 		List<Template> tempList = templateService.query();
 		assertEquals(10, tempList.size());
-		
+	}
+	
+	public void test_queryOne_template() {
+		clean();
+		Integer id1 = insert("测试查询1");
+		insert("测试查询2");
+
+		Template t = templateService.queryOne(id1);
+		assertNotNull(t);
+		assertEquals("测试查询1", t.getCode());
 	}
 
+	
 	public Template getTemplate() {
 		return new Template(null, "code", "titles", "content", "signed",
 				new Date(), new Date());

@@ -13,4 +13,6 @@ public interface TemplateService {
 	public Integer remove(Integer id);
 	
 	public List<Template> query();
+	
+	public Template queryOne(Integer id);
 }
