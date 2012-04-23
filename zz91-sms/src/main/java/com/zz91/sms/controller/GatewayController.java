@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import com.zz91.sms.domain.Gateway;
@@ -69,23 +70,43 @@ public class GatewayController extends BaseController {
 		
 		Gateway gateway=gateService.queryOne(id);
 		
+		return printJson(gateway, out);
+	}
+	
+	@RequestMapping
+	public ModelAndView update(HttpServletRequest request,Map<String, Object>out,Gateway gateway){
+		
 		ExtResult result=new ExtResult();
 		if(gateway!=null){
+			Integer i=gateService.update(gateway);
+			if(i!=null && i.intValue()>0){
+				result.setSuccess(true);
+			}
+		}
+		return printJson(result, out);
+	}
+	
+	@RequestMapping
+	public ModelAndView enabledGate(HttpServletRequest request,Map<String, Object>out,Integer id){
+		
+		gateService.enabled(id);
+		
+		ExtResult result=new ExtResult();
+		if(id!=null && id.intValue()>0){
 			result.setSuccess(true);
 		}
 		return printJson(result, out);
 	}
 	
 	@RequestMapping
-	public ModelAndView update(HttpServletRequest request,Map<String, Object>out,Gateway gateway){
+	public ModelAndView disenabledGate(HttpServletRequest request,Map<String, Object>out,Integer id){
 		
-		Integer i=gateService.update(gateway);
+		gateService.disabled(id);
 		
 		ExtResult result=new ExtResult();
-		if(i!=null && i.intValue()>0){
+		if(id!=null && id.intValue()>0){
 			result.setSuccess(true);
 		}
 		return printJson(result, out);
 	}
-
 }

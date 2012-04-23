@@ -136,10 +136,84 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		}
 	},'-',{
 		text :'启用',
-		iconCls :'edit16'
+		iconCls :'edit16',
+		handler : function(btn){		
+		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
+			if (row.length > 0) {
+				Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要启用选中的信息?', function(_btn){
+					if (_btn != "yes")
+						return;
+					for (var i = 0, len = row.length; i < len; i++) {
+						Ext.Ajax.request({
+							url:Context.ROOT +  "/gateway/enabledGate.htm",
+							params:{"id":row[i].get("id")},
+							success:function(response,opt){
+								var obj = Ext.decode(response.responseText);
+								if(obj.success){
+									com.zz91.utils.Msg("","启用成功");
+									Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
+								}else{
+									Ext.MessageBox.show({
+										title:MESSAGE.title,
+										msg : MESSAGE.saveFailure,
+										buttons:Ext.MessageBox.OK,
+										icon:Ext.MessageBox.ERROR
+									});
+								}
+							},
+							failure:function(response,opt){
+								Ext.MessageBox.show({
+									title:MESSAGE.title,
+									msg : MESSAGE.submitFailure,
+									buttons:Ext.MessageBox.OK,
+									icon:Ext.MessageBox.ERROR
+								});
+							}
+						});
+					}
+				});
+			}
+		}
 	},'-',{
 		text : '关闭',
-		iconCls : 'edit16'
+		iconCls : 'edit16',
+		handler : function(btn){		
+		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
+			if (row.length > 0) {
+				Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要关闭选中的信息?', function(_btn){
+					if (_btn != "yes")
+						return;
+					for (var i = 0, len = row.length; i < len; i++) {
+						Ext.Ajax.request({
+							url:Context.ROOT +  "/gateway/disenabledGate.htm",
+							params:{"id":row[i].get("id")},
+							success:function(response,opt){
+								var obj = Ext.decode(response.responseText);
+								if(obj.success){
+									com.zz91.utils.Msg("","关闭成功");
+									Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
+								}else{
+									Ext.MessageBox.show({
+										title:MESSAGE.title,
+										msg : MESSAGE.saveFailure,
+										buttons:Ext.MessageBox.OK,
+										icon:Ext.MessageBox.ERROR
+									});
+								}
+							},
+							failure:function(response,opt){
+								Ext.MessageBox.show({
+									title:MESSAGE.title,
+									msg : MESSAGE.submitFailure,
+									buttons:Ext.MessageBox.OK,
+									icon:Ext.MessageBox.ERROR
+								});
+							}
+						});
+					}
+				});
+			}
+		}
 	},'-',{
 		text : '余额',
 		iconCls : 'edit16'
@@ -219,8 +293,6 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 				name : "apiJar"
 			},{
 				xtype:"textarea",
-				anchor:"99%",
-				height:380,
 				fieldLabel:"接收文档",
 				name:"docs",
 				itemCls:"required",
@@ -275,6 +347,7 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 	loadOneRecord:function(id){
 		var reader=[
 			{name:"id",mapping:"id"},
+			{name:"code",mapping:"code"},
 			{name:"titles",mapping:"titles"},
 			{name:"enabled",mapping:"enabled"},
 			{name:"serialNo",mapping:"serialNo"},
@@ -285,7 +358,6 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 		
 		var form = this;
 		var _store = new Ext.data.JsonStore({
-			root : "records",
 			fields : reader,
 			url : Context.ROOT+ "/gateway/queryOne.htm",
 			baseParams:{"id":id},
@@ -304,7 +376,7 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 
 com.zz91.sms.gateway.addGate = function(){
 	var form = new com.zz91.sms.gateway.Form({
-		id:TEMPLATE.TEMPLATE_FORM,
+		id:GATEWAY.GATEWAY_FORM,
 		saveUrl:Context.ROOT+ "/gateway/add.htm",
 		region:"center"
 	});
