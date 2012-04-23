@@ -243,6 +243,14 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 				{name:'已启用',value:'1'}
 			]
 		}),
+		listeners:{
+		"change":function(field,newValue,oldValue){
+			var grid=Ext.getCmp(GATEWAY.GATEWAY_GRID);
+			grid.getStore().baseParams["enabled"]=newValue;
+			grid.getStore().reload({params:{"start":0, "limit":Context.PAGE_SIZE}});
+		}
+	}
+
 	}]
 });
 com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
