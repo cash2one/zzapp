@@ -8,6 +8,7 @@ var GATEWAY=new function(){
 com.zz91.sms.gateway.Field=[
 	{name:"id",mapping:"id"},
 	{name:"titles",mapping:"titles"},
+	{name:"code",mapping:"code"},
 	{name:"enabled",mapping:"enabled"},
 	{name:"serialNo",mapping:"serialNo"},
 	{name:"serialPas",mapping:"serialPas"},
@@ -32,6 +33,10 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		
 		var _cm=new Ext.grid.ColumnModel( 
 				[ _sm,{
+					header : "网关code",
+					sortable : false,
+					dataIndex : "code"
+		},{
 			header : "网关名称",
 			sortable : false,
 			dataIndex : "titles"
@@ -136,7 +141,7 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		}
 	},'-',{
 		text :'启用',
-		iconCls :'edit16',
+		iconCls :'play16',
 		handler : function(btn){		
 		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
 			if (row.length > 0) {
@@ -176,7 +181,7 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		}
 	},'-',{
 		text : '关闭',
-		iconCls : 'edit16',
+		iconCls : 'stop16',
 		handler : function(btn){		
 		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
 			if (row.length > 0) {
@@ -216,10 +221,10 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		}
 	},'-',{
 		text : '余额',
-		iconCls : 'edit16'
+		iconCls : 'money16'
 	},'-',{
 		text : '测试网关',
-		iconCls : 'edit16',
+		iconCls : 'network16',
 	},"->",{
 		xtype:"combo",
 		itemCls:"required",
@@ -238,6 +243,14 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 				{name:'已启用',value:'1'}
 			]
 		}),
+		listeners:{
+		"change":function(field,newValue,oldValue){
+			var grid=Ext.getCmp(GATEWAY.GATEWAY_GRID);
+			grid.getStore().baseParams["enabled"]=newValue;
+			grid.getStore().reload({params:{"start":0, "limit":Context.PAGE_SIZE}});
+		}
+	}
+
 	}]
 });
 com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
