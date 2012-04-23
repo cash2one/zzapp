@@ -13,4 +13,6 @@ public interface TemplateDao {
 	public Integer delete(Integer id);
 	
 	public List<Template> query();
+	
+	public Template queryOne(Integer id);
 }
