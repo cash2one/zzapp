@@ -15,4 +15,6 @@ public interface TemplateDao {
 	public List<Template> query();
 	
 	public Template queryOne(Integer id);
+	
+	public Template queryTemplateByCode(String code);
 }

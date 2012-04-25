@@ -67,4 +67,18 @@
 		FROM template t
 		WHERE t.id = #id#
 	</select>
+	
+<!-- *********************************************************** -->
+	<select id="queryTemplateByCode" parameterClass="java.util.Map" resultMap="templateResult">
+		SELECT
+			t.id,
+			t.code,
+			t.titles,
+			t.content,
+			t.signed,
+			t.gmt_created,
+			t.gmt_modified
+		FROM template t
+		WHERE t.code = #code#
+	</select>
 </sqlMap>

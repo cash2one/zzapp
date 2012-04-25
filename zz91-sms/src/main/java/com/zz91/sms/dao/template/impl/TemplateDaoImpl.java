@@ -42,5 +42,15 @@ public class TemplateDaoImpl extends BaseDaoSupport implements TemplateDao {
 		map.put("id", id);
 		return (Template)getSqlMapClientTemplate().queryForObject(addSqlKeyPreFix(SQL_PREFIX, "queryOne"), map);
 	}
+	
+	
+	/*****************************************************/
+
+	@Override
+	public Template queryTemplateByCode(String code) {
+		Map<String, Object>map=new HashMap<String, Object>();
+		map.put("code", code);
+		return (Template)getSqlMapClientTemplate().queryForObject(addSqlKeyPreFix(SQL_PREFIX, "queryTemplateByCode"), map);
+	}
 
 }

@@ -16,5 +16,7 @@ public interface SmsLogDao {
 	public List<SmsLog> queryLog(Date from,Date to,Integer sendStatus,Pager<SmsLog> page);
 	
 	public Integer queryLogCount(Date from,Date to,Integer sendStatus);
+	
+	public Integer insert(SmsLog sms);
 
 }

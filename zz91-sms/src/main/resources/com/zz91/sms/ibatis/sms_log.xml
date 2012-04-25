@@ -55,4 +55,12 @@
 		set send_status=#sendStatus#
 		where id = #id#
 	</update>
+	<!-- ******************************************** -->
+	<insert id="insertSms" parameterClass="smsLog">
+		insert into sms_log
+			(template_code,receiver,send_status,gmt_send,gateway_code,priority,
+				gmt_created,gmt_modified,content)
+		values
+			(#templateCode#,#receiver#,#sendStatus#,#gmtSend#,#gatewayCode#,#priority#,now(),now(),#content#)
+	</insert>
 </sqlMap>

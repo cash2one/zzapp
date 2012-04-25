@@ -51,4 +51,9 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao{
 		return (Integer) getSqlMapClientTemplate().update(buildId(SQL_PREFIX,"updateSendStatus"),list);
 	}
 
+	@Override
+	public Integer insert(SmsLog sms) {
+		return (Integer) getSqlMapClientTemplate().insert(buildId(SQL_PREFIX, "insertSms"), sms);
+	}
+
 }

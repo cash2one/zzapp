@@ -26,7 +26,6 @@ public class MailSenderUtil {
     private JavaMailSender javaMailSender;// spring配置中定义
     @Resource
     private VelocityEngine velocityEngine;// spring配置中定义
-
     @Resource
     private SimpleMailMessage simpleMailMessage;// spring配置中定义
     private String from;
