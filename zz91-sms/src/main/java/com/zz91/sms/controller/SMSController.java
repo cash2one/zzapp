@@ -28,7 +28,7 @@ public class SMSController extends BaseController{
 	private SmsSendService smsSendService;
 	@SuppressWarnings("unchecked")
 	@RequestMapping
-	public ModelAndView send(HttpServletRequest request,Map<String, Object>out,String receiver,String content,String gmtPostStr,SmsLog sms,String dataMap) throws ParseException{
+	public ModelAndView send(HttpServletRequest request,Map<String, Object>out,String gmtPostStr,SmsLog sms,String dataMap) throws ParseException{
 		Integer i=0;
 		if(StringUtils.isNotEmpty(gmtPostStr)){
 			try {
@@ -41,18 +41,18 @@ public class SMSController extends BaseController{
 		JSONObject jSONObject = null;
 		Map<String,Object> map =new HashMap<String,Object>();
 		if(StringUtils.isNotEmpty(dataMap) && dataMap.startsWith("{")){
-		    jSONObject = JSONObject.fromObject(dataMap);
-            Set<String> jbodykey=jSONObject.keySet();
-            for(String outkey: jbodykey){
-                map.put(outkey, jSONObject.get(outkey));
-            }
-            sms.setSmsParameter(map);
+			jSONObject = JSONObject.fromObject(dataMap);
+			Set<String> jbodykey=jSONObject.keySet();
+			for(String outkey: jbodykey){
+				map.put(outkey, jSONObject.get(outkey));
+			}
+			sms.setSmsParameter(map);
 		}
 		
 		if(StringUtils.isNotEmpty(sms.getTemplateCode())){
 			i = smsSendService.sendSmsByCode(sms);
 		}else{
-			i=smsSendService.sendSms(receiver, content);
+			i=smsSendService.sendSms(sms);
 		}
 		ExtResult result = new ExtResult();	
 		if (i!=null && i > 0) {

@@ -50,7 +50,7 @@
 				<include refid="smsLog.querySmsLogWhere" />
 	</select>
 	
-		<update id="updateSendStatus" parameterClass="java.util.HashMap">
+	<update id="updateSendStatus" parameterClass="java.util.HashMap">
 		update sms_log
 		set send_status=#sendStatus#
 		where id = #id#
@@ -63,4 +63,24 @@
 		values
 			(#templateCode#,#receiver#,#sendStatus#,#gmtSend#,#gatewayCode#,#priority#,now(),now(),#content#)
 	</insert>
+	
+	<update id="recoverStatus" parameterClass="java.util.HashMap">
+		update 
+			sms_log
+		set 
+			send_status=#toStatus#,
+			gmt_modified = now()
+		where 
+			send_status=#fromStatus#
+	</update>
+	
+	<select id="querySmsSend" parameterClass="java.lang.Integer"
+		resultMap="querySmsLogResult">
+		select
+		<include refid="smsLog.querySmsLogColumn" />
+		from sms_log
+			where send_status=0 and now() >= gmt_send
+			order by priority asc, gmt_send asc
+			limit 0,#value#
+	</select>
 </sqlMap>
