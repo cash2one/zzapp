@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.service.smslog.SmsLogService;
-import com.zz91.sms.service.smslog.SmsSendService;
 
 @Service
 public class SmsScanThread extends Thread{
@@ -24,8 +23,6 @@ public class SmsScanThread extends Thread{
 	public static boolean runSwitch=true;
 	@Resource
 	private SmsLogService smsService;
-	@Resource
-	private SmsSendService smsSendService;
 	
 	public SmsScanThread(){
 		

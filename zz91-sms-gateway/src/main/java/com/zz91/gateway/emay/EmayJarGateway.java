@@ -17,7 +17,11 @@ public class EmayJarGateway implements ZZSms {
 	@Override
 	public Integer send(String mobile, String content) {
 		String[] mobiles = new String[] { mobile };
-		return client.sendSMS(mobiles, content, SMS_PRIORITY);
+		Integer i = client.sendSMS(mobiles, content, SMS_PRIORITY);
+		if(i==0){
+			return 2;
+		}
+		return i;
 	}
 
 	@Override
