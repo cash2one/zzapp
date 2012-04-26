@@ -1,5 +1,4 @@
 package com.zz91.sms.thread;
-import java.util.Map;
 
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.service.smslog.SmsLogService;
