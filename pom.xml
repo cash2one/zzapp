@@ -195,6 +195,11 @@
 				<artifactId>zz91-sms-common</artifactId>
 				<version>1.0-SNAPSHOT</version>
 			</dependency>
+			<dependency>
+				<groupId>com.zz91</groupId>
+				<artifactId>zz91-sms-gateway</artifactId>
+				<version>1.0-SNAPSHOT</version>
+			</dependency>
 			<!-- sms send jar emay -->
 			<dependency>
 				<groupId>cn.emay</groupId>

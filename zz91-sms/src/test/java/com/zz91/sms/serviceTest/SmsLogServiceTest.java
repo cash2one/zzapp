@@ -41,13 +41,6 @@ public class SmsLogServiceTest extends BaseServiceTestCase {
 		
 		SmsLog sLog2=queryOne(id2);
 		assertNotNull(sLog2);
-//		createOne(1);
-//		Integer id = createOne(2);
-//		createOne(3);
-//		Assert.assertNotNull(id);
-//		Integer i = smsLogService.remove(id);
-//		Assert.assertNotNull(i);
-//		Assert.assertEquals(i, 1);
 	}
 
 	// 重发

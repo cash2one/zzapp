@@ -6,14 +6,15 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
+import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.dao.gateway.GatewayDao;
 import com.zz91.sms.domain.Gateway;
 import com.zz91.sms.service.gateway.GatewayService;
+import com.zz91.sms.util.ClassHelper;
 import com.zz91.util.Assert;
 
 @Component("gatewayService")
 public class GatewayServiceImpl implements GatewayService {
-	
 	@Resource
 	private GatewayDao gatewayDao;
 
@@ -63,4 +64,26 @@ public class GatewayServiceImpl implements GatewayService {
 		return gatewayDao.queryOne(id);
 	}
 
+	@Override
+	public void initGateway() {
+		List<Gateway> list = query(ENABLED_TRUE);
+		for(Gateway obj:list){
+			String key = obj.getCode();
+			String value = obj.getApiJar();
+			ZZSms zzsms=null;
+			try {
+				zzsms = (ZZSms) ClassHelper.load(value).newInstance();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+			if(zzsms!=null){
+				CACHE_GATEWAY.put(key, zzsms);
+			}
+		}
+	}
+	
 }
