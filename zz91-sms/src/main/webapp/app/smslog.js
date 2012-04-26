@@ -159,6 +159,53 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 				});
 			}
 		}
+	},"->",{
+		xtype:"combo",
+		itemCls:"required",
+		name:"categoryCombo",
+		mode:"local",
+		emptyText:"选择发送状态",
+		triggerAction:"all",
+		forceSelection: true,
+		displayField:'name',
+		valueField:'value',
+		autoSelect:true,
+		store:new Ext.data.JsonStore({
+			fields : ['name', 'value'],
+			data   : [
+				{name:'待发送',value:'0'},
+				{name:'已发送',value:'1'},
+				{name:'发送成功',value:'2'},
+				{name:'发送失败',value:'3'}
+			]
+		}),
+		listeners:{
+		"change":function(field,newValue,oldValue){
+			var grid=Ext.getCmp(SMSLOG.SMSLOG_GRID);
+			grid.getStore().baseParams["sendStatus"]=newValue;
+			grid.getStore().reload({params:{"start":0, "limit":Context.PAGE_SIZE}});
+		}
+	}
+
+	},{
+		xtype:"textfield",
+		id:"receiver",
+		emptyText:"请输入接收者电话",
+		listeners:{
+				//失去焦点
+				"blur":function(c){
+				var grid = Ext.getCmp(SMSLOG.SMSLOG_GRID);
+				var val = Ext.get("receiver").dom.value;
+				var B	= grid.getStore().baseParams;
+				if(val!=""){
+					B["receiver"]= val;
+				}else{
+					B["receiver"]=null;
+				}
+				grid.getStore().baseParams = B;
+				grid.getStore().reload({"params":{start:0,"limit":Context.PAGE_SIZE}});
+			}
+		}
 	}]
 });
 

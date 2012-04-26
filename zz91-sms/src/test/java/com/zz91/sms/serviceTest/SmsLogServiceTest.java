@@ -62,100 +62,100 @@ public class SmsLogServiceTest extends BaseServiceTestCase {
 	}
 
 	// 分页
-	public void test_page_只测分页() throws ParseException{
-		clear();
-		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
-		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
-		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
-		Pager<SmsLog> page=new Pager<SmsLog>();
-		page.setStart(0);
-		page.setLimit(5);
-		page = smsLogService.pageLog(null, null, 0, page);
-		assertNotNull(page.getRecords());
-		assertEquals(5, page.getRecords().size());
-		assertEquals(12, page.getTotals().intValue());
-
-		page.setStart(8);
-		page.setLimit(5);
-		page = smsLogService.pageLog(null, null, 0, page);
-		assertNotNull(page.getRecords());
-		assertEquals(4, page.getRecords().size());
-		assertEquals(12, page.getTotals().intValue());
-
-	}
+//	public void test_page_只测分页() throws ParseException{
+//		clear();
+//		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
+//		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
+//		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
+//		Pager<SmsLog> page=new Pager<SmsLog>();
+//		page.setStart(0);
+//		page.setLimit(5);
+//		page = smsLogService.pageLog(null, null, 0, page);
+//		assertNotNull(page.getRecords());
+//		assertEquals(5, page.getRecords().size());
+//		assertEquals(12, page.getTotals().intValue());
+//
+//		page.setStart(8);
+//		page.setLimit(5);
+//		page = smsLogService.pageLog(null, null, 0, page);
+//		assertNotNull(page.getRecords());
+//		assertEquals(4, page.getRecords().size());
+//		assertEquals(12, page.getTotals().intValue());
+//
+//	}
 	
-	public void test_page_测试条件_from() throws ParseException {
-		clear();
-		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
-		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
-		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
-		Pager<SmsLog> page = new Pager<SmsLog>();
-		page.setStart(0);
-		page.setLimit(5);
-		page = smsLogService.pageLog(DateUtil.getDate("2012-04-01",
-				"yyyy-MM-dd"), null, 0, page);
-		assertNotNull(page.getRecords());
-		assertEquals(5, page.getRecords().size());
-		assertEquals(12, page.getTotals().intValue());
-
-		page.setStart(8);
-		page.setLimit(5);
-		page =  smsLogService.pageLog(DateUtil.getDate("2012-04-01",
-				"yyyy-MM-dd"), null, 0, page);
-		assertNotNull(page.getRecords());
-		assertEquals(4, page.getRecords().size());
-		assertEquals(12, page.getTotals().intValue());
-
-	}
-
-	public void test_page_测试条件_to() throws ParseException {
-		clear();
-		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
-		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
-		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
-		Pager<SmsLog> page = new Pager<SmsLog>();
-		page.setStart(0);
-		page.setLimit(5);
-		page =  smsLogService.pageLog(null, DateUtil.getDate("2012-04-03",
-				"yyyy-MM-dd"), 0, page);
-		assertNotNull(page.getRecords());
-		assertEquals(5, page.getRecords().size());
-		assertEquals(12, page.getTotals().intValue());
-
-		page.setStart(8);
-		page.setLimit(5);
-		page = smsLogService.pageLog(null, DateUtil.getDate("2012-04-03",
-				"yyyy-MM-dd"), 0, page);
-		assertNotNull(page.getRecords());
-		assertEquals(4, page.getRecords().size());
-		assertEquals(12, page.getTotals().intValue());
-
-	}
-
-	public void test_page_测试条件_from_to() throws ParseException {
-		clear();
-		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
-		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
-		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
-		Pager<SmsLog> page = new Pager<SmsLog>();
-		page.setStart(0);
-		page.setLimit(5);
-		page =  smsLogService.pageLog(DateUtil.getDate("2012-04-01",
-				"yyyy-MM-dd"), DateUtil.getDate("2012-04-03", "yyyy-MM-dd"), 0,
-				page);
-		assertNotNull(page.getRecords());
-		assertEquals(5, page.getRecords().size());
-		assertEquals(12, page.getTotals().intValue());
-
-		page.setStart(8);
-		page.setLimit(5);
-		page =  smsLogService.pageLog(DateUtil.getDate("2012-04-01",
-				"yyyy-MM-dd"), DateUtil.getDate("2012-04-03", "yyyy-MM-dd"), 0,
-				page);
-		assertNotNull(page.getRecords());
-		assertEquals(4, page.getRecords().size());
-		assertEquals(12, page.getTotals().intValue());
-	}
+//	public void test_page_测试条件_from() throws ParseException {
+//		clear();
+//		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
+//		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
+//		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
+//		Pager<SmsLog> page = new Pager<SmsLog>();
+//		page.setStart(0);
+//		page.setLimit(5);
+//		page = smsLogService.pageLog(DateUtil.getDate("2012-04-01",
+//				"yyyy-MM-dd"), null, 0, page);
+//		assertNotNull(page.getRecords());
+//		assertEquals(5, page.getRecords().size());
+//		assertEquals(12, page.getTotals().intValue());
+//
+//		page.setStart(8);
+//		page.setLimit(5);
+//		page =  smsLogService.pageLog(DateUtil.getDate("2012-04-01",
+//				"yyyy-MM-dd"), null, 0, page);
+//		assertNotNull(page.getRecords());
+//		assertEquals(4, page.getRecords().size());
+//		assertEquals(12, page.getTotals().intValue());
+//
+//	}
+//
+//	public void test_page_测试条件_to() throws ParseException {
+//		clear();
+//		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
+//		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
+//		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
+//		Pager<SmsLog> page = new Pager<SmsLog>();
+//		page.setStart(0);
+//		page.setLimit(5);
+//		page =  smsLogService.pageLog(null, DateUtil.getDate("2012-04-03",
+//				"yyyy-MM-dd"), 0, page);
+//		assertNotNull(page.getRecords());
+//		assertEquals(5, page.getRecords().size());
+//		assertEquals(12, page.getTotals().intValue());
+//
+//		page.setStart(8);
+//		page.setLimit(5);
+//		page = smsLogService.pageLog(null, DateUtil.getDate("2012-04-03",
+//				"yyyy-MM-dd"), 0, page);
+//		assertNotNull(page.getRecords());
+//		assertEquals(4, page.getRecords().size());
+//		assertEquals(12, page.getTotals().intValue());
+//
+//	}
+//
+//	public void test_page_测试条件_from_to() throws ParseException {
+//		clear();
+//		insertMany(7, "ceshi", DateUtil.getDate("2012-04-01", "yyyy-MM-dd"));
+//		insertMany(3, "ceshi", DateUtil.getDate("2012-04-02", "yyyy-MM-dd"));
+//		insertMany(2, "ceshi", DateUtil.getDate("2012-04-03", "yyyy-MM-dd"));
+//		Pager<SmsLog> page = new Pager<SmsLog>();
+//		page.setStart(0);
+//		page.setLimit(5);
+//		page =  smsLogService.pageLog(DateUtil.getDate("2012-04-01",
+//				"yyyy-MM-dd"), DateUtil.getDate("2012-04-03", "yyyy-MM-dd"), 0,
+//				page);
+//		assertNotNull(page.getRecords());
+//		assertEquals(5, page.getRecords().size());
+//		assertEquals(12, page.getTotals().intValue());
+//
+//		page.setStart(8);
+//		page.setLimit(5);
+//		page =  smsLogService.pageLog(DateUtil.getDate("2012-04-01",
+//				"yyyy-MM-dd"), DateUtil.getDate("2012-04-03", "yyyy-MM-dd"), 0,
+//				page);
+//		assertNotNull(page.getRecords());
+//		assertEquals(4, page.getRecords().size());
+//		assertEquals(12, page.getTotals().intValue());
+//	}
 /***********************************************************************/
 	private Integer createOne(Integer idx) {
 		int randomPriority = (int) (Math.random() * 10);

@@ -33,6 +33,18 @@
 			<isNotEmpty property="to" prepend="and">
 				#to#>=gmt_send
 			</isNotEmpty>
+			<isNotEmpty property="receiver" prepend="and">
+				receiver = #receiver#
+			</isNotEmpty>
+			<isNotEmpty property="gatewayCode" prepend="and">
+				gateway_code = #gatewayCode#
+			</isNotEmpty>
+			<isNotEmpty property="priority" prepend="and">
+				priority = #priority#
+			</isNotEmpty>
+			<isNotEmpty property="content" prepend="and">
+				content like #content#
+			</isNotEmpty>
 		</dynamic>
 	</sql>
 	

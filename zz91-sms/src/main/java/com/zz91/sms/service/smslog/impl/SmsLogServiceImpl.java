@@ -14,23 +14,24 @@ import com.zz91.sms.service.smslog.SmsLogService;
 import com.zz91.util.Assert;
 
 @Component("smsLogService")
-public class SmsLogServiceImpl implements SmsLogService{
+public class SmsLogServiceImpl implements SmsLogService {
 
 	@Resource
 	private SmsLogDao smsLogDao;
 
 	@Override
 	public Pager<SmsLog> pageLog(Date from, Date to, Integer sendStatus,
-			Pager<SmsLog> page) {
-		if(page.getSort()==null){
+			String receiver, String gatewayCode, Integer priority,
+			String content, Pager<SmsLog> page) {
+		if (page.getSort() == null) {
 			page.setSort("gmt_send");
 		}
-		if(page.getDir()==null){
+		if (page.getDir() == null) {
 			page.setDir("desc");
 		}
-			
-		page.setRecords(smsLogDao.queryLog(from, to, sendStatus, page));
-		page.setTotals(smsLogDao.queryLogCount(from, to, sendStatus));
+
+		page.setRecords(smsLogDao.queryLog(from, to, sendStatus, receiver, gatewayCode, priority, content, page));
+		page.setTotals(smsLogDao.queryLogCount(from, to, receiver, gatewayCode, priority, content, sendStatus));
 		return page;
 	}
 
@@ -52,14 +53,14 @@ public class SmsLogServiceImpl implements SmsLogService{
 
 	@Override
 	public boolean shutdownRecovery(Integer fromStatus, Integer toStatus) {
-		if(fromStatus==null||toStatus==null){
+		if (fromStatus == null || toStatus == null) {
 			return false;
 		}
-		if(fromStatus.intValue()==toStatus.intValue()){
+		if (fromStatus.intValue() == toStatus.intValue()) {
 			return false;
 		}
-		Integer i=smsLogDao.recoverStatus(fromStatus, toStatus);
-		if(i!=null){
+		Integer i = smsLogDao.recoverStatus(fromStatus, toStatus);
+		if (i != null) {
 			return true;
 		}
 		return false;
