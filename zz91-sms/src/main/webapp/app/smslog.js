@@ -81,7 +81,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 	mytoolbar:[
 	{
 		text : '重发',
-		iconCls : 'edit16',
+		iconCls : 'stats16',
 		handler : function(btn){		
 			var row = Ext.getCmp(SMSLOG.SMSLOG_GRID).getSelectionModel().getSelections();
 			if (row.length > 0) {

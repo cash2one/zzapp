@@ -1,6 +1,7 @@
 package com.zz91.sms.service.smslog.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -44,4 +45,28 @@ public class SmsLogServiceImpl implements SmsLogService{
 		smsLogDao.updateStatus(id, SEND_READY);
 	}
 
+	@Override
+	public List<SmsLog> queryLogs(Integer i) {
+		return smsLogDao.querySmsSend(i);
+	}
+
+	@Override
+	public boolean shutdownRecovery(Integer fromStatus, Integer toStatus) {
+		if(fromStatus==null||toStatus==null){
+			return false;
+		}
+		if(fromStatus.intValue()==toStatus.intValue()){
+			return false;
+		}
+		Integer i=smsLogDao.recoverStatus(fromStatus, toStatus);
+		if(i!=null){
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public Integer updateSuccess(Integer smsId, Integer sendStatus) {
+		return smsLogDao.updateStatus(smsId, sendStatus);
+	}
 }

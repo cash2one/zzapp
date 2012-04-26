@@ -2,7 +2,7 @@ package com.zz91.sms.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-
+import java.util.Map;
 
 public class SmsLog implements Serializable{
 	
@@ -20,10 +20,10 @@ public class SmsLog implements Serializable{
 	private Date gmtCreated;
 	private Date gmtModified;
 	private String content;
+	private Map<String, Object>smsParameter;
 	
 	public SmsLog() {
 	}
-	
 	public SmsLog(Integer id, String templateCode, String receiver,
 			Integer sendStatus, Date gmtSend, String gatewayCode,
 			Integer priority, Date gmtCreated, Date gmtModified, String content) {
@@ -38,6 +38,22 @@ public class SmsLog implements Serializable{
 		this.gmtCreated = gmtCreated;
 		this.gmtModified = gmtModified;
 		this.content = content;
+	}
+	public SmsLog(Integer id, String templateCode, String receiver,
+			Integer sendStatus, Date gmtSend, String gatewayCode,
+			Integer priority, Date gmtCreated, Date gmtModified, String content,Map<String, Object>smsParameter) {
+		super();
+		this.id = id;
+		this.templateCode = templateCode;
+		this.receiver = receiver;
+		this.sendStatus = sendStatus;
+		this.gmtSend = gmtSend;
+		this.gatewayCode = gatewayCode;
+		this.priority = priority;
+		this.gmtCreated = gmtCreated;
+		this.gmtModified = gmtModified;
+		this.content = content;
+		this.smsParameter=smsParameter;
 	}
 	
 	public Integer getId() {
@@ -100,6 +116,11 @@ public class SmsLog implements Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
-	
-	
+	public Map<String, Object> getSmsParameter() {
+		return smsParameter;
+	}
+	public void setSmsParameter(Map<String, Object> smsParameter) {
+		this.smsParameter = smsParameter;
+	}
+
 }

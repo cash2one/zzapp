@@ -305,8 +305,8 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 				itemCls :"required",
 				name : "apiJar"
 			},{
-				xtype:"textarea",
-				fieldLabel:"接收文档",
+				xtype:"htmleditor",
+				fieldLabel:"接口文档",
 				name:"docs",
 				itemCls:"required",
 				allowBlank:false
