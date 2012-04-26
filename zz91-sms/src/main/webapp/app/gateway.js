@@ -239,8 +239,8 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		store:new Ext.data.JsonStore({
 			fields : ['name', 'value'],
 			data   : [
-				{name:'未启用',value:'0'},
-				{name:'已启用',value:'1'}
+				{name:'0',value:'0'},
+				{name:'1',value:'1'}
 			]
 		}),
 		listeners:{
@@ -290,10 +290,19 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 				itemCls :"required",
 				name : "serialNo"
 			},{
-				fieldLabel : "状态:0/1",
-				allowBlank : false,
-				itemCls :"required",
-				name : "enabled",
+				xtype:"combo",
+				mode:"local",
+				triggerAction:"all",
+				hiddenName:"enabled",
+				hiddenId:"enabled",
+				editable: false,
+				itemCls:"required",
+				allowBlank:false,
+				fieldLabel:"状态",
+				store:[
+				["1","已启用"],
+				["0","未启用"]
+				]
 			},{
 				fieldLabel : "密码",
 				allowBlank : false,
