@@ -290,10 +290,10 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 				itemCls :"required",
 				name : "serialNo"
 			},{
-				fieldLabel : "状态",
+				fieldLabel : "状态:0/1",
 				allowBlank : false,
 				itemCls :"required",
-				name : "enabled"
+				name : "enabled",
 			},{
 				fieldLabel : "密码",
 				allowBlank : false,

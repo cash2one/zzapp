@@ -51,7 +51,7 @@ com.zz91.zzmail.mailinfo.Grid = Ext.extend(Ext.grid.GridPanel,{
 				width:150,
 				renderer : function(value, metadata, record, rowIndex,colIndex, store) {
 					if(value!=null){
-						return Ext.util.Format.date(new Date(value.time), 'Y-m-d h:m:s');
+						return Ext.util.Format.date(new Date(value.time), 'Y-m-d H:m:s');
 					}else{
 						return "";
 					}
@@ -246,7 +246,7 @@ com.zz91.zzmail.mailinfo.Grid = Ext.extend(Ext.grid.GridPanel,{
 			"blur":function(field){
 				var _store=Ext.getCmp(MAILINFO.MAILINFO_GRID).getStore();
 				if(field.getValue()!=""){
-					_store.baseParams["from"]= Ext.util.Format.date(field.getValue(), 'Y-m-d h:m:s');
+					_store.baseParams["from"]= Ext.util.Format.date(field.getValue(), 'Y-m-d H:m:s');
 				}else{
 					_store.baseParams["from"]=null;
 				}
@@ -262,7 +262,7 @@ com.zz91.zzmail.mailinfo.Grid = Ext.extend(Ext.grid.GridPanel,{
 			"blur":function(field){
 				var _store=Ext.getCmp(MAILINFO.MAILINFO_GRID).getStore();
 				if(field.getValue()!=""){
-					_store.baseParams["to"]= Ext.util.Format.date(field.getValue(), 'Y-m-d h:m:s');
+					_store.baseParams["to"]= Ext.util.Format.date(field.getValue(), 'Y-m-d H:m:s');
 				}else{
 					_store.baseParams["to"]=null;
 				}
