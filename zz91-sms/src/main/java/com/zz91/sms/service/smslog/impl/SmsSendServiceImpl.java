@@ -2,7 +2,6 @@ package com.zz91.sms.service.smslog.impl;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.Date;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -29,13 +28,8 @@ public class SmsSendServiceImpl implements SmsSendService{
 
 	@Override
 	public Integer sendSms(SmsLog sms){
-		sms.setContent(buildSmsContent(sms.getTemplateCode(), sms.getSmsParameter()));
+		sms.setContent(buildSmsContent(sms.getContent(), sms.getSmsParameter()));
 		sms.setSendStatus(0);
-		sms.setReceiver("");
-		sms.setTemplateCode("00");
-		sms.setGatewayCode("000");
-		sms.setPriority(0);
-		sms.setGmtSend(new Date());
 	return smsLogDao.insert(sms);
 }
 
@@ -64,25 +58,12 @@ public class SmsSendServiceImpl implements SmsSendService{
 	@Override
 	public Integer sendSmsByCode(SmsLog sms) {
 		String code=sms.getTemplateCode();
-		sms.setContent(buildSmsContent(getTemplateContentByTemplateCode(code),sms.getSmsParameter()));
-		Template template=templateDao.queryTemplateByCode(code);
-		if(template==null){
-			return null;
-		}
+		Template template = templateDao.queryTemplateByCode(code);
+		sms.setContent(buildSmsContent(template.getContent() + template.getSigned(), sms.getSmsParameter()));
+		
 		sms.setSendStatus(0);
-		sms.setGmtSend(new Date());
-//		sms.GatewayCode();
 		sms.setTemplateCode(code);
-//		sms.setPriority();
-//		sms.setReceiver();
 		return smsLogDao.insert(sms);
 	}
-	private String getTemplateContentByTemplateCode(String templateCode) {
-		Template temp =templateDao.queryTemplateByCode(templateCode);
-		if (temp != null && temp.getContent() != null) {
-			return temp.getContent();
-		} else {
-			return "";
-		}
-	}
+	
 }

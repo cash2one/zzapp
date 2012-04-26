@@ -49,7 +49,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 			dataIndex : "gmtSend",
 			renderer : function(value, metadata, record, rowIndex,colIndex, store) {
 				if(value!=null){
-					return Ext.util.Format.date(new Date(value.time), 'Y-m-d h:m:s');
+					return Ext.util.Format.date(new Date(value.time), 'Y-m-d H:m:s');
 				}
 				else{
 					return "";

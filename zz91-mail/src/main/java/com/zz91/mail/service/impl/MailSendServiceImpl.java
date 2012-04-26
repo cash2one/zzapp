@@ -279,11 +279,7 @@ public class MailSendServiceImpl implements MailSendService {
 	 */
 	@Override
 	public Integer sendEmailByCode(MailInfoDomain mailInfoDomain) {
-		mailInfoDomain
-				.setContent(buildEmailContent(
-						getTemplateContentByTemplateCode(mailInfoDomain
-								.getTemplateId()), mailInfoDomain
-								.getEmailParameter()));
+		mailInfoDomain.setContent(buildEmailContent(getTemplateContentByTemplateCode(mailInfoDomain.getTemplateId()), mailInfoDomain.getEmailParameter()));
 		String code = mailInfoDomain.getAccountCode();
 		// AccountDomain accountDomain = accountDao.queryAccountByCode(code);
 		AccountDomain accountDomain = accountService
