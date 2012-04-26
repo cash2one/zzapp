@@ -148,6 +148,10 @@
 			<groupId>com.zz91</groupId>
 			<artifactId>zz91-sms-common</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>com.zz91</groupId>
+			<artifactId>zz91-sms-gateway</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

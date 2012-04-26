@@ -5,7 +5,11 @@
  */
 package com.zz91.sms.config;
 
+import javax.annotation.Resource;
+
 import org.springframework.stereotype.Service;
+
+import com.zz91.sms.service.gateway.GatewayService;
 
 /**
  * @author kongsj
@@ -15,9 +19,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class InitSystem {
 	private static final long serialVersionUID = 1315545405117443146L;
-
+	
+	@Resource
+	private GatewayService gatewayService;
 	public void startup() {
-		
+		//初始化发送网管帐号
+		gatewayService.initGateway();
 	}
 
 	public void destroy() {

@@ -79,8 +79,8 @@
 		select
 		<include refid="smsLog.querySmsLogColumn" />
 		from sms_log
-			where send_status=0 and now() >= gmt_send
-			order by priority asc, gmt_send asc
-			limit 0,#value#
+		where send_status=0
+		order by priority asc, gmt_send asc
+		limit 0,#value#
 	</select>
 </sqlMap>

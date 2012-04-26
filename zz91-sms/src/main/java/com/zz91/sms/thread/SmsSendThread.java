@@ -1,9 +1,12 @@
 package com.zz91.sms.thread;
-import java.util.Map;
+import javax.annotation.Resource;
 
+import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.SmsLog;
+import com.zz91.sms.service.gateway.GatewayService;
 import com.zz91.sms.service.smslog.SmsLogService;
 import com.zz91.sms.service.smslog.SmsSendService;
+import com.zz91.sms.util.ClassHelper;
 
 
 public class SmsSendThread extends Thread {
@@ -11,7 +14,8 @@ public class SmsSendThread extends Thread {
 	private SmsLog smsLog;
 	private SmsLogService smsLogService;
 	private SmsSendService smsSendService;
-
+	@Resource
+	private GatewayService gatewayService;
 	public SmsSendThread() {
 		
 	}
@@ -23,11 +27,15 @@ public class SmsSendThread extends Thread {
 		this.smsSendService = smsSendService;
 	}
 
+	@SuppressWarnings("static-access")
 	@Override
 	public void run() {
-//		Integer sendStatus = smsSendService.sendSms(smsLog);
-//		Map.get(smsLog.getGatewayCode()).send(smsLog.getcontent,smsLog,getmobile)
-		smsLogService.updateSuccess(smsLog.getId(), 1);
+		ZZSms sms = (ZZSms) gatewayService.CACHE_GATEWAY.get(smsLog.getGatewayCode());
+		Integer sendStatus = 2;
+		if(sms!=null){
+			sendStatus = sms.send(smsLog.getReceiver(), smsLog.getContent());
+		}
+		smsLogService.updateSuccess(smsLog.getId(), sendStatus);
 	}
 }
 
