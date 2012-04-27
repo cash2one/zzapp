@@ -125,7 +125,10 @@ com.zz91.sms.template.Grid = Ext.extend(Ext.grid.GridPanel,{
 		}
 	}
 	}]
+	
 });
+
+
 
 /**
  * 编辑表单
@@ -141,47 +144,36 @@ com.zz91.sms.template.editForm=Ext.extend(Ext.form.FormPanel, {
 			layout:"column",
 			bodyStyle:"padding:5px 0 0",
 			frame:true,
-			items:[
-				{
-					columnWidth:0.5,
-					layout:"form",
-					defaults:{
-						anchor:"95%",
-						xtype:"textfield",
-						labelSeparator:""
-					},
-					items:[{
-						xtype:"hidden",
-						id:"id",
-						name:"id"
-					},{
-						name:"code",
-						fieldLabel:"模板代号",
-						itemCls :"required",
-						blankText : "模板代号不能为空",
-						allowBlank : false
-					},{
-						name:"titles",
-						fieldLabel:"模板标题"
-					},{
-						name:"signed",
-						fieldLabel:"短信签名"
-					}]
-				}
-				,{
-					columnWidth:1,
-					layout:"form",
-					defaults:{
-						anchor:"95%",
-						xtype:"textfield",
-						labelSeparator:""
-					},
-					items:[{
-						xtype:"textarea",
-						name:"content",
-						fieldLabel:"模板内容",
-						allowBlank : true
-					}]
+			items:[{
+				columnWidth:1,
+				layout:"form",
+				defaults:{
+					anchor:"95%",
+					xtype:"textfield",
+					labelSeparator:""
+				},
+				items:[{
+					xtype:"hidden",
+					id:"id",
+					name:"id"
+				},{
+					name:"code",
+					fieldLabel:"模板代号",
+					itemCls :"required",
+					blankText : "模板代号不能为空",
+					allowBlank : false
+				},{
+					name:"titles",
+					fieldLabel:"模板标题"
+				},{
+					name:"signed",
+					fieldLabel:"短信签名"
+				},{
+					xtype:"textarea",
+					name:"content",
+					fieldLabel:"模板内容",
+					allowBlank : true
+				}]
 				}
 			],
 			buttons:[{
@@ -266,7 +258,7 @@ com.zz91.sms.template.addFormWin = function(){
 	var win = new Ext.Window({
 		id:TEMPLATE.EDIT_WIN,
 		title:"添加短信模板",
-		width:"75%",
+		width:"40%",
 		modal:true,
 		items:[grid]
 	});
@@ -286,10 +278,11 @@ com.zz91.sms.template.editFormWin = function(id){
 	var win = new Ext.Window({
 		id:TEMPLATE.EDIT_WIN,
 		title:"编辑短信模板",
-		width:"75%",
+		width:"40%",
 		modal:true,
 		items:[form]
 	});
 	form.loadRecords(id);
 	win.show();
 };
+

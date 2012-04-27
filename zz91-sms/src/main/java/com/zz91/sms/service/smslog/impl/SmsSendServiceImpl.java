@@ -58,21 +58,12 @@ public class SmsSendServiceImpl implements SmsSendService{
 	@Override
 	public Integer sendSmsByCode(SmsLog sms) {
 		String code=sms.getTemplateCode();
-		sms.setContent(buildSmsContent(getTemplateContentByTemplateCode(code),sms.getSmsParameter()));
-		Template template=templateDao.queryTemplateByCode(code);
-		if(template==null){
-			return null;
-		}
+		Template template = templateDao.queryTemplateByCode(code);
+		sms.setContent(buildSmsContent(template.getContent() + template.getSigned(), sms.getSmsParameter()));
+		
 		sms.setSendStatus(0);
 		sms.setTemplateCode(code);
 		return smsLogDao.insert(sms);
 	}
-	private String getTemplateContentByTemplateCode(String templateCode) {
-		Template temp =templateDao.queryTemplateByCode(templateCode);
-		if (temp != null && temp.getContent() != null) {
-			return temp.getContent();
-		} else {
-			return "";
-		}
-	}
+	
 }
