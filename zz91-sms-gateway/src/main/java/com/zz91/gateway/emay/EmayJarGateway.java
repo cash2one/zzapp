@@ -8,14 +8,13 @@ public class EmayJarGateway implements ZZSms {
 	private final static String SERIAL_NO = "6SDK-EMY-6688-JCTPN";
 	private final static String SERIAL_PAS = "909416";
 	private final static int SMS_PRIORITY = 3;
-	private Client client = null;
-
-	public EmayJarGateway() {
-		init();
-	}
+	private static Client client = null;
 
 	@Override
 	public Integer send(String mobile, String content) {
+		if(client==null){
+			init();
+		}
 		String[] mobiles = new String[] { mobile };
 		Integer i = client.sendSMS(mobiles, content, SMS_PRIORITY);
 		if(i==0){
@@ -26,6 +25,9 @@ public class EmayJarGateway implements ZZSms {
 
 	@Override
 	public Object balance() {
+		if(client==null){
+			init();
+		}
 		try {
 			return client.getBalance();
 		} catch (Exception e) {
@@ -33,7 +35,7 @@ public class EmayJarGateway implements ZZSms {
 		}
 	}
 
-	private void init() {
+	private synchronized static void init() {
 		if (client == null) {
 			try {
 				client = new Client(SERIAL_NO, SERIAL_PAS);

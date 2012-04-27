@@ -6,7 +6,7 @@ public class EmayWebServiceGateway implements ZZSms {
 
 	@Override
 	public Integer send(String mobile, String content) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -16,4 +16,5 @@ public class EmayWebServiceGateway implements ZZSms {
 		return null;
 	}
 
+	
 }

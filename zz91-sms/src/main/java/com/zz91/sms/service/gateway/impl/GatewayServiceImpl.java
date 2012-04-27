@@ -74,11 +74,11 @@ public class GatewayServiceImpl implements GatewayService {
 			try {
 				zzsms = (ZZSms) ClassHelper.load(value).newInstance();
 			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
+				zzsms = null;
 			} catch (InstantiationException e) {
-				e.printStackTrace();
+				zzsms = null;
 			} catch (IllegalAccessException e) {
-				e.printStackTrace();
+				zzsms = null;
 			}
 			if(zzsms!=null){
 				CACHE_GATEWAY.put(key, zzsms);
