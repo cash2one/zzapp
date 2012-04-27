@@ -1,6 +1,5 @@
 package com.zz91.sms.service.smslog;
 
-import java.util.Date;
 import java.util.List;
 
 import com.zz91.sms.domain.SmsLog;
