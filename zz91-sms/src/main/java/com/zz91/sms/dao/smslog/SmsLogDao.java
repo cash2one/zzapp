@@ -12,11 +12,11 @@ public interface SmsLogDao {
 
 	public Integer updateStatus(Integer id, Integer sendStatus);
 
-	public List<SmsLog> queryLog(Date from, Date to, Integer sendStatus,
+	public List<SmsLog> queryLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
 			String content, Pager<SmsLog> page);
 
-	public Integer queryLogCount(Date from, Date to, String receiver,
+	public Integer queryLogCount(String from, String to, String receiver,
 			String gatewayCode, Integer priority, String content,
 			Integer sendStatus);
 

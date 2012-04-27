@@ -43,7 +43,7 @@
 				priority = #priority#
 			</isNotEmpty>
 			<isNotEmpty property="content" prepend="and">
-				content like #content#
+				content like concat('%',#content#,'%')
 			</isNotEmpty>
 		</dynamic>
 	</sql>

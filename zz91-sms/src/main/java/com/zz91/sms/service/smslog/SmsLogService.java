@@ -13,7 +13,7 @@ public interface SmsLogService {
 	public final static int SEND_FAILURE = 2;
 	public final static int SEND_PROCESS = 3;
 
-	public Pager<SmsLog> pageLog(Date from, Date to, Integer sendStatus,
+	public Pager<SmsLog> pageLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
 			String content, Pager<SmsLog> page);
 
