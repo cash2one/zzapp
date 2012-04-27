@@ -170,7 +170,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 						data   : [
 						    {name:'所有',value:null},
 							{name:'待发送',value:'0'},
-							{name:'已发送',value:'1'},
+							{name:'发送中',value:'1'},
 							{name:'发送成功',value:'2'},
 							{name:'发送失败',value:'3'}
 						]
@@ -187,7 +187,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 					xtype : "datefield",
 					format:"Y-m-d",
 					name:"to",
-					emptyText:"计划结束",
+					emptyText:"发送时间(末)",
 					listeners:{
 						"blur":function(field){
 							if(field.getValue()!=""){
@@ -202,7 +202,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 					xtype : "datefield",
 					format:"Y-m-d",
 					name : "from",
-					emptyText:"计划开始",
+					emptyText:"发送时间(始)",
 					listeners:{
 						"blur":function(field){
 							if(field.getValue()!=""){
@@ -217,7 +217,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 					xtype:"textfield",
 					id:"_receiver",
 					width:100,
-					emptyText:"请输入接收者电话",
+					emptyText:"请输入接收号码",
 					listeners:{
 						//失去焦点
 						"blur":function(c){
