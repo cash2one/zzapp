@@ -22,7 +22,7 @@ public interface GatewayService {
 	
 	public void disabled(Integer id);
 	
-	public Object balance(Integer id);
+	public Object balance(String gatewayCode);
 	
 	public boolean gatwayTest(String to, Integer id);
 	

@@ -27,7 +27,7 @@ public class EmayJarGateway implements ZZSms {
 	@Override
 	public Object balance() {
 		try {
-			return client.getBalance();
+			return client.getBalance().replace(".", "");
 		} catch (Exception e) {
 			return 0;
 		}

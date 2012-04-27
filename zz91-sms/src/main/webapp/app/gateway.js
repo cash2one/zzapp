@@ -221,10 +221,47 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		}
 	},'-',{
 		text : '余额',
-		iconCls : 'money16'
+		iconCls : 'money16',
+		handler : function(btn){		
+		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
+					for (var i = 0, len = row.length; i < len; i++) {
+						Ext.Ajax.request({
+							url:Context.ROOT +  "/gateway/balance.htm",
+							params:{"code":row[i].get("code")},
+							success:function(response,opt){
+								var obj = Ext.decode(response.responseText);
+								if(obj.success){
+									com.zz91.utils.Msg("","当前余额为:"+obj.data);
+									Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
+								}else{
+									Ext.MessageBox.show({
+										title:MESSAGE.title,
+										msg : MESSAGE.saveFailure,
+										buttons:Ext.MessageBox.OK,
+										icon:Ext.MessageBox.ERROR
+									});
+								}
+							},
+							failure:function(response,opt){
+								Ext.MessageBox.show({
+									title:MESSAGE.title,
+									msg : MESSAGE.submitFailure,
+									buttons:Ext.MessageBox.OK,
+									icon:Ext.MessageBox.ERROR
+								});
+							}
+						});
+					}
+		}
 	},'-',{
 		text : '测试网关',
 		iconCls : 'network16',
+		handler : function(btn){
+		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelected();
+		if(row!=null){
+			com.zz91.sms.gateway.exam(row.get("id"));
+			}
+		}
 	},"->",{
 		xtype:"combo",
 		itemCls:"required",
@@ -239,8 +276,8 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		store:new Ext.data.JsonStore({
 			fields : ['name', 'value'],
 			data   : [
-				{name:'0',value:'0'},
-				{name:'1',value:'1'}
+				{name:'未启用',value:'0'},
+				{name:'已启用',value:'1'}
 			]
 		}),
 		listeners:{
@@ -435,4 +472,125 @@ com.zz91.sms.gateway.updateGate = function(id){
 	win.show();
 }
 
+com.zz91.sms.gateway.exam=function(id){
+		var form= new com.zz91.sms.gateway.Form1({
+			id:GATEWAY.GATEWAY_FORM,
+			region:"center"
+		});
+		
+		form.loadOneRecord(id);
+		var win = new Ext.Window({
+				id:GATEWAY.GATEWAY_WIN ,
+				title:"测试手机发送",
+				width:300,
+				height:100,
+				autoHeight:true,
+				modal:true,
+				items:[form]
+		});
+		win.show();
+	}
+com.zz91.sms.gateway.Form1 = Ext.extend(Ext.form.FormPanel,{
+	constructor:function(config){
+		config = config||{};
+		Ext.apply(this,config);
+		
+		var c={
+			region:"center",
+			layout:"form",
+			bodyStyle:'padding:5px 0 0',
+			frame:true,
+			labelAlign : "right",
+			labelWidth : 80,
+			defaults:{
+				anchor:"100%",
+				xtype:"textfield",
+				labelSeparator:""
+			},
+			items:[{
+				xtype : "hidden",
+				name : "id",
+				dataIndex : "id"
+			},{
+				fieldLabel:"网关code",
+				name: "code",
+				id:"code",
+				allowBlank:false,
+				itemCls:"required"
+			},{
+				fieldLabel : "手机号",
+				allowBlank : false,
+				id:"mobile",
+				name:"mobile",
+				itemCls :"required"
+			}],
+			buttons:[{
+				text:"发送",
+				scope:this,
+				handler:function(btn){
+				var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
+				for (var i = 0, len = row.length; i < len; i++) {
+					Ext.Ajax.request({						
+						url : Context.ROOT+ "/smslog/testGateway.htm",
+						params:{"gatewayCode":Ext.get("code").dom.value,"receiver":Ext.get("mobile").dom.value},
+						success:function(response,opt){
+							var obj = Ext.decode(response.responseText);
+							if(obj.success){
+								com.zz91.utils.Msg("","测试成功");
+								Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
+								Ext.getCmp(GATEWAY.GATEWAY_WIN).close();
+							}else{
+//								Ext.MessageBox.show({
+//									title:MESSAGE.title,
+//									msg : MESSAGE.saveFailure,
+//									buttons:Ext.MessageBox.OK,
+//									icon:Ext.MessageBox.ERROR
+//								});
+							}
+						},
+						failure:function(response,opt){
+							Ext.MessageBox.show({
+								title:MESSAGE.title,
+								msg : MESSAGE.submitFailure,
+								buttons:Ext.MessageBox.OK,
+								icon:Ext.MessageBox.ERROR
+							});
+						}
+					});
+					}					
+				}
+			},{
+				text:"关闭",
+				handler:function(btn){
+					Ext.getCmp(GATEWAY.GATEWAY_WIN).close();
+				}
+			}]
+		};
+		
+		com.zz91.sms.gateway.Form1.superclass.constructor.call(this,c);
+	},
+	saveUrl:Context.ROOT+ "/smslog/testGateway.htm",
+	loadOneRecord:function(id){
+		var reader=[
+			{name:"code",mapping:"code"}
+			
+			];
+		
+		var form = this;
+		var _store = new Ext.data.JsonStore({
+			fields : reader,
+			url : Context.ROOT+ "/gateway/queryOne.htm",
+			baseParams:{"id":id},
+			autoLoad : true,
+			listeners : {
+				"datachanged" : function() {
+					var record = _store.getAt(0);
+					if (record != null) {
+						form.getForm().loadRecord(record);
+					}
+				}
+			}
+		});
+	},
+});
 

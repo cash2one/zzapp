@@ -70,4 +70,14 @@ public class SmsLogServiceImpl implements SmsLogService {
 	public Integer updateSuccess(Integer smsId, Integer sendStatus) {
 		return smsLogDao.updateStatus(smsId, sendStatus);
 	}
+
+	@Override
+	public Integer create(SmsLog sms) {
+		sms.setContent("你好");
+		sms.setGmtSend(new Date());
+		sms.setPriority(0);
+		sms.setTemplateCode("");
+		sms.setSendStatus(0);
+		return smsLogDao.insert(sms);
+	}
 }

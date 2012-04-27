@@ -25,12 +25,24 @@ import com.zz91.sms.service.smslog.SmsLogService;
 public class SmsLogController extends BaseController {
 
 	@Resource
-	private SmsLogService smsService;
+	private SmsLogService smsLogService;
 
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request,
 			Map<String, Object> out) {
 		return null;
+	}
+	
+	@RequestMapping
+	public ModelAndView testGateway(HttpServletRequest request,Map<String, Object>out,SmsLog sms){
+		
+		Integer i=smsLogService.create(sms);
+		
+		ExtResult result=new ExtResult();
+		if(i!=null && i.intValue()>0){
+			result.setSuccess(true);
+		}
+		return printJson(result, out);
 	}
 
 	@RequestMapping
@@ -39,7 +51,7 @@ public class SmsLogController extends BaseController {
 			String receiver, String gatewayCode, Integer priority,
 			String content, Pager<SmsLog> page) {
 
-		page = smsService.pageLog(from, to, sendStatus, receiver, gatewayCode, priority, content, page);
+		page = smsLogService.pageLog(from, to, sendStatus, receiver, gatewayCode, priority, content, page);
 
 		return printJson(page, out);
 	}
@@ -48,7 +60,7 @@ public class SmsLogController extends BaseController {
 	public ModelAndView deleteSms(HttpServletRequest request,
 			Map<String, Object> out, Integer id) {
 
-		Integer i = smsService.remove(id);
+		Integer i = smsLogService.remove(id);
 
 		ExtResult result = new ExtResult();
 		if (i != null && i.intValue() > 0) {
@@ -61,7 +73,7 @@ public class SmsLogController extends BaseController {
 	public ModelAndView resendSms(HttpServletRequest request,
 			Map<String, Object> out, Integer id) {
 
-		smsService.resend(id);
+		smsLogService.resend(id);
 		ExtResult result = new ExtResult();
 		if (id != null && id.intValue() > 0) {
 			result.setSuccess(true);

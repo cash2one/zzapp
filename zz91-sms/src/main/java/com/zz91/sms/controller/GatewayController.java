@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.Gateway;
 import com.zz91.sms.dto.ExtResult;
 import com.zz91.sms.service.gateway.GatewayService;
@@ -24,7 +26,7 @@ import com.zz91.sms.service.gateway.GatewayService;
 public class GatewayController extends BaseController {
 	
 	@Resource
-	private GatewayService gateService;
+	private GatewayService gatewayService;
 	
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, Map<String, Object> out){
@@ -34,7 +36,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView query(HttpServletRequest request,Map<String, Object>out,Integer enabled){
 		
-		List<Gateway> list=gateService.query(enabled);
+		List<Gateway> list=gatewayService.query(enabled);
 		
 		return printJson(list, out);
 	}
@@ -42,7 +44,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView delete(HttpServletRequest requst,Map<String, Object>out,Integer id){
 		
-		Integer i=gateService.remove(id);
+		Integer i=gatewayService.remove(id);
 		
 		ExtResult result=new ExtResult();
 		if(i!=null && i.intValue()>0){
@@ -54,7 +56,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView add(HttpServletRequest request,Map<String, Object>out ,Gateway gateway){
 		
-		Integer i=gateService.create(gateway);
+		Integer i=gatewayService.create(gateway);
 		
 		ExtResult result=new ExtResult();
 		if(i!=null && i.intValue()>0){
@@ -67,7 +69,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView queryOne(HttpServletRequest request,Map<String, Object>out,Integer id){
 		
-		Gateway gateway=gateService.queryOne(id);
+		Gateway gateway=gatewayService.queryOne(id);
 		
 		return printJson(gateway, out);
 	}
@@ -77,7 +79,7 @@ public class GatewayController extends BaseController {
 		
 		ExtResult result=new ExtResult();
 		if(gateway!=null){
-			Integer i=gateService.update(gateway);
+			Integer i=gatewayService.update(gateway);
 			if(i!=null && i.intValue()>0){
 				result.setSuccess(true);
 			}
@@ -88,7 +90,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView enabledGate(HttpServletRequest request,Map<String, Object>out,Integer id){
 		
-		gateService.enabled(id);
+		gatewayService.enabled(id);
 		
 		ExtResult result=new ExtResult();
 		if(id!=null && id.intValue()>0){
@@ -100,7 +102,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView disenabledGate(HttpServletRequest request,Map<String, Object>out,Integer id){
 		
-		gateService.disabled(id);
+		gatewayService.disabled(id);
 		
 		ExtResult result=new ExtResult();
 		if(id!=null && id.intValue()>0){
@@ -108,4 +110,35 @@ public class GatewayController extends BaseController {
 		}
 		return printJson(result, out);
 	}
+	
+	@SuppressWarnings("static-access")
+	@RequestMapping
+	public ModelAndView balance(HttpServletRequest request,Map<String, Object>out,
+			String code){
+		ZZSms sms = (ZZSms) gatewayService.CACHE_GATEWAY.get(code);
+		
+		ExtResult result=new ExtResult();
+			if (sms != null ) {
+				result.setData(sms.balance());
+			}else {
+				result.setData(0);
+			}
+			result.setSuccess(true);
+		return printJson(result, out);
+	}
+	
+//	@SuppressWarnings("static-access")
+//	@RequestMapping
+//	public ModelAndView exam(HttpServletRequest request,Map<String, Object>out,String receiver,String content,String code){
+//		
+//		ZZSms sms=(ZZSms) gatewayService.CACHE_GATEWAY.get(code);
+//		
+//		ExtResult result=new ExtResult();
+//		if(sms!=null){
+//			sms.send(receiver, content);
+//		}else{
+//			return null;
+//		}
+//		return printJson(result, out);
+//	}
 }

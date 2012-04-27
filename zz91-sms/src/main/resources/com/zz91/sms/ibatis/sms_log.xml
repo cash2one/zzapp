@@ -74,6 +74,9 @@
 				gmt_created,gmt_modified,content)
 		values
 			(#templateCode#,#receiver#,#sendStatus#,#gmtSend#,#gatewayCode#,#priority#,now(),now(),#content#)
+		<selectKey resultClass="java.lang.Integer" keyProperty="id" >
+			SELECT LAST_INSERT_ID()
+		</selectKey>
 	</insert>
 	
 	<update id="recoverStatus" parameterClass="java.util.HashMap">
