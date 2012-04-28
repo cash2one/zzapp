@@ -1,4 +1,4 @@
-package com.zz91.sms.serviceTest;
+package com.zz91.sms.service;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,7 +17,7 @@ public class BaseServiceTestCase extends
     private SqlMapClientFactoryBean sqlMapClient;
 
     protected String[] getConfigLocations() {
-        return new String[] { "spring-sms-test-config.xml" };
+        return new String[] { "spring-sms-config.xml" };
     }
 
     public void test_demo() {

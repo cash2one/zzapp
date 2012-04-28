@@ -64,7 +64,7 @@
 	
 	<update id="updateSendStatus" parameterClass="java.util.HashMap">
 		update sms_log
-		set send_status=#sendStatus#
+		set send_status=#sendStatus#,gmt_modified=now()
 		where id = #id#
 	</update>
 	<!-- ******************************************** -->
@@ -94,7 +94,7 @@
 		select
 		<include refid="smsLog.querySmsLogColumn" />
 		from sms_log
-		where send_status=0
+		where send_status=0 and now() >= gmt_send
 		order by priority asc, gmt_send asc
 		limit 0,#value#
 	</select>

@@ -11,11 +11,8 @@ public interface SmsLogService {
 	public final static int SEND_PROCESS = 1;
 	public final static int SEND_SUCCESS = 2;
 	public final static int SEND_FAILURE = 3;
-<<<<<<< HEAD
 	
 	public Integer create(SmsLog sms);
-=======
->>>>>>> origin/feature-sms
 
 	public Pager<SmsLog> pageLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,

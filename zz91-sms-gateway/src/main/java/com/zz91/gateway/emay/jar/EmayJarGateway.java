@@ -1,4 +1,4 @@
-package com.zz91.gateway.emay;
+package com.zz91.gateway.emay.jar;
 
 import cn.emay.sdk.client.api.Client;
 

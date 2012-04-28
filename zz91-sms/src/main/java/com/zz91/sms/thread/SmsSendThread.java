@@ -27,9 +27,9 @@ public class SmsSendThread extends Thread {
 	@Override
 	public void run() {
 		ZZSms sms = (ZZSms) gatewayService.CACHE_GATEWAY.get(smsLog.getGatewayCode());
-		Integer sendStatus = 1;
+		Integer sendStatus = smsLogService.SEND_PROCESS;
 		if (sms != null) {
-			sendStatus = sms.send(smsLog.getReceiver(), smsLog.getContent());
+//			sendStatus = sms.send(smsLog.getReceiver(), smsLog.getContent());
 		}
 		smsLogService.updateSuccess(smsLog.getId(), sendStatus);
 	}

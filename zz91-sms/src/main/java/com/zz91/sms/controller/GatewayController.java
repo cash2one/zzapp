@@ -15,8 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.Gateway;
+import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.ExtResult;
 import com.zz91.sms.service.gateway.GatewayService;
+import com.zz91.sms.service.smslog.SmsLogService;
 
 /**
  * @author root
@@ -27,6 +29,8 @@ public class GatewayController extends BaseController {
 	
 	@Resource
 	private GatewayService gatewayService;
+	@Resource
+	private SmsLogService smsLogService;
 	
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, Map<String, Object> out){
@@ -124,6 +128,19 @@ public class GatewayController extends BaseController {
 				result.setData(0);
 			}
 			result.setSuccess(true);
+		return printJson(result, out);
+	}
+	
+	@RequestMapping
+	public ModelAndView testGateway(HttpServletRequest request,
+			Map<String, Object> out, SmsLog sms) {
+
+		Integer i = smsLogService.create(sms);
+
+		ExtResult result = new ExtResult();
+		if (i != null && i.intValue() > 0) {
+			result.setSuccess(true);
+		}
 		return printJson(result, out);
 	}
 	

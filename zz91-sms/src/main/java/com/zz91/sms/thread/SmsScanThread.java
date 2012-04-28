@@ -16,7 +16,7 @@ import com.zz91.sms.service.smslog.SmsLogService;
 @Service
 public class SmsScanThread extends Thread{
 	
-	public final static Queue<SmsLog> smsqueue=new ArrayBlockingQueue<SmsLog>(100);
+	public final static Queue<SmsLog> smsqueue=new ArrayBlockingQueue<SmsLog>(50);
 	
 	public final static Map<String, Long> map=new ConcurrentHashMap<String, Long>();
 	
@@ -25,25 +25,22 @@ public class SmsScanThread extends Thread{
 	private SmsLogService smsLogService;
 	
 	public SmsScanThread(){
-		
+		smsqueue.clear();
 	}
 	@SuppressWarnings("static-access")
 	public void run(){
 		while(runSwitch){
-			if(smsqueue.size()<50){
-				List<SmsLog> sms=smsLogService.queryLogs(50);
-				if(sms !=null && sms.size()>0){
-					for(SmsLog smsLog:sms){
-						if (smsqueue.size()>=50) {
-							break;
-						}
-						smsqueue.add(smsLog);
+			if(smsqueue.size()<10){
+				List<SmsLog> smsList=smsLogService.queryLogs(10);
+				if(smsList !=null && smsList.size()>0){
+					for(SmsLog smsLog:smsList){
 						smsLogService.updateSuccess(smsLog.getId(), smsLogService.SEND_PROCESS);
+						smsqueue.add(smsLog);
 					}
 				}
 			}
 			try{
-				Thread.sleep(1000);
+				Thread.sleep(5000);
 			}catch(InterruptedException e){
 				
 			}

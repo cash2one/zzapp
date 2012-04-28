@@ -31,43 +31,13 @@ public class SmsLogController extends BaseController {
 			Map<String, Object> out) {
 		return null;
 	}
-	
-	@RequestMapping
-	public ModelAndView testGateway(HttpServletRequest request,Map<String, Object>out,SmsLog sms){
-		
-		Integer i=smsLogService.create(sms);
-		
-		ExtResult result=new ExtResult();
-		if(i!=null && i.intValue()>0){
-			result.setSuccess(true);
-		}
-		return printJson(result, out);
-	}
 
 	@RequestMapping
 	public ModelAndView querySms(HttpServletRequest request,
-			Map<String, Object> out, String from, String to, Integer sendStatus,
-			String receiver, String gatewayCode, Integer priority,
-			String content, Pager<SmsLog> page) {
-
-<<<<<<< HEAD
-		page = smsLogService.pageLog(from, to, sendStatus, receiver, gatewayCode, priority, content, page);
-=======
-//		Date begin = null;
-//		Date end = null;
-//		try {
-//			if(StringUtils.isNotEmpty(from)) {
-//				begin = DateUtil.getDate(from, "yyyy-mm-dd HH:mm:ss");
-//			}
-//			if(StringUtils.isNotEmpty(to)) {
-//				end = DateUtil.getDate(to, "yyyy-mm-dd HH:mm:ss");
-//			}
-//		} catch(ParseException e) {
-//		}
-//		
-		page = smsService.pageLog(from, to, sendStatus, receiver, gatewayCode, priority, content, page);
->>>>>>> origin/feature-sms
-
+			Map<String, Object> out, String from, String to,
+			Integer sendStatus, String receiver, String gatewayCode,
+			Integer priority, String content, Pager<SmsLog> page) {
+		page = smsLogService.pageLog(from, to, sendStatus, receiver,gatewayCode, priority, content, page);
 		return printJson(page, out);
 	}
 

@@ -531,7 +531,7 @@ com.zz91.sms.gateway.Form1 = Ext.extend(Ext.form.FormPanel,{
 				var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
 				for (var i = 0, len = row.length; i < len; i++) {
 					Ext.Ajax.request({						
-						url : Context.ROOT+ "/smslog/testGateway.htm",
+						url : Context.ROOT+ "/gateway/testGateway.htm",
 						params:{"gatewayCode":Ext.get("code").dom.value,"receiver":Ext.get("mobile").dom.value},
 						success:function(response,opt){
 							var obj = Ext.decode(response.responseText);
@@ -569,7 +569,7 @@ com.zz91.sms.gateway.Form1 = Ext.extend(Ext.form.FormPanel,{
 		
 		com.zz91.sms.gateway.Form1.superclass.constructor.call(this,c);
 	},
-	saveUrl:Context.ROOT+ "/smslog/testGateway.htm",
+	saveUrl:Context.ROOT+ "/gateway/testGateway.htm",
 	loadOneRecord:function(id){
 		var reader=[
 			{name:"code",mapping:"code"}
