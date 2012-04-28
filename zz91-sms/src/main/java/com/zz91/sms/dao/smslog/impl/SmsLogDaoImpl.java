@@ -1,6 +1,5 @@
 package com.zz91.sms.dao.smslog.impl;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,24 +23,32 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<SmsLog> queryLog(Date from, Date to, Integer sendStatus,
+	public List<SmsLog> queryLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
 			String content, Pager<SmsLog> page) {
 		Map<String, Object> list = new HashMap<String, Object>();
 		list.put("from", from);
 		list.put("to", to);
 		list.put("sendStatus", sendStatus);
+		list.put("receiver", receiver);
+		list.put("gatewayCode", gatewayCode);
+		list.put("priority", priority);
+		list.put("content", content);
 		list.put("page", page);
 		return getSqlMapClientTemplate().queryForList(
 				buildId(SQL_PREFIX, "querySmsLog"), list);
 	}
 
 	@Override
-	public Integer queryLogCount(Date from, Date to, String receiver, String gatewayCode, Integer priority,
+	public Integer queryLogCount(String from, String to, String receiver, String gatewayCode, Integer priority,
 			String content, Integer sendStatus) {
 		Map<String, Object> list = new HashMap<String, Object>();
 		list.put("from", from);
 		list.put("to", to);
+		list.put("receiver", receiver);
+		list.put("gatewayCode", gatewayCode);
+		list.put("priority", priority);
+		list.put("content", content);
 		list.put("sendStatus", sendStatus);
 		return (Integer) getSqlMapClientTemplate().queryForObject(
 				buildId(SQL_PREFIX, "querySmsLogCount"), list);

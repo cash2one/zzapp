@@ -8,7 +8,6 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import com.zz91.sms.domain.SmsLog;
-import com.zz91.sms.dto.Pager;
 import com.zz91.sms.service.smslog.SmsLogService;
 import com.zz91.util.datetime.DateUtil;
 
@@ -170,12 +169,6 @@ public class SmsLogServiceTest extends BaseServiceTestCase {
 				"gatewayCode", 0, null, null, "content");
 	}
 
-	private void insertMany(int max, String templateCode, Date gmtSend) {
-		for (int i = 0; i < max; i++) {
-			insert(getSms(templateCode + i, gmtSend));
-		}
-	}
-
 	private Integer insert(SmsLog sms) {
 		String sql = "insert into sms_log(template_code,receiver,send_status,gmt_send,gateway_code,priority,"
 				+ "gmt_created,gmt_modified,content)values('"
@@ -193,7 +186,6 @@ public class SmsLogServiceTest extends BaseServiceTestCase {
 				+",now(),now(),'"
 				+sms.getContent()
 				+"')";
-		
 		try {
 			connection.prepareStatement(sql).execute();
 		} catch (SQLException e) {

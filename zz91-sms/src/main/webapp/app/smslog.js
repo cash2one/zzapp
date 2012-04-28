@@ -85,141 +85,213 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 			store:_store,
 			sm:_sm,
 			cm:_cm,
-			tbar:this.mytoolbar,
+			tbar:[
+			  	{
+					text : '重发',
+					iconCls : 'stats16',
+					handler : function(btn){		
+						var row = Ext.getCmp(SMSLOG.SMSLOG_GRID).getSelectionModel().getSelections();
+						if (row.length > 0) {
+							Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要发送选中的信息?', function(_btn){
+								if (_btn != "yes")
+									return;
+								for (var i = 0, len = row.length; i < len; i++) {
+									Ext.Ajax.request({
+										url:Context.ROOT +  "/smslog/resendSms.htm",
+										params:{"id":row[i].get("id")},
+										success:function(response,opt){
+											var obj = Ext.decode(response.responseText);
+											if(obj.success){
+												com.zz91.utils.Msg("","发送成功");
+												Ext.getCmp(SMSLOG.SMSLOG_GRID).getStore().reload();
+											}else{
+												Ext.MessageBox.show({
+													title:MESSAGE.title,
+													msg : MESSAGE.saveFailure,
+													buttons:Ext.MessageBox.OK,
+													icon:Ext.MessageBox.ERROR
+												});
+											}
+										},
+										failure:function(response,opt){
+											Ext.MessageBox.show({
+												title:MESSAGE.title,
+												msg : MESSAGE.submitFailure,
+												buttons:Ext.MessageBox.OK,
+												icon:Ext.MessageBox.ERROR
+											});
+										}
+									});
+								}
+							});
+						}
+					}
+				},{
+					text : '删除',
+					iconCls : 'delete16',
+					handler : function(btn){		
+					var row = Ext.getCmp(SMSLOG.SMSLOG_GRID).getSelectionModel().getSelections();		
+						if (row.length > 0) {
+							Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要删除选中的 ' + row.length + '条记录?', function(_btn){
+								if (_btn != "yes")
+									return;
+								for (var i = 0, len = row.length; i < len; i++) {
+									Ext.Ajax.request({
+										url:Context.ROOT +  "/smslog/deleteSms.htm",
+										params:{"id":row[i].get("id")},
+										success:function(response,opt){
+											var obj = Ext.decode(response.responseText);
+											if(obj.success){
+												com.zz91.utils.Msg("","删除记录成功");
+												Ext.getCmp(SMSLOG.SMSLOG_GRID).getStore().reload();
+											}else{
+												Ext.MessageBox.show({
+													title:MESSAGE.title,
+													msg : MESSAGE.saveFailure,
+													buttons:Ext.MessageBox.OK,
+													icon:Ext.MessageBox.ERROR
+												});
+											}
+										},
+										failure:function(response,opt){
+											Ext.MessageBox.show({
+												title:MESSAGE.title,
+												msg : MESSAGE.submitFailure,
+												buttons:Ext.MessageBox.OK,
+												icon:Ext.MessageBox.ERROR
+											});
+										}
+									});
+								}
+							});
+						}
+					}
+				},"->",{
+					xtype:"combo",
+					itemCls:"required",
+					width:100,
+					name:"categoryCombo",
+					mode:"local",
+					emptyText:"选择发送状态",
+					triggerAction:"all",
+					forceSelection: true,
+					displayField:'name',
+					valueField:'value',
+					autoSelect:true,
+					store:new Ext.data.JsonStore({
+						fields : ['name', 'value'],
+						data   : [
+						    {name:'所有',value:null},
+							{name:'待发送',value:'0'},
+							{name:'发送中',value:'1'},
+							{name:'发送成功',value:'2'},
+							{name:'发送失败',value:'3'}
+						]
+					}),
+					listeners:{
+					"change":function(field,newValue,oldValue){
+						var grid=Ext.getCmp(SMSLOG.SMSLOG_GRID);
+						grid.getStore().baseParams["sendStatus"]=newValue;
+						grid.getStore().reload({params:{"start":0, "limit":Context.PAGE_SIZE}});
+					}
+				}
+
+				},"->",{
+					xtype : "datefield",
+					format:"Y-m-d",
+					name:"to",
+					emptyText:"发送时间(末)",
+					listeners:{
+						"blur":function(field){
+							if(field.getValue()!=""){
+								_store.baseParams["to"]= Ext.util.Format.date(field.getValue(), 'Y-m-d H:m:s');
+							}else{
+								_store.baseParams["to"]=null;
+							}
+							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
+						}
+					}
+				},"->",{
+					xtype : "datefield",
+					format:"Y-m-d",
+					name : "from",
+					emptyText:"发送时间(始)",
+					listeners:{
+						"blur":function(field){
+							if(field.getValue()!=""){
+								_store.baseParams["from"]= Ext.util.Format.date(field.getValue(), 'Y-m-d H:m:s');
+							}else{
+								_store.baseParams["from"]=null;
+							}
+							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
+						}
+					}
+				},"->",{
+					xtype:"textfield",
+					id:"_receiver",
+					width:100,
+					emptyText:"请输入接收号码",
+					listeners:{
+						//失去焦点
+						"blur":function(c){
+							var val = Ext.get("_receiver").dom.value;
+							var B	= _store.baseParams;
+							B	= B ||{};
+							if(val!=""){
+								B["receiver"]= val;
+							}else{
+								B["receiver"]=null;
+							}
+							_store.baseParams = B;
+							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
+						}
+					}
+				},"->",{
+					xtype:"textfield",
+					id:"_gatewayCode",
+					width:100,
+					emptyText:"请输入网关名称",
+					listeners:{
+						//失去焦点
+						"blur":function(c){
+							var val = Ext.get("_gatewayCode").dom.value;
+							var B	= _store.baseParams;
+							B	= B ||{};
+							if(val!=""){
+								B["gatewayCode"]= val;
+							}else{
+								B["gatewayCode"]=null;
+							}
+							_store.baseParams = B;
+							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
+						}
+					}
+				},"->",{
+					xtype:"textfield",
+					id:"_content",
+					width:100,
+					emptyText:"请输入短信内容",
+					listeners:{
+						//失去焦点
+						"blur":function(c){
+							var val = Ext.get("_content").dom.value;
+							var B	= _store.baseParams;
+							B	= B ||{};
+							if(val!=""){
+								B["content"]= val;
+							}else{
+								B["content"]=null;
+							}
+							_store.baseParams = B;
+							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
+						}
+					}
+				}],
 			bbar: com.zz91.utils.pageNav(_store)
 		};
 		
 		com.zz91.sms.smslog.Grid.superclass.constructor.call(this,c);
-	},
-	mytoolbar:[
-	{
-		text : '重发',
-		iconCls : 'stats16',
-		handler : function(btn){		
-			var row = Ext.getCmp(SMSLOG.SMSLOG_GRID).getSelectionModel().getSelections();
-			if (row.length > 0) {
-				Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要发送选中的信息?', function(_btn){
-					if (_btn != "yes")
-						return;
-					for (var i = 0, len = row.length; i < len; i++) {
-						Ext.Ajax.request({
-							url:Context.ROOT +  "/smslog/resendSms.htm",
-							params:{"id":row[i].get("id")},
-							success:function(response,opt){
-								var obj = Ext.decode(response.responseText);
-								if(obj.success){
-									com.zz91.utils.Msg("","发送成功");
-									Ext.getCmp(SMSLOG.SMSLOG_GRID).getStore().reload();
-								}else{
-									Ext.MessageBox.show({
-										title:MESSAGE.title,
-										msg : MESSAGE.saveFailure,
-										buttons:Ext.MessageBox.OK,
-										icon:Ext.MessageBox.ERROR
-									});
-								}
-							},
-							failure:function(response,opt){
-								Ext.MessageBox.show({
-									title:MESSAGE.title,
-									msg : MESSAGE.submitFailure,
-									buttons:Ext.MessageBox.OK,
-									icon:Ext.MessageBox.ERROR
-								});
-							}
-						});
-					}
-				});
-			}
-		}
-	},{
-		text : '删除',
-		iconCls : 'delete16',
-		handler : function(btn){		
-		var row = Ext.getCmp(SMSLOG.SMSLOG_GRID).getSelectionModel().getSelections();		
-			if (row.length > 0) {
-				Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要删除选中的 ' + row.length + '条记录?', function(_btn){
-					if (_btn != "yes")
-						return;
-					for (var i = 0, len = row.length; i < len; i++) {
-						Ext.Ajax.request({
-							url:Context.ROOT +  "/smslog/deleteSms.htm",
-							params:{"id":row[i].get("id")},
-							success:function(response,opt){
-								var obj = Ext.decode(response.responseText);
-								if(obj.success){
-									com.zz91.utils.Msg("","删除记录成功");
-									Ext.getCmp(SMSLOG.SMSLOG_GRID).getStore().reload();
-								}else{
-									Ext.MessageBox.show({
-										title:MESSAGE.title,
-										msg : MESSAGE.saveFailure,
-										buttons:Ext.MessageBox.OK,
-										icon:Ext.MessageBox.ERROR
-									});
-								}
-							},
-							failure:function(response,opt){
-								Ext.MessageBox.show({
-									title:MESSAGE.title,
-									msg : MESSAGE.submitFailure,
-									buttons:Ext.MessageBox.OK,
-									icon:Ext.MessageBox.ERROR
-								});
-							}
-						});
-					}
-				});
-			}
-		}
-	},"->",{
-		xtype:"combo",
-		itemCls:"required",
-		name:"categoryCombo",
-		mode:"local",
-		emptyText:"选择发送状态",
-		triggerAction:"all",
-		forceSelection: true,
-		displayField:'name',
-		valueField:'value',
-		autoSelect:true,
-		store:new Ext.data.JsonStore({
-			fields : ['name', 'value'],
-			data   : [
-				{name:'待发送',value:'0'},
-				{name:'已发送',value:'1'},
-				{name:'发送成功',value:'2'},
-				{name:'发送失败',value:'3'}
-			]
-		}),
-		listeners:{
-		"change":function(field,newValue,oldValue){
-			var grid=Ext.getCmp(SMSLOG.SMSLOG_GRID);
-			grid.getStore().baseParams["sendStatus"]=newValue;
-			grid.getStore().reload({params:{"start":0, "limit":Context.PAGE_SIZE}});
-		}
 	}
-
-	},{
-		xtype:"textfield",
-		id:"receiver",
-		emptyText:"请输入接收者电话",
-		listeners:{
-				//失去焦点
-				"blur":function(c){
-				var grid = Ext.getCmp(SMSLOG.SMSLOG_GRID);
-				var val = Ext.get("receiver").dom.value;
-				var B	= grid.getStore().baseParams;
-				if(val!=""){
-					B["receiver"]= val;
-				}else{
-					B["receiver"]=null;
-				}
-				grid.getStore().baseParams = B;
-				grid.getStore().reload({"params":{start:0,"limit":Context.PAGE_SIZE}});
-			}
-		}
-	}]
 });
 
 

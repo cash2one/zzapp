@@ -1,6 +1,5 @@
 package com.zz91.sms.service.smslog.impl;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -20,7 +19,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 	private SmsLogDao smsLogDao;
 
 	@Override
-	public Pager<SmsLog> pageLog(Date from, Date to, Integer sendStatus,
+	public Pager<SmsLog> pageLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
 			String content, Pager<SmsLog> page) {
 		if (page.getSort() == null) {

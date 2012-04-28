@@ -22,43 +22,31 @@ public class SmsScanThread extends Thread{
 	
 	public static boolean runSwitch=true;
 	@Resource
-	private SmsLogService smsService;
+	private SmsLogService smsLogService;
 	
 	public SmsScanThread(){
 		
 	}
+	@SuppressWarnings("static-access")
 	public void run(){
 		while(runSwitch){
 			if(smsqueue.size()<50){
-				List<SmsLog> sms=smsService.queryLogs(50);
+				List<SmsLog> sms=smsLogService.queryLogs(50);
 				if(sms !=null && sms.size()>0){
 					for(SmsLog smsLog:sms){
 						if (smsqueue.size()>=50) {
 							break;
 						}
 						smsqueue.add(smsLog);
+						smsLogService.updateSuccess(smsLog.getId(), smsLogService.SEND_PROCESS);
 					}
 				}
 			}
 			try{
-				Thread.sleep(10000);
+				Thread.sleep(1000);
 			}catch(InterruptedException e){
 				
 			}
 		}
 	}
-	public synchronized static long getPlanSendTime(String domain,long inteval,long now){
-		Long lst=map.get(domain);
-		if(lst==null){
-			lst=0l;
-		}
-		if(now>lst.longValue()){
-			map.put(domain, now+inteval);
-		}else{
-			lst=lst+inteval;
-			map.put(domain, lst);
-		}
-		return lst;
-	}
-
 }

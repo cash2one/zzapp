@@ -1,6 +1,5 @@
 package com.zz91.sms.service.smslog;
 
-import java.util.Date;
 import java.util.List;
 
 import com.zz91.sms.domain.SmsLog;
@@ -12,10 +11,13 @@ public interface SmsLogService {
 	public final static int SEND_PROCESS = 1;
 	public final static int SEND_SUCCESS = 2;
 	public final static int SEND_FAILURE = 3;
+<<<<<<< HEAD
 	
 	public Integer create(SmsLog sms);
+=======
+>>>>>>> origin/feature-sms
 
-	public Pager<SmsLog> pageLog(Date from, Date to, Integer sendStatus,
+	public Pager<SmsLog> pageLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
 			String content, Pager<SmsLog> page);
 
