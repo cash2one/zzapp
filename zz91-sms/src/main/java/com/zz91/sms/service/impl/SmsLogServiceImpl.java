@@ -1,14 +1,19 @@
-package com.zz91.sms.service.impl;
+package com.zz91.sms.serviceimpl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
+
+import net.sf.json.JSONArray;
 
 import org.springframework.stereotype.Component;
 
 import com.zz91.sms.dao.SmsLogDao;
+import com.zz91.sms.dao.TemplateDao;
 import com.zz91.sms.domain.SmsLog;
+import com.zz91.sms.domain.Template;
 import com.zz91.sms.dto.Pager;
 import com.zz91.sms.service.SmsLogService;
 import com.zz91.util.Assert;
@@ -18,11 +23,13 @@ public class SmsLogServiceImpl implements SmsLogService {
 
 	@Resource
 	private SmsLogDao smsLogDao;
+	@Resource
+	private TemplateDao templateDao;
 
 	@Override
 	public Pager<SmsLog> pageLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
-			String content, String templateCode, Pager<SmsLog> page) {
+			String content, Pager<SmsLog> page) {
 		if (page.getSort() == null) {
 			page.setSort("gmt_send");
 		}
@@ -30,8 +37,8 @@ public class SmsLogServiceImpl implements SmsLogService {
 			page.setDir("desc");
 		}
 
-		page.setRecords(smsLogDao.queryLog(from, to, sendStatus, receiver, gatewayCode, priority, content, templateCode, page));
-		page.setTotals(smsLogDao.queryLogCount(from, to, receiver, gatewayCode, priority, content,templateCode, sendStatus));
+		page.setRecords(smsLogDao.queryLog(from, to, sendStatus, receiver, gatewayCode, priority, content, page));
+		page.setTotals(smsLogDao.queryLogCount(from, to, receiver, gatewayCode, priority, content, sendStatus));
 		return page;
 	}
 
@@ -73,11 +80,37 @@ public class SmsLogServiceImpl implements SmsLogService {
 
 	@Override
 	public Integer create(SmsLog sms) {
-		sms.setContent("你好");
-		sms.setGmtSend(new Date());
-		sms.setPriority(0);
-		sms.setTemplateCode("");
-		sms.setSendStatus(0);
+		String code=sms.getTemplateCode();
+		String gatewayCode=sms.getGatewayCode();
+		Integer priority=sms.getPriority();
+		Date gmtSend=sms.getGmtSend();
+		Integer sendStatus=sms.getSendStatus();
+		Template template = templateDao.queryTemplateByCode(code);
+		if(code==null){
+			sms.setTemplateCode(template.getCode());
+		}
+		if(gatewayCode==null){
+			sms.setGatewayCode("emay_jar");
+		}
+		if(priority==null){
+			sms.setPriority(0);
+		}
+		if(gmtSend==null){
+			sms.setGmtSend(new Date());
+		}
+		if(sendStatus==null){
+			sms.setSendStatus(0);
+		}
+		sms.setContent(buildSmsContent(template.getContent()+template.getSigned(), sms.getSmsParameter()));		
 		return smsLogDao.insert(sms);
 	}
+
+	private String buildSmsContent(String content, String smsParameter) {
+		String str = smsParameter.toString();
+		JSONArray obj = JSONArray.fromObject(str);
+		String[] sa = (String[]) obj.toArray();
+		return String.format(content, sa);
+	}
+
+	
 }

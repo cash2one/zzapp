@@ -20,7 +20,7 @@ public class SmsLog implements Serializable{
 	private Date gmtCreated;
 	private Date gmtModified;
 	private String content;
-	private Map<String, Object>smsParameter;
+	private String smsParameter;
 	
 	public SmsLog() {
 	}
@@ -41,7 +41,7 @@ public class SmsLog implements Serializable{
 	}
 	public SmsLog(Integer id, String templateCode, String receiver,
 			Integer sendStatus, Date gmtSend, String gatewayCode,
-			Integer priority, Date gmtCreated, Date gmtModified, String content,Map<String, Object>smsParameter) {
+			Integer priority, Date gmtCreated, Date gmtModified, String content,String smsParameter) {
 		super();
 		this.id = id;
 		this.templateCode = templateCode;
@@ -116,10 +116,10 @@ public class SmsLog implements Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Map<String, Object> getSmsParameter() {
+	public String getSmsParameter() {
 		return smsParameter;
 	}
-	public void setSmsParameter(Map<String, Object> smsParameter) {
+	public void setSmsParameter(String smsParameter) {
 		this.smsParameter = smsParameter;
 	}
 
