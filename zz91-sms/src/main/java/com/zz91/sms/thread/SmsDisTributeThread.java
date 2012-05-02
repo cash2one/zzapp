@@ -28,14 +28,14 @@ public class SmsDisTributeThread extends Thread {
 							SmsScanThread.smsqueue.poll(), smsLogService));
 				} else {
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(10000);
 					} catch (InterruptedException e) {
 
 					}
 				}
 			} else {
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(10000);
 				} catch (InterruptedException e) {
 
 				}

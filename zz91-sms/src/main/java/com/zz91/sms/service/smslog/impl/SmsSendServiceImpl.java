@@ -59,8 +59,7 @@ public class SmsSendServiceImpl implements SmsSendService{
 	public Integer sendSmsByCode(SmsLog sms) {
 		String code=sms.getTemplateCode();
 		Template template = templateDao.queryTemplateByCode(code);
-		sms.setContent(buildSmsContent(template.getContent() + template.getSigned(), sms.getSmsParameter()));
-		
+		sms.setContent(buildSmsContent(template.getContent() + template.getSigned(), sms.getSmsParameter()));		
 		sms.setSendStatus(0);
 		sms.setTemplateCode(code);
 		return smsLogDao.insert(sms);

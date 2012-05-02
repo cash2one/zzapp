@@ -30,7 +30,8 @@ public class SMSController extends BaseController{
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping
-	public ModelAndView send(HttpServletRequest request,Map<String, Object>out,String gmtPostStr,SmsLog sms,String dataMap) throws ParseException{
+	public ModelAndView send(HttpServletRequest request,Map<String, Object>out,
+			String gmtPostStr,SmsLog sms,String dataMap)throws ParseException{
 		Integer i=0;
 		if(StringUtils.isNotEmpty(gmtPostStr)){
 			try {

@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import com.zz91.sms.dao.smslog.BaseDao;
 import com.zz91.sms.dao.smslog.SmsLogDao;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.Pager;
 
-@Component("smsLogDao")
+@Repository("smsLogDao")
 public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 
 	final static String SQL_PREFIX = "smsLog";
