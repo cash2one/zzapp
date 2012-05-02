@@ -15,10 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.Gateway;
-import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.ExtResult;
 import com.zz91.sms.service.GatewayService;
-import com.zz91.sms.service.SmsLogService;
 
 /**
  * @author root
@@ -29,8 +27,6 @@ public class GatewayController extends BaseController {
 	
 	@Resource
 	private GatewayService gatewayService;
-	@Resource
-	private SmsLogService smsLogService;
 	
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, Map<String, Object> out){
@@ -106,7 +102,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView disenabledGate(HttpServletRequest request,Map<String, Object>out,Integer id, String code){
 		
-		gatewayService.disabled(id, code);
+		gatewayService.disabled(id,code);
 		
 		ExtResult result=new ExtResult();
 		if(id!=null && id.intValue()>0){
@@ -134,32 +130,21 @@ public class GatewayController extends BaseController {
 
 
 	
+	@SuppressWarnings("static-access")
 	@RequestMapping
 	public ModelAndView testGateway(HttpServletRequest request,
-			Map<String, Object> out, SmsLog sms) {
+			Map<String, Object> out, String mobile,String content,String gatewayCode) {
 
-		Integer i = smsLogService.create(sms);
+		ZZSms zzSms=(ZZSms) gatewayService.CACHE_GATEWAY.get(gatewayCode);
 
 		ExtResult result = new ExtResult();
-		if (i != null && i.intValue() > 0) {
-			result.setSuccess(true);
+		if (zzSms != null ) {
+			zzSms.send(mobile, content);
+		}else{
+			return null;
 		}
+		result.setSuccess(true);
 		return printJson(result, out);
 	}
-	
-//	@SuppressWarnings("static-access")
-//	@RequestMapping
-//	public ModelAndView exam(HttpServletRequest request,Map<String, Object>out,String receiver,String content,String code){
-//		
-//		ZZSms sms=(ZZSms) gatewayService.CACHE_GATEWAY.get(code);
-//		
-//		ExtResult result=new ExtResult();
-//		if(sms!=null){
-//			sms.send(receiver, content);
-//		}else{
-//			return null;
-//		}
-//		return printJson(result, out);
-//	}
 
 }
