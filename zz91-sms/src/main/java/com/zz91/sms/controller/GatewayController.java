@@ -17,8 +17,8 @@ import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.Gateway;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.ExtResult;
-import com.zz91.sms.service.gateway.GatewayService;
-import com.zz91.sms.service.smslog.SmsLogService;
+import com.zz91.sms.service.GatewayService;
+import com.zz91.sms.service.SmsLogService;
 
 /**
  * @author root

@@ -1,4 +1,4 @@
-package com.zz91.sms.dao.gateway.impl;
+package com.zz91.sms.dao.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.zz91.sms.dao.gateway.GatewayDao;
-import com.zz91.sms.dao.smslog.BaseDaoSupport;
+import com.zz91.sms.dao.BaseDaoSupport;
+import com.zz91.sms.dao.GatewayDao;
 import com.zz91.sms.domain.Gateway;
 
 @Component("gatewayDao")

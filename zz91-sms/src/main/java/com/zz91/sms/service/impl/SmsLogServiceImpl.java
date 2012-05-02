@@ -1,4 +1,4 @@
-package com.zz91.sms.service.smslog.impl;
+package com.zz91.sms.service.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -7,10 +7,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.zz91.sms.dao.smslog.SmsLogDao;
+import com.zz91.sms.dao.SmsLogDao;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.Pager;
-import com.zz91.sms.service.smslog.SmsLogService;
+import com.zz91.sms.service.SmsLogService;
 import com.zz91.util.Assert;
 
 @Component("smsLogService")

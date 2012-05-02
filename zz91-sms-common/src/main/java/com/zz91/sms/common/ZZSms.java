@@ -15,7 +15,16 @@ package com.zz91.sms.common;
  */
 public interface ZZSms {
 	
+	public final static int WAITING=0;
+	
+	public final static int SENDING=1;
+	
+	public final static int SUCCESS=2;
+	
+	public final static int FAILURE=3;
+	
 	public Integer send(String mobile,String content);
 	
 	public Object balance();
+	
 }

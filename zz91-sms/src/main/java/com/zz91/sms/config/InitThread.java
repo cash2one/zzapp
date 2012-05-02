@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import com.zz91.sms.service.smslog.SmsLogService;
+import com.zz91.sms.service.SmsLogService;
 import com.zz91.sms.thread.ControlThread;
 import com.zz91.sms.thread.SmsDisTributeThread;
 import com.zz91.sms.thread.SmsScanThread;

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.ExtResult;
 import com.zz91.sms.dto.Pager;
-import com.zz91.sms.service.smslog.SmsLogService;
+import com.zz91.sms.service.SmsLogService;
 
 /**
  * @author root

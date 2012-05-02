@@ -1,4 +1,4 @@
-package com.zz91.sms.service.smslog.impl;
+package com.zz91.sms.service.impl;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -12,11 +12,12 @@ import org.apache.velocity.exception.MethodInvocationException;
 import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
-import com.zz91.sms.dao.smslog.SmsLogDao;
-import com.zz91.sms.dao.template.TemplateDao;
+
+import com.zz91.sms.dao.SmsLogDao;
+import com.zz91.sms.dao.TemplateDao;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.domain.Template;
-import com.zz91.sms.service.smslog.SmsSendService;
+import com.zz91.sms.service.SmsSendService;
 
 @Component("smsSendService")
 public class SmsSendServiceImpl implements SmsSendService{

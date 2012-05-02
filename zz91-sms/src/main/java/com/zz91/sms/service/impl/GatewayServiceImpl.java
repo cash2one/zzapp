@@ -1,4 +1,4 @@
-package com.zz91.sms.service.gateway.impl;
+package com.zz91.sms.service.impl;
 
 import java.util.List;
 
@@ -7,9 +7,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.zz91.sms.common.ZZSms;
-import com.zz91.sms.dao.gateway.GatewayDao;
+import com.zz91.sms.dao.GatewayDao;
 import com.zz91.sms.domain.Gateway;
-import com.zz91.sms.service.gateway.GatewayService;
+import com.zz91.sms.service.GatewayService;
 import com.zz91.sms.util.ClassHelper;
 import com.zz91.util.Assert;
 
@@ -63,8 +63,10 @@ public class GatewayServiceImpl implements GatewayService {
 	public void initGateway() {
 		List<Gateway> list = query(ENABLED_TRUE);
 		for (Gateway obj : list) {
+			
 			String key = obj.getCode();
 			String value = obj.getApiJar();
+			
 			ZZSms zzsms = null;
 			try {
 				zzsms = (ZZSms) ClassHelper.load(value).newInstance();

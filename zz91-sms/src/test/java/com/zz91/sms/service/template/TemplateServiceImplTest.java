@@ -8,7 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.zz91.sms.domain.Template;
-import com.zz91.sms.service.template.TemplateService;
+import com.zz91.sms.service.TemplateService;
 import com.zz91.sms.test.BaseTestCase;
 
 public class TemplateServiceImplTest extends BaseTestCase {

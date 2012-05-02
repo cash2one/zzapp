@@ -1,4 +1,4 @@
-package com.zz91.sms.service.gateway;
+package com.zz91.sms.service;
 
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +8,7 @@ import com.zz91.sms.domain.Gateway;
 
 public interface GatewayService {
 	
-	final static Map<String,Object> CACHE_GATEWAY = new HashMap<String, Object>();
+	public final static Map<String,Object> CACHE_GATEWAY = new HashMap<String, Object>();
 	public static final int ENABLED_TRUE = 1;
 	public static final int ENABLED_FALSE = 0;
 	

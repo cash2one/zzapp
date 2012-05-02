@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zz91.sms.domain.Template;
 import com.zz91.sms.dto.ExtResult;
-import com.zz91.sms.service.template.TemplateService;
+import com.zz91.sms.service.TemplateService;
 /**
  * @author root
  * 

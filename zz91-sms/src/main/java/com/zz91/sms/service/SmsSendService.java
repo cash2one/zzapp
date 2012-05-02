@@ -1,4 +1,4 @@
-package com.zz91.sms.service.smslog;
+package com.zz91.sms.service;
 
 
 import com.zz91.sms.domain.SmsLog;

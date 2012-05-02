@@ -8,7 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.zz91.sms.domain.Gateway;
-import com.zz91.sms.service.gateway.GatewayService;
+import com.zz91.sms.service.GatewayService;
 import com.zz91.sms.test.BaseTestCase;
 
 public class GatewayServiceImplTest extends BaseTestCase {

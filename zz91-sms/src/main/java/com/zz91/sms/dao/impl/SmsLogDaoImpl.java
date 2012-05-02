@@ -1,4 +1,4 @@
-package com.zz91.sms.dao.smslog.impl;
+package com.zz91.sms.dao.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.zz91.sms.dao.smslog.BaseDao;
-import com.zz91.sms.dao.smslog.SmsLogDao;
+import com.zz91.sms.dao.BaseDao;
+import com.zz91.sms.dao.SmsLogDao;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.Pager;
 

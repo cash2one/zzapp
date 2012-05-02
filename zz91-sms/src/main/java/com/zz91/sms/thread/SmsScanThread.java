@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.zz91.sms.domain.SmsLog;
-import com.zz91.sms.service.smslog.SmsLogService;
+import com.zz91.sms.service.SmsLogService;
 
 @Service
 public class SmsScanThread extends Thread{
