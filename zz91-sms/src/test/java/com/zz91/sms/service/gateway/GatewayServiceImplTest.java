@@ -1,4 +1,4 @@
-package com.zz91.sms.service;
+package com.zz91.sms.service.gateway;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -12,7 +12,7 @@ public class ControlThread extends Thread {
 	public static SmsRunThreadPool mainPool; // 行为跟踪线程池
 
 	private int corePoolSize = 2; // 池中最小线程数量：2
-	private int maximumPoolSize = 10; // 同时存在的最大线程数量：10
+	private int maximumPoolSize = 5; // 同时存在的最大线程数量：10
 	private long keepAliveTime = 5; // 线程空闲保持时间：5秒
 	private int workQueueSize = 60; // 工作队列最大值:100
 

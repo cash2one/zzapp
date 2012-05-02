@@ -1,4 +1,4 @@
-package com.zz91.sms.serviceTest;
+package com.zz91.sms.service.smslog;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.annotation.Resource;
 
 import com.zz91.sms.domain.SmsLog;
+import com.zz91.sms.service.BaseServiceTestCase;
 import com.zz91.sms.service.smslog.SmsLogService;
 import com.zz91.util.datetime.DateUtil;
 

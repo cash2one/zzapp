@@ -15,10 +15,16 @@ import com.zz91.util.Assert;
 
 @Component("gatewayService")
 public class GatewayServiceImpl implements GatewayService {
+<<<<<<< HEAD
 
 	@Resource
 	private GatewayDao gatewayDao;
 	
+=======
+	@Resource
+	private GatewayDao gatewayDao;
+
+>>>>>>> origin/feature-sms
 	@Override
 	public Integer create(Gateway gateway) {
 		return gatewayDao.insert(gateway);
@@ -63,10 +69,10 @@ public class GatewayServiceImpl implements GatewayService {
 	@Override
 	public void initGateway() {
 		List<Gateway> list = query(ENABLED_TRUE);
-		for(Gateway obj:list){
+		for (Gateway obj : list) {
 			String key = obj.getCode();
 			String value = obj.getApiJar();
-			ZZSms zzsms=null;
+			ZZSms zzsms = null;
 			try {
 				zzsms = (ZZSms) ClassHelper.load(value).newInstance();
 			} catch (ClassNotFoundException e) {
@@ -76,7 +82,7 @@ public class GatewayServiceImpl implements GatewayService {
 			} catch (IllegalAccessException e) {
 				zzsms = null;
 			}
-			if(zzsms!=null){
+			if (zzsms != null) {
 				CACHE_GATEWAY.put(key, zzsms);
 			}
 		}
@@ -87,5 +93,5 @@ public class GatewayServiceImpl implements GatewayService {
 		ZZSms sms = (ZZSms) GatewayService.CACHE_GATEWAY.get(code);
 		return sms.balance();
 	}
-	
+
 }

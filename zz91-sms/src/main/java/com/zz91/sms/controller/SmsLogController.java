@@ -31,21 +31,10 @@ public class SmsLogController extends BaseController {
 			Map<String, Object> out) {
 		return null;
 	}
-	
-	@RequestMapping
-	public ModelAndView testGateway(HttpServletRequest request,Map<String, Object>out,SmsLog sms){
-		
-		Integer i=smsLogService.create(sms);
-		
-		ExtResult result=new ExtResult();
-		if(i!=null && i.intValue()>0){
-			result.setSuccess(true);
-		}
-		return printJson(result, out);
-	}
 
 	@RequestMapping
 	public ModelAndView querySms(HttpServletRequest request,
+<<<<<<< HEAD
 			Map<String, Object> out, String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
 			String content, Pager<SmsLog> page) {
@@ -65,6 +54,12 @@ public class SmsLogController extends BaseController {
 //		}
 //		
 
+=======
+			Map<String, Object> out, String from, String to,
+			Integer sendStatus, String receiver, String gatewayCode,
+			Integer priority, String content, Pager<SmsLog> page) {
+		page = smsLogService.pageLog(from, to, sendStatus, receiver,gatewayCode, priority, content, page);
+>>>>>>> origin/feature-sms
 		return printJson(page, out);
 	}
 
