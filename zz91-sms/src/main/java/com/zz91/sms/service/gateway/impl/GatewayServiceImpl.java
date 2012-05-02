@@ -15,16 +15,9 @@ import com.zz91.util.Assert;
 
 @Component("gatewayService")
 public class GatewayServiceImpl implements GatewayService {
-<<<<<<< HEAD
-
-	@Resource
-	private GatewayDao gatewayDao;
-	
-=======
 	@Resource
 	private GatewayDao gatewayDao;
 
->>>>>>> origin/feature-sms
 	@Override
 	public Integer create(Gateway gateway) {
 		return gatewayDao.insert(gateway);
