@@ -34,7 +34,7 @@ public class MailInfoController extends BaseController {
 			Map<String, Object> out) {
 		return null;
 	}
-
+	
 	@RequestMapping
 	public ModelAndView delete(HttpServletRequest request,
 			Map<String, Object> out, Integer id) {
@@ -94,13 +94,13 @@ public class MailInfoController extends BaseController {
 	}
 
 	@RequestMapping
-	public ModelAndView sendEmail(HttpServletRequest request,Map<String, Object> out,
-			String title,String code,String receiver,String content) {
+	public ModelAndView send(HttpServletRequest request,Map<String, Object> out,
+			String title,String sender,String receiver,String content) {
 
-		Boolean bo = mailInfoService.sendMail(title, code, receiver, content);
+		Boolean bo = mailInfoService.sendMail(title, sender, receiver,content);
 
 		ExtResult result = new ExtResult();
-		if (bo!=null && bo.booleanValue()) {
+		if (bo.booleanValue()) {
 			result.setSuccess(true);
 		}
 		return printJson(result, out);

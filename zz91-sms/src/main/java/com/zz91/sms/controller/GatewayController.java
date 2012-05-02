@@ -115,6 +115,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView balance(HttpServletRequest request,Map<String, Object>out,
 			String code){
+		
 		ZZSms sms = (ZZSms) gatewayService.CACHE_GATEWAY.get(code);
 		
 		ExtResult result=new ExtResult();
@@ -126,19 +127,4 @@ public class GatewayController extends BaseController {
 			result.setSuccess(true);
 		return printJson(result, out);
 	}
-	
-//	@SuppressWarnings("static-access")
-//	@RequestMapping
-//	public ModelAndView exam(HttpServletRequest request,Map<String, Object>out,String receiver,String content,String code){
-//		
-//		ZZSms sms=(ZZSms) gatewayService.CACHE_GATEWAY.get(code);
-//		
-//		ExtResult result=new ExtResult();
-//		if(sms!=null){
-//			sms.send(receiver, content);
-//		}else{
-//			return null;
-//		}
-//		return printJson(result, out);
-//	}
 }

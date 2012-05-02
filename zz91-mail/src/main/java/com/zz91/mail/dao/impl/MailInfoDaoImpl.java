@@ -35,7 +35,7 @@ public class MailInfoDaoImpl extends BaseDao implements MailInfoDao {
 
     @Override
     public Integer insert(MailInfoDomain mto) {
-        return (Integer) getSqlMapClientTemplate().insert(buildId(SQL_PREFIX, "insert"), mto);
+        return (Integer) getSqlMapClientTemplate().insert(buildId(SQL_PREFIX, "insertMail"), mto);
     }
 
     @Override
