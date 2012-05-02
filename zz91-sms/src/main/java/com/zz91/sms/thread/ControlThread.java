@@ -14,7 +14,7 @@ public class ControlThread extends Thread {
 	private int corePoolSize = 2; // 池中最小线程数量：2
 	private int maximumPoolSize = 5; // 同时存在的最大线程数量：10
 	private long keepAliveTime = 5; // 线程空闲保持时间：5秒
-	private int workQueueSize = 60; // 工作队列最大值:100
+	private int workQueueSize = 100; // 工作队列最大值:100
 
 	private static long numTask = 0; // 已处理数量
 	private static long totalTime = 0; // 总处理时间
@@ -35,14 +35,14 @@ public class ControlThread extends Thread {
 		ControlThread.mainPool = new SmsRunThreadPool(corePoolSize,
 				maximumPoolSize, keepAliveTime, TimeUnit.SECONDS,
 				new ArrayBlockingQueue<Runnable>(workQueueSize),
-				new ThreadPoolExecutor.CallerRunsPolicy());
+				new ThreadPoolExecutor.AbortPolicy());
 	}
 
 	public ControlThread() {
 		ControlThread.mainPool = new SmsRunThreadPool(corePoolSize,
 				maximumPoolSize, keepAliveTime, TimeUnit.SECONDS,
 				new ArrayBlockingQueue<Runnable>(workQueueSize),
-				new ThreadPoolExecutor.CallerRunsPolicy());
+				new ThreadPoolExecutor.AbortPolicy());
 	}
 
 	public static void excute(Runnable command) {
@@ -56,6 +56,14 @@ public class ControlThread extends Thread {
 			totalTime = mainPool.getTotalTime();
 			numQueue = mainPool.getQueue().size();
 			activeThread=mainPool.getActiveCount();
+			
+			System.out.println(
+					"总处理量: "+ numTask+
+					"  总处理时间: "+ totalTime+
+					"ms  队列中: "+ numQueue+
+//					"  缓存队列："+ SmsScanThread.smsqueue.size()+
+					"  活动线程数："+ activeThread+
+					" 最大线程数："+mainPool.getLargestPoolSize());
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

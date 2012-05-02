@@ -2,8 +2,6 @@ package com.zz91.sms.thread;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.Resource;
@@ -14,35 +12,50 @@ import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.service.smslog.SmsLogService;
 
 @Service
-public class SmsScanThread extends Thread{
-	
-	public final static Queue<SmsLog> smsqueue=new ArrayBlockingQueue<SmsLog>(50);
-	
-	public final static Map<String, Long> map=new ConcurrentHashMap<String, Long>();
-	
-	public static boolean runSwitch=true;
+public class SmsScanThread extends Thread {
+
+	public final static Map<String, Long> map = new ConcurrentHashMap<String, Long>();
+
+	public static boolean runSwitch = true;
 	@Resource
 	private SmsLogService smsLogService;
-	
-	public SmsScanThread(){
-		smsqueue.clear();
+
+	public SmsScanThread() {
+
 	}
+
 	@SuppressWarnings("static-access")
-	public void run(){
-		while(runSwitch){
-			if(smsqueue.size()<10){
-				List<SmsLog> smsList=smsLogService.queryLogs(10);
-				if(smsList !=null && smsList.size()>0){
-					for(SmsLog smsLog:smsList){
-						smsLogService.updateSuccess(smsLog.getId(), smsLogService.SEND_PROCESS);
-						smsqueue.add(smsLog);
+	public void run() {
+		while (runSwitch) {
+			int queueSize = ControlThread.mainPool.getQueue().size();
+			if (queueSize <= 50) {
+				List<SmsLog> smsList = smsLogService.queryLogs(50);
+				if (smsList != null && smsList.size() > 0) {
+					for (SmsLog smsLog : smsList) {
+
+						smsLogService.updateSuccess(smsLog.getId(),smsLogService.SEND_PROCESS);
+						ControlThread.excute(new SmsSendThread(smsLog,
+								smsLogService));
+
+//						if (queueSize < 50) {
+//						} else if (queueSize == 50
+//								&& ControlThread.mainPool.getActiveCount() < ControlThread.mainPool
+//										.getMaximumPoolSize()) {
+//							ControlThread.excute(new SmsSendThread(smsLog,
+//									smsLogService));
+//						} else {
+//							try {
+//								Thread.sleep(1000);
+//							} catch (InterruptedException e) {
+//							}
+//						}
 					}
 				}
 			}
-			try{
-				Thread.sleep(5000);
-			}catch(InterruptedException e){
-				
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+
 			}
 		}
 	}

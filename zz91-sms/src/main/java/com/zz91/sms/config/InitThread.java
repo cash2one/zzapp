@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.zz91.sms.service.smslog.SmsLogService;
 import com.zz91.sms.thread.ControlThread;
-import com.zz91.sms.thread.SmsDisTributeThread;
 import com.zz91.sms.thread.SmsScanThread;
+import com.zz91.sms.thread.SmsSendThread;
 
 @Component("initThread")
 public class InitThread extends HttpServlet{
@@ -25,7 +25,7 @@ public class InitThread extends HttpServlet{
 	@Resource
 	private ControlThread controlThread;
 	@Resource
-	private SmsDisTributeThread smsDisTributeThread;
+	private SmsSendThread smsSendThread;
 	
 	public void startup() throws ServletException{
 		if(! smsLogService.shutdownRecovery(SmsLogService.SEND_PROCESS, SmsLogService.SEND_READY)){
@@ -34,7 +34,7 @@ public class InitThread extends HttpServlet{
 		}
 		controlThread.start();
 		smsScanThread.start();
-		smsDisTributeThread.start();
+		smsSendThread.start();
 	}
 	public void destroy(){
 		
