@@ -50,9 +50,8 @@ public class SmsLogController extends BaseController {
 			String receiver, String gatewayCode, Integer priority,
 			String content, Pager<SmsLog> page) {
 
-<<<<<<< HEAD
 		page = smsLogService.pageLog(from, to, sendStatus, receiver, gatewayCode, priority, content, page);
-=======
+
 //		Date begin = null;
 //		Date end = null;
 //		try {
@@ -65,8 +64,6 @@ public class SmsLogController extends BaseController {
 //		} catch(ParseException e) {
 //		}
 //		
-		page = smsService.pageLog(from, to, sendStatus, receiver, gatewayCode, priority, content, page);
->>>>>>> origin/feature-sms
 
 		return printJson(page, out);
 	}

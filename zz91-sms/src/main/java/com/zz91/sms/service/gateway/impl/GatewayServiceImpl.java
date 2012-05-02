@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.dao.gateway.GatewayDao;
 import com.zz91.sms.domain.Gateway;
-import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.service.gateway.GatewayService;
 import com.zz91.sms.util.ClassHelper;
 import com.zz91.util.Assert;
 
 @Component("gatewayService")
 public class GatewayServiceImpl implements GatewayService {
-	private SmsLog smsLog;
+
 	@Resource
 	private GatewayDao gatewayDao;
+	
 	@Override
 	public Integer create(Gateway gateway) {
 		return gatewayDao.insert(gateway);
