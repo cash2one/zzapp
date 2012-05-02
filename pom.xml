@@ -17,7 +17,9 @@
 	</properties>
 
 	<modules>
-		<!-- <module>zz91-tags</module> <module>zz91-log</module> <module>zz91-mail</module> -->
+		<module>zz91-tags</module> 
+		<module>zz91-log</module>
+		<module>zz91-mail</module> 
 		<module>zz91-sms</module>
 		<module>zz91-sms-common</module>
 		<module>zz91-sms-gateway</module>

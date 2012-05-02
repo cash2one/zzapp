@@ -9,12 +9,7 @@ import org.springframework.stereotype.Component;
 import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.dao.GatewayDao;
 import com.zz91.sms.domain.Gateway;
-<<<<<<< HEAD:zz91-sms/src/main/java/com/zz91/sms/service/gateway/impl/GatewayServiceImpl.java
-import com.zz91.sms.service.gateway.GatewayService;
-=======
 import com.zz91.sms.service.GatewayService;
-import com.zz91.sms.util.ClassHelper;
->>>>>>> origin/feature-sms:zz91-sms/src/main/java/com/zz91/sms/service/impl/GatewayServiceImpl.java
 import com.zz91.util.Assert;
 import com.zz91.util.ClassHelper;
 
