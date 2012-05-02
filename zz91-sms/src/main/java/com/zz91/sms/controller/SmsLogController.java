@@ -31,7 +31,6 @@ public class SmsLogController extends BaseController {
 			Map<String, Object> out) {
 		return null;
 	}
-
 	@RequestMapping
 	public ModelAndView querySms(HttpServletRequest request,
 			Map<String, Object> out, String from, String to,

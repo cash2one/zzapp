@@ -17,7 +17,6 @@ import com.zz91.util.Assert;
 public class GatewayServiceImpl implements GatewayService {
 	@Resource
 	private GatewayDao gatewayDao;
-
 	@Override
 	public Integer create(Gateway gateway) {
 		return gatewayDao.insert(gateway);

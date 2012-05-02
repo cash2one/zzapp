@@ -204,39 +204,6 @@ com.zz91.zzmail.mailinfo.Grid = Ext.extend(Ext.grid.GridPanel,{
 			com.zz91.zzmail.mailinfo.sendMail();
 	}
 	},"->",
-//	{
-//		xtype:"combo",
-//		itemCls:"required",
-//		name:"categoryCombo",
-//		mode:"local",
-//		emptyText:"选择发送状态",
-//		triggerAction:"all",
-//		forceSelection: true,
-//		displayField:'name',
-//		valueField:'value',
-//		autoSelect:true,
-//		store:new Ext.data.JsonStore({
-//			fields : ['name', 'value'],
-//			data   : [
-//				{name:'未发送',value:'0'},
-//				{name:'发送成功',value:'1'},
-//				{name:'发送失败',value:'2'},
-//				{name:'发送中',value:'3'}
-//			]
-//		}),
-//		listeners:{
-//			"blur":function(field){
-//				var _store=Ext.getCmp(MAILINFO.MAILINFO_GRID).getStore();
-//				
-//				if(field.getValue()!=""){
-//					_store.baseParams["status"]= field.getValue();
-//				}else{
-//					_store.baseParams["status"]=null;
-//				}
-//				_store.reload({"params":{start:0,"limit":Context.PAGE_SIZE}});
-//			}
-//		}
-//	},
 	{
 		xtype : "datefield",
 		format:"Y-m-d",
@@ -300,6 +267,11 @@ com.zz91.zzmail.mailinfo.Form = Ext.extend(Ext.form.FormPanel,{
 				name : "title",
 				allowBlank : false
 			},{
+				fieldLabel : "接收人",
+				itemCls :"required",
+				name:"receiver",
+				allowBlank : false
+			},{
 				xtype:'htmleditor',
 				anchor:"99%",
 				height:380,
@@ -309,10 +281,10 @@ com.zz91.zzmail.mailinfo.Form = Ext.extend(Ext.form.FormPanel,{
 				itemCls:"required"
 			}],
 			buttons:[{
-				text:"重发",
+				text:"发送",
 				scope:this,
 				handler:function(btn){
-					var url=this.sendUrl;
+					var url=this.resendUrl;
 					if (this.getForm().isValid()) {
 						this.getForm().submit({
 							url : url,
@@ -322,7 +294,6 @@ com.zz91.zzmail.mailinfo.Form = Ext.extend(Ext.form.FormPanel,{
 								com.zz91.utils.Msg("","邮件正在发送");
 								Ext.getCmp(MAILINFO.MAILINFO_GRID).getStore().reload();
 								Ext.getCmp(MAILINFO.MAILINFO_WIN).close();
-								var cp = _action.result.data.split("|");
 							},
 							failure : function(_form,_action){
 								Ext.MessageBox.show({
@@ -355,22 +326,17 @@ com.zz91.zzmail.mailinfo.Form = Ext.extend(Ext.form.FormPanel,{
 	},
 	loadOneRecord:function(id){
 		var reader=[
-			{name:"id",mapping:"id"},
-			{name:"template",mapping:"templateId"},
-			{name:"title",mapping:"emailTitle"},
-			{name:"gmtPost",mapping:"gmtPost"},
-			{name:"priority",mapping:"priority"},
-			{name:"receiver",mapping:"receiver"},
-			{name:"sender",mapping:"sender"},
-			{name:"content",mapping:"content"},
-			{name:"code",mapping:"accountCode"}
+			{name:"id",mapping:"id"},			
+			{name:"title",mapping:"emailTitle"},			
+			{name:"receiver",mapping:"receiver"},	
+			{name:"content",mapping:"content"}
 			];
 		
 		var form = this;
 		var _store = new Ext.data.JsonStore({
+			url : Context.ROOT+ "/mailinfo/queryOne.htm",
 			root : "records",
 			fields : reader,
-			url : Context.ROOT+ "/mailinfo/queryOne.htm",
 			baseParams:{"id":id},
 			autoLoad : true,
 			listeners : {
@@ -388,10 +354,12 @@ com.zz91.zzmail.mailinfo.Form = Ext.extend(Ext.form.FormPanel,{
 com.zz91.zzmail.mailinfo.reMail=function(id){
 	var form = new com.zz91.zzmail.mailinfo.Form({
 		id:MAILINFO.MAILINFO_FORM,
-		sendUrl:Context.ROOT +  "/mailinfo/resend.htm",
+		resendUrl:Context.ROOT +  "/mailinfo/resend.htm",
 		region:"center"
 	});
+	
 	form.loadOneRecord(id);
+	
 	var win = new Ext.Window({
 			id:MAILINFO.MAILINFO_WIN,
 			title:"邮件信息",
@@ -402,7 +370,7 @@ com.zz91.zzmail.mailinfo.reMail=function(id){
 	});
 	win.show();
 }
-// 群发表单
+//发送表单
 com.zz91.zzmail.mailinfo.Form1 = Ext.extend(Ext.form.FormPanel,{
 	constructor:function(config){
 		config = config||{};
@@ -426,37 +394,36 @@ com.zz91.zzmail.mailinfo.Form1 = Ext.extend(Ext.form.FormPanel,{
 				name : "id",
 				dataIndex : "id"
 			},{
-				fieldLabel : "邮件代号",
-				itemCls :"required",
-				name:"code",
-				allowBlank : false
-			},{
-				fieldLabel : "收件人",
-				itemCls :"required",
-				name:"receiver",
-				allowBlank : false
-			},{
 				fieldLabel : "邮件标题",
 				itemCls :"required",
-				name:"title",
+				name : "title",
+				allowBlank : false
+			},{
+				fieldLabel : "发送地址",
+				itemCls :"required",
+				name : "sender",
+				allowBlank : false
+			},{
+				fieldLabel : "接收人",
+				itemCls :"required",
+				name:"receiver",
 				allowBlank : false
 			},{
 				xtype:'htmleditor',
 				anchor:"99%",
 				height:380,
-				name:"content",
 				allowBlank : false,
 				fieldLabel:"邮件内容",
+				name:"content",
 				itemCls:"required"
 			}],
 			buttons:[{
-				text:"立即发送",
+				text:"确定",
 				scope:this,
 				handler:function(btn){
-					var url=this.sendUrl;
 					if (this.getForm().isValid()) {
 						this.getForm().submit({
-							url : url,
+							url : Context.ROOT +  "/mailinfo/sendEmail.htm",
 							method : "post",
 							type:"json",
 							success : function(_form,_action){
@@ -494,11 +461,11 @@ com.zz91.zzmail.mailinfo.Form1 = Ext.extend(Ext.form.FormPanel,{
 		com.zz91.zzmail.mailinfo.Form1.superclass.constructor.call(this,c);
 	},
 });
-
+	
 com.zz91.zzmail.mailinfo.sendMail=function(){
-	var form1 = new com.zz91.zzmail.mailinfo.Form1({
+	var form = new com.zz91.zzmail.mailinfo.Form1({
 		id:MAILINFO.MAILINFO_FORM,
-		sendUrl:Context.ROOT +  "/mailinfo/sendEmail.htm",
+		sendUrl:Context.ROOT +  "/mailinfo/send.htm",
 		region:"center"
 	});
 	var win = new Ext.Window({
@@ -507,7 +474,7 @@ com.zz91.zzmail.mailinfo.sendMail=function(){
 			width:700,
 			autoHeight:true,
 			modal:true,
-			items:[form1]
+			items:[form]
 	});
 	win.show();
 }

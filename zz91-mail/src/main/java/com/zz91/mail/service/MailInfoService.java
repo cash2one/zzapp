@@ -54,5 +54,5 @@ public interface MailInfoService {
 	
 	public PageDto<MailInfoDomain> pageMail(Date from,Date to,Integer priority,PageDto<MailInfoDomain> page);
 	
-	public Boolean sendMail(String title,String code,String receiver,String content);
+	public Boolean sendMail(String title,String receiver,String content,String sender);
 }

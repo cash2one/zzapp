@@ -119,6 +119,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView balance(HttpServletRequest request,Map<String, Object>out,
 			String code){
+		
 		ZZSms sms = (ZZSms) gatewayService.CACHE_GATEWAY.get(code);
 		
 		ExtResult result=new ExtResult();
@@ -130,6 +131,8 @@ public class GatewayController extends BaseController {
 			result.setSuccess(true);
 		return printJson(result, out);
 	}
+
+
 	
 	@RequestMapping
 	public ModelAndView testGateway(HttpServletRequest request,
@@ -158,4 +161,5 @@ public class GatewayController extends BaseController {
 //		}
 //		return printJson(result, out);
 //	}
+
 }
