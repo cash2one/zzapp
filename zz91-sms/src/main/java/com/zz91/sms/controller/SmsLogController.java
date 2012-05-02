@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.ExtResult;
 import com.zz91.sms.dto.Pager;
-import com.zz91.sms.service.smslog.SmsLogService;
+import com.zz91.sms.service.SmsLogService;
 
 /**
  * @author root
@@ -31,13 +31,12 @@ public class SmsLogController extends BaseController {
 			Map<String, Object> out) {
 		return null;
 	}
-
 	@RequestMapping
 	public ModelAndView querySms(HttpServletRequest request,
 			Map<String, Object> out, String from, String to,
 			Integer sendStatus, String receiver, String gatewayCode,
-			Integer priority, String content, Pager<SmsLog> page) {
-		page = smsLogService.pageLog(from, to, sendStatus, receiver,gatewayCode, priority, content, page);
+			Integer priority, String content, String templateCode, Pager<SmsLog> page) {
+		page = smsLogService.pageLog(from, to, sendStatus, receiver,gatewayCode, priority, content, templateCode, page);
 		return printJson(page, out);
 	}
 

@@ -17,8 +17,8 @@ import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.Gateway;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.ExtResult;
-import com.zz91.sms.service.gateway.GatewayService;
-import com.zz91.sms.service.smslog.SmsLogService;
+import com.zz91.sms.service.GatewayService;
+import com.zz91.sms.service.SmsLogService;
 
 /**
  * @author root
@@ -92,9 +92,9 @@ public class GatewayController extends BaseController {
 	}
 	
 	@RequestMapping
-	public ModelAndView enabledGate(HttpServletRequest request,Map<String, Object>out,Integer id){
+	public ModelAndView enabledGate(HttpServletRequest request,Map<String, Object>out,Integer id, String code){
 		
-		gatewayService.enabled(id);
+		gatewayService.enabled(id, code);
 		
 		ExtResult result=new ExtResult();
 		if(id!=null && id.intValue()>0){
@@ -104,9 +104,9 @@ public class GatewayController extends BaseController {
 	}
 	
 	@RequestMapping
-	public ModelAndView disenabledGate(HttpServletRequest request,Map<String, Object>out,Integer id){
+	public ModelAndView disenabledGate(HttpServletRequest request,Map<String, Object>out,Integer id, String code){
 		
-		gatewayService.disabled(id);
+		gatewayService.disabled(id, code);
 		
 		ExtResult result=new ExtResult();
 		if(id!=null && id.intValue()>0){
@@ -119,6 +119,7 @@ public class GatewayController extends BaseController {
 	@RequestMapping
 	public ModelAndView balance(HttpServletRequest request,Map<String, Object>out,
 			String code){
+		
 		ZZSms sms = (ZZSms) gatewayService.CACHE_GATEWAY.get(code);
 		
 		ExtResult result=new ExtResult();
@@ -130,6 +131,8 @@ public class GatewayController extends BaseController {
 			result.setSuccess(true);
 		return printJson(result, out);
 	}
+
+
 	
 	@RequestMapping
 	public ModelAndView testGateway(HttpServletRequest request,
@@ -158,4 +161,5 @@ public class GatewayController extends BaseController {
 //		}
 //		return printJson(result, out);
 //	}
+
 }

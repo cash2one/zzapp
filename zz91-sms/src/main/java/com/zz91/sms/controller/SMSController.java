@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.ExtResult;
-import com.zz91.sms.service.smslog.SmsSendService;
+import com.zz91.sms.service.SmsSendService;
 import com.zz91.util.datetime.DateUtil;
 import com.zz91.util.lang.StringUtils;
 
@@ -30,7 +30,8 @@ public class SMSController extends BaseController{
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping
-	public ModelAndView send(HttpServletRequest request,Map<String, Object>out,String gmtPostStr,SmsLog sms,String dataMap) throws ParseException{
+	public ModelAndView send(HttpServletRequest request,Map<String, Object>out,
+			String gmtPostStr,SmsLog sms,String dataMap)throws ParseException{
 		Integer i=0;
 		if(StringUtils.isNotEmpty(gmtPostStr)){
 			try {

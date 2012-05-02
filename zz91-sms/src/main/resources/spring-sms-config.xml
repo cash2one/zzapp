@@ -8,7 +8,8 @@
 	http://www.springframework.org/schema/context/spring-context-2.5.xsd
 	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
 	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd"
-	default-autowire="byName">
+	default-autowire="byName" >
+	
 	<context:annotation-config />
 	<context:component-scan base-package="com.zz91.sms" />
 
@@ -113,11 +114,13 @@
 	<bean id="initSystem" class="com.zz91.sms.config.InitSystem"
 		init-method="startup" lazy-init="false">
 	</bean>
+	
 	<!-- Thread Init -->
 	<bean id="initThread" class="com.zz91.sms.config.InitThread"
 		init-method="startup" lazy-init="false">
 	</bean>
 	
+<<<<<<< HEAD
 	<!-- date format to 'yyyy-MM-dd HH:mm:ss' -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="webBindingInitializer">
@@ -125,4 +128,6 @@
 		</property>
 	</bean>
 	
+=======
+>>>>>>> origin/feature-sms
 </beans>

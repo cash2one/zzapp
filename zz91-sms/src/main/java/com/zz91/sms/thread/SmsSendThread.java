@@ -1,21 +1,22 @@
 package com.zz91.sms.thread;
 
+<<<<<<< HEAD
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+=======
+>>>>>>> origin/feature-sms
 import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.SmsLog;
-import com.zz91.sms.service.gateway.GatewayService;
-import com.zz91.sms.service.smslog.SmsLogService;
+import com.zz91.sms.service.GatewayService;
+import com.zz91.sms.service.SmsLogService;
 
 @Service
 public class SmsSendThread extends Thread {
 
 	private SmsLog smsLog;
 	private SmsLogService smsLogService;
-	@Resource
-	private GatewayService gatewayService;
 
 	public SmsSendThread() {
 
@@ -26,9 +27,9 @@ public class SmsSendThread extends Thread {
 		this.smsLogService = smsLogService;
 	}
 
-	@SuppressWarnings("static-access")
 	@Override
 	public void run() {
+<<<<<<< HEAD
 		ZZSms sms = (ZZSms) gatewayService.CACHE_GATEWAY.get(smsLog.getGatewayCode());
 		Integer sendStatus = smsLogService.SEND_PROCESS;
 		do{
@@ -36,6 +37,11 @@ public class SmsSendThread extends Thread {
 				break;
 			}
 			
+=======
+		ZZSms sms = (ZZSms) GatewayService.CACHE_GATEWAY.get(smsLog.getGatewayCode());
+		Integer sendStatus = SmsLogService.SEND_PROCESS;
+		if (sms != null) {
+>>>>>>> origin/feature-sms
 //			sendStatus = sms.send(smsLog.getReceiver(), smsLog.getContent());
 				try {
 					Thread.sleep(1000);

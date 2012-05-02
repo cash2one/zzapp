@@ -12,6 +12,7 @@
 	
 	<resultMap id="querySmsLogResult" class="smsLog">
 		<result property="id" column="id"/>
+		<result property="templateCode" column="template_code"/>
 		<result property="receiver" column="receiver"/>
 		<result property="priority" column="priority"/>
 		<result property="gmtSend" column="gmt_send"/>
@@ -20,7 +21,7 @@
 		<result property="content" column="content"/>
 	</resultMap>
 	<sql id="querySmsLogColumn">
-		id,receiver,priority,gmt_send,gateway_code,send_status,content
+		id,template_code,receiver,priority,gmt_send,gateway_code,send_status,content
 	</sql>
 	<sql id="querySmsLogWhere">
 		<dynamic prepend="where">
@@ -44,6 +45,9 @@
 			</isNotEmpty>
 			<isNotEmpty property="content" prepend="and">
 				content like concat('%',#content#,'%')
+			</isNotEmpty>
+			<isNotEmpty property="templateCode" prepend="and">
+				template_code = #templateCode#
 			</isNotEmpty>
 		</dynamic>
 	</sql>

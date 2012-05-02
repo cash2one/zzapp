@@ -1,7 +1,7 @@
-package com.zz91.sms.dao.smslog.impl;
+package com.zz91.sms.dao.impl;
 
-import com.zz91.sms.dao.smslog.BaseDao;
-import com.zz91.sms.dao.smslog.SmsSendDao;
+import com.zz91.sms.dao.BaseDao;
+import com.zz91.sms.dao.SmsSendDao;
 
 public class SmsSendDaoImpl extends BaseDao implements SmsSendDao{
 	

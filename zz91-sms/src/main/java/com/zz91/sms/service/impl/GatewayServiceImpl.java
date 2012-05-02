@@ -1,4 +1,4 @@
-package com.zz91.sms.service.gateway.impl;
+package com.zz91.sms.service.impl;
 
 import java.util.List;
 
@@ -7,9 +7,14 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Component;
 
 import com.zz91.sms.common.ZZSms;
-import com.zz91.sms.dao.gateway.GatewayDao;
+import com.zz91.sms.dao.GatewayDao;
 import com.zz91.sms.domain.Gateway;
+<<<<<<< HEAD:zz91-sms/src/main/java/com/zz91/sms/service/gateway/impl/GatewayServiceImpl.java
 import com.zz91.sms.service.gateway.GatewayService;
+=======
+import com.zz91.sms.service.GatewayService;
+import com.zz91.sms.util.ClassHelper;
+>>>>>>> origin/feature-sms:zz91-sms/src/main/java/com/zz91/sms/service/impl/GatewayServiceImpl.java
 import com.zz91.util.Assert;
 import com.zz91.util.ClassHelper;
 
@@ -17,19 +22,48 @@ import com.zz91.util.ClassHelper;
 public class GatewayServiceImpl implements GatewayService {
 	@Resource
 	private GatewayDao gatewayDao;
-
 	@Override
 	public Integer create(Gateway gateway) {
+		if(gateway.getEnabled() == 1) {
+			ZZSms zzsms = null;
+			try {
+				zzsms = (ZZSms) ClassHelper.load(gateway.getApiJar()).newInstance();
+			} catch (ClassNotFoundException e) {
+				zzsms = null;
+			} catch (InstantiationException e) {
+				zzsms = null;
+			} catch (IllegalAccessException e) {
+				zzsms = null;
+			}
+			GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
+		}
 		return gatewayDao.insert(gateway);
 	}
 
 	@Override
-	public void disabled(Integer id) {
+	public void disabled(Integer id, String code) {
+		if(GatewayService.CACHE_GATEWAY.get(code) != null) {
+			GatewayService.CACHE_GATEWAY.remove(code);
+		}
 		gatewayDao.updateEnabled(id, ENABLED_FALSE);
 	}
 
 	@Override
-	public void enabled(Integer id) {
+	public void enabled(Integer id, String code) {
+		if(GatewayService.CACHE_GATEWAY.get(code) == null ) {
+			Gateway gateway = queryOne(id);
+			ZZSms zzsms = null;
+			try {
+				zzsms = (ZZSms) ClassHelper.load(gateway.getApiJar()).newInstance();
+			} catch (ClassNotFoundException e) {
+				zzsms = null;
+			} catch (InstantiationException e) {
+				zzsms = null;
+			} catch (IllegalAccessException e) {
+				zzsms = null;
+			}
+			GatewayService.CACHE_GATEWAY.put(code, zzsms);
+		}
 		gatewayDao.updateEnabled(id, ENABLED_TRUE);
 	}
 
@@ -63,8 +97,10 @@ public class GatewayServiceImpl implements GatewayService {
 	public void initGateway() {
 		List<Gateway> list = query(ENABLED_TRUE);
 		for (Gateway obj : list) {
+			
 			String key = obj.getCode();
 			String value = obj.getApiJar();
+			
 			ZZSms zzsms = null;
 			try {
 				zzsms = (ZZSms) ClassHelper.load(value).newInstance();

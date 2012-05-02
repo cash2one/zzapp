@@ -125,22 +125,20 @@ public class MailInfoServiceImpl implements MailInfoService {
 	}
 
 	@Override
-	public Boolean sendMail(String title,String code, String receiver, String content) {
+	public Boolean sendMail(String title, String sender, String receiver,String content) {
 		MailInfoDomain mailInfoDomain=new MailInfoDomain();
+		String code = mailInfoDomain.getAccountCode();
 		AccountDomain accountDomain = accountService
 		.randomAccountFromCache(code);
 		if (accountDomain == null) {
 			return null;
 		}
-		
 		mailInfoDomain.setTemplateId("");
 		mailInfoDomain.setEmailTitle(title);
 		mailInfoDomain.setReceiver(receiver);
 		mailInfoDomain.setContent(content);
 		mailInfoDomain.setSendStatus(0);
-		mailInfoDomain.setSender(accountDomain.getEmail());
-		mailInfoDomain.setSendHost(accountDomain.getHost());
-		mailInfoDomain.setSendPassword(accountDomain.getPassword());
+		mailInfoDomain.setSender(sender);
 		mailInfoDomain.setPriority(0);
 		mailInfoDomain.setGmtPost(new Date());
 		

@@ -84,7 +84,7 @@ public class MailInfoServiceTest extends BaseServiceTestCase {
 			Integer id=insert(getMail("emailtitle", new Date()));
 			MailInfoDomain resenDomain=getMail("emailtitle", new Date());
 			resenDomain.setId(id);
-			Boolean a=mailInfoService.sendMail("title", "code", "receiver", "content");
+			Boolean a=mailInfoService.sendMail("title", "receiver", "content","sender");
 			assertTrue(a.booleanValue());
 			
 			MailInfoDomain infoDomain=queryOne(id);

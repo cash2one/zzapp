@@ -1,4 +1,4 @@
-package com.zz91.sms.dao.template;
+package com.zz91.sms.dao;
 
 import java.util.List;
 

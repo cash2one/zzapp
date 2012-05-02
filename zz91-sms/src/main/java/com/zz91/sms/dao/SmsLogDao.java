@@ -1,4 +1,4 @@
-package com.zz91.sms.dao.smslog;
+package com.zz91.sms.dao;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ public interface SmsLogDao {
 
 	public List<SmsLog> queryLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
-			String content, Pager<SmsLog> page);
+			String content, String templateCode, Pager<SmsLog> page);
 
 	public Integer queryLogCount(String from, String to, String receiver,
-			String gatewayCode, Integer priority, String content,
+			String gatewayCode, Integer priority, String content, String templateCode,
 			Integer sendStatus);
 
 	public Integer insert(SmsLog sms);

@@ -8,7 +8,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import com.zz91.sms.domain.Gateway;
-import com.zz91.sms.service.gateway.GatewayService;
+import com.zz91.sms.service.GatewayService;
 import com.zz91.sms.test.BaseTestCase;
 
 public class GatewayServiceImplTest extends BaseTestCase {
@@ -94,7 +94,7 @@ public class GatewayServiceImplTest extends BaseTestCase {
 	public void test_update_enabled() {
 		clean();
 		Integer id = insert("测试启用状态更新", 0);
-		gatewayService.enabled(id);
+		gatewayService.enabled(id,"");
 		
 		Gateway g = queryOne(id);
 		assertNotNull(g);
@@ -104,7 +104,7 @@ public class GatewayServiceImplTest extends BaseTestCase {
 	public void test_update_disabled() {
 		clean();
 		Integer id = insert("测试启用状态更新", 1);
-		gatewayService.disabled(id);
+		gatewayService.disabled(id,"");
 		
 		Gateway g = queryOne(id);
 		assertNotNull(g);

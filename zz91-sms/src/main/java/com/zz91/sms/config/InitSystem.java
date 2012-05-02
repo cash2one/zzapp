@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.zz91.sms.service.gateway.GatewayService;
+import com.zz91.sms.service.GatewayService;
 
 /**
  * @author kongsj
@@ -18,7 +18,6 @@ import com.zz91.sms.service.gateway.GatewayService;
  */
 @Service
 public class InitSystem {
-	private static final long serialVersionUID = 1315545405117443146L;
 	
 	@Resource
 	private GatewayService gatewayService;

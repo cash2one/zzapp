@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.service.BaseServiceTestCase;
-import com.zz91.sms.service.smslog.SmsLogService;
+import com.zz91.sms.service.SmsLogService;
 import com.zz91.util.datetime.DateUtil;
 
 public class SmsLogServiceTest extends BaseServiceTestCase {

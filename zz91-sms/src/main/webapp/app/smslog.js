@@ -5,6 +5,7 @@ var SMSLOG=new function(){
 }
 com.zz91.sms.smslog.Field=[
 	{name:"id",mapping:"id"},
+	{name:"templateCode",mappling:"templateCode"},
 	{name:"content",mapping:"content"},
 	{name:"receiver",mapping:"receiver"},
 	{name:"sendStatus",mapping:"sendStatus"},
@@ -281,6 +282,26 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 								B["content"]= val;
 							}else{
 								B["content"]=null;
+							}
+							_store.baseParams = B;
+							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
+						}
+					}
+				},"->",{
+					xtype:"textfield",
+					id:"_templateCode",
+					width:100,
+					emptyText:"请输入模板code",
+					listeners:{
+						//失去焦点
+						"blur":function(c){
+							var val = Ext.get("_templateCode").dom.value;
+							var B	= _store.baseParams;
+							B	= B ||{};
+							if(val!=""){
+								B["templateCode"]= val;
+							}else{
+								B["templateCode"]=null;
 							}
 							_store.baseParams = B;
 							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});

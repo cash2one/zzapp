@@ -1,4 +1,4 @@
-package com.zz91.sms.service.template.impl;
+package com.zz91.sms.service.impl;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import com.zz91.sms.dao.template.TemplateDao;
+import com.zz91.sms.dao.TemplateDao;
 import com.zz91.sms.domain.Template;
-import com.zz91.sms.service.template.TemplateService;
+import com.zz91.sms.service.TemplateService;
 import com.zz91.util.Assert;
 
 @Component("templateService")

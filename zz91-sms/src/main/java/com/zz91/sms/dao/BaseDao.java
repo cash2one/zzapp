@@ -1,4 +1,4 @@
-package com.zz91.sms.dao.smslog;
+package com.zz91.sms.dao;
 
 
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;

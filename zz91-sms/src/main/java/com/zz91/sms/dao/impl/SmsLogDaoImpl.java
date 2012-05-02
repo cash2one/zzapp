@@ -1,4 +1,4 @@
-package com.zz91.sms.dao.smslog.impl;
+package com.zz91.sms.dao.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.zz91.sms.dao.smslog.BaseDao;
-import com.zz91.sms.dao.smslog.SmsLogDao;
+import com.zz91.sms.dao.BaseDao;
+import com.zz91.sms.dao.SmsLogDao;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.Pager;
 
@@ -26,7 +26,7 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 	@Override
 	public List<SmsLog> queryLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
-			String content, Pager<SmsLog> page) {
+			String content, String templateCode, Pager<SmsLog> page) {
 		Map<String, Object> list = new HashMap<String, Object>();
 		list.put("from", from);
 		list.put("to", to);
@@ -35,6 +35,7 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 		list.put("gatewayCode", gatewayCode);
 		list.put("priority", priority);
 		list.put("content", content);
+		list.put("templateCode", templateCode);
 		list.put("page", page);
 		return getSqlMapClientTemplate().queryForList(
 				buildId(SQL_PREFIX, "querySmsLog"), list);
@@ -42,7 +43,7 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 
 	@Override
 	public Integer queryLogCount(String from, String to, String receiver, String gatewayCode, Integer priority,
-			String content, Integer sendStatus) {
+			String content, String templateCode, Integer sendStatus) {
 		Map<String, Object> list = new HashMap<String, Object>();
 		list.put("from", from);
 		list.put("to", to);
@@ -50,6 +51,7 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 		list.put("gatewayCode", gatewayCode);
 		list.put("priority", priority);
 		list.put("content", content);
+		list.put("templateCode", templateCode);
 		list.put("sendStatus", sendStatus);
 		return (Integer) getSqlMapClientTemplate().queryForObject(
 				buildId(SQL_PREFIX, "querySmsLogCount"), list);

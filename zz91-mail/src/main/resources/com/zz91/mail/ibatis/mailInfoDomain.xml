@@ -40,13 +40,13 @@
 		from mail_info
 		where id = #value#
 	</select>
-	<insert id="insert" parameterClass="mailInfoDomain">
+	<insert id="insertMail" parameterClass="mailInfoDomain">
 		insert into mail_info
 		(send_email,receiver_email,email_title,email_content,send_status
 		,gmt_created,gmt_modified,gmt_post,template_id,send_name,send_password,send_host,priority,nickname)
 		value(#sender#,#receiver#,#emailTitle#,#content#,#sendStatus#,now(),now(),#gmtPost#
 		,#templateId#,#sendName#,#sendPassword#,#sendHost#,#priority#,#nickname#)
-		<selectKey resultClass="java.lang.Integer" keyProperty="id">
+		<selectKey resultClass="java.lang.Integer" keyProperty="id" >
 			SELECT LAST_INSERT_ID()
 		</selectKey>
 	</insert>
@@ -119,10 +119,11 @@
 		<result property="id" column="id"/>
 		<result property="content" column="email_content" />
 		<result property="emailTitle" column="email_title"/>
+		<result property="receiver" column="receiver_email"/>
 	</resultMap>	
 	<select id="queryOne" parameterClass="java.lang.Integer" resultMap="queryOneResult">
 		select
-	  		id,email_content,email_title
+	  		id,email_content,email_title,receiver_email
 		from mail_info 
 		where id=#id#																													
 		limit 1 

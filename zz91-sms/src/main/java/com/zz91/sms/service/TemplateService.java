@@ -1,4 +1,4 @@
-package com.zz91.sms.service.template;
+package com.zz91.sms.service;
 
 import java.util.List;
 

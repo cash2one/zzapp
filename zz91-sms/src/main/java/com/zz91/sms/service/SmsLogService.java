@@ -1,4 +1,4 @@
-package com.zz91.sms.service.smslog;
+package com.zz91.sms.service;
 
 import java.util.List;
 
@@ -11,12 +11,11 @@ public interface SmsLogService {
 	public final static int SEND_PROCESS = 1;
 	public final static int SEND_SUCCESS = 2;
 	public final static int SEND_FAILURE = 3;
-	
 	public Integer create(SmsLog sms);
 
 	public Pager<SmsLog> pageLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
-			String content, Pager<SmsLog> page);
+			String content, String templateCode, Pager<SmsLog> page);
 
 	public void resend(Integer id);
 
