@@ -35,8 +35,8 @@ public class SmsLogController extends BaseController {
 	public ModelAndView querySms(HttpServletRequest request,
 			Map<String, Object> out, String from, String to,
 			Integer sendStatus, String receiver, String gatewayCode,
-			Integer priority, String content, Pager<SmsLog> page) {
-		page = smsLogService.pageLog(from, to, sendStatus, receiver,gatewayCode, priority, content, page);
+			Integer priority, String content, String templateCode, Pager<SmsLog> page) {
+		page = smsLogService.pageLog(from, to, sendStatus, receiver,gatewayCode, priority, content, templateCode, page);
 		return printJson(page, out);
 	}
 

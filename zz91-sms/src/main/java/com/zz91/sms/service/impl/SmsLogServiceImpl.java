@@ -22,7 +22,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 	@Override
 	public Pager<SmsLog> pageLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
-			String content, Pager<SmsLog> page) {
+			String content, String templateCode, Pager<SmsLog> page) {
 		if (page.getSort() == null) {
 			page.setSort("gmt_send");
 		}
@@ -30,8 +30,8 @@ public class SmsLogServiceImpl implements SmsLogService {
 			page.setDir("desc");
 		}
 
-		page.setRecords(smsLogDao.queryLog(from, to, sendStatus, receiver, gatewayCode, priority, content, page));
-		page.setTotals(smsLogDao.queryLogCount(from, to, receiver, gatewayCode, priority, content, sendStatus));
+		page.setRecords(smsLogDao.queryLog(from, to, sendStatus, receiver, gatewayCode, priority, content, templateCode, page));
+		page.setTotals(smsLogDao.queryLogCount(from, to, receiver, gatewayCode, priority, content,templateCode, sendStatus));
 		return page;
 	}
 

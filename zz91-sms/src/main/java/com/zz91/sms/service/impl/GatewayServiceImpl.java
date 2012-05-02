@@ -19,16 +19,46 @@ public class GatewayServiceImpl implements GatewayService {
 	private GatewayDao gatewayDao;
 	@Override
 	public Integer create(Gateway gateway) {
+		if(gateway.getEnabled() == 1) {
+			ZZSms zzsms = null;
+			try {
+				zzsms = (ZZSms) ClassHelper.load(gateway.getApiJar()).newInstance();
+			} catch (ClassNotFoundException e) {
+				zzsms = null;
+			} catch (InstantiationException e) {
+				zzsms = null;
+			} catch (IllegalAccessException e) {
+				zzsms = null;
+			}
+			GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
+		}
 		return gatewayDao.insert(gateway);
 	}
 
 	@Override
-	public void disabled(Integer id) {
+	public void disabled(Integer id, String code) {
+		if(GatewayService.CACHE_GATEWAY.get(code) != null) {
+			GatewayService.CACHE_GATEWAY.remove(code);
+		}
 		gatewayDao.updateEnabled(id, ENABLED_FALSE);
 	}
 
 	@Override
-	public void enabled(Integer id) {
+	public void enabled(Integer id, String code) {
+		if(GatewayService.CACHE_GATEWAY.get(code) == null ) {
+			Gateway gateway = queryOne(id);
+			ZZSms zzsms = null;
+			try {
+				zzsms = (ZZSms) ClassHelper.load(gateway.getApiJar()).newInstance();
+			} catch (ClassNotFoundException e) {
+				zzsms = null;
+			} catch (InstantiationException e) {
+				zzsms = null;
+			} catch (IllegalAccessException e) {
+				zzsms = null;
+			}
+			GatewayService.CACHE_GATEWAY.put(code, zzsms);
+		}
 		gatewayDao.updateEnabled(id, ENABLED_TRUE);
 	}
 

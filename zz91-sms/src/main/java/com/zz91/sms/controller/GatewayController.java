@@ -92,9 +92,9 @@ public class GatewayController extends BaseController {
 	}
 	
 	@RequestMapping
-	public ModelAndView enabledGate(HttpServletRequest request,Map<String, Object>out,Integer id){
+	public ModelAndView enabledGate(HttpServletRequest request,Map<String, Object>out,Integer id, String code){
 		
-		gatewayService.enabled(id);
+		gatewayService.enabled(id, code);
 		
 		ExtResult result=new ExtResult();
 		if(id!=null && id.intValue()>0){
@@ -104,9 +104,9 @@ public class GatewayController extends BaseController {
 	}
 	
 	@RequestMapping
-	public ModelAndView disenabledGate(HttpServletRequest request,Map<String, Object>out,Integer id){
+	public ModelAndView disenabledGate(HttpServletRequest request,Map<String, Object>out,Integer id, String code){
 		
-		gatewayService.disabled(id);
+		gatewayService.disabled(id, code);
 		
 		ExtResult result=new ExtResult();
 		if(id!=null && id.intValue()>0){

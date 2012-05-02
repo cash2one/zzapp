@@ -15,7 +15,7 @@ public interface SmsLogService {
 
 	public Pager<SmsLog> pageLog(String from, String to, Integer sendStatus,
 			String receiver, String gatewayCode, Integer priority,
-			String content, Pager<SmsLog> page);
+			String content, String templateCode, Pager<SmsLog> page);
 
 	public void resend(Integer id);
 

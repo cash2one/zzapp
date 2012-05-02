@@ -151,7 +151,7 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 					for (var i = 0, len = row.length; i < len; i++) {
 						Ext.Ajax.request({
 							url:Context.ROOT +  "/gateway/enabledGate.htm",
-							params:{"id":row[i].get("id")},
+							params:{"id":row[i].get("id"),"code":row[i].get("code")},
 							success:function(response,opt){
 								var obj = Ext.decode(response.responseText);
 								if(obj.success){
@@ -191,7 +191,7 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 					for (var i = 0, len = row.length; i < len; i++) {
 						Ext.Ajax.request({
 							url:Context.ROOT +  "/gateway/disenabledGate.htm",
-							params:{"id":row[i].get("id")},
+							params:{"id":row[i].get("id"),"code":row[i].get("code")},
 							success:function(response,opt){
 								var obj = Ext.decode(response.responseText);
 								if(obj.success){

@@ -18,9 +18,9 @@ public interface GatewayService {
 	
 	public Integer remove(Integer id);
 	
-	public void enabled(Integer id);
+	public void enabled(Integer id, String code);
 	
-	public void disabled(Integer id);
+	public void disabled(Integer id, String code);
 	
 	public Object balance(String gatewayCode);
 	
