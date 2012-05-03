@@ -30,7 +30,9 @@ public class GatewayServiceImpl implements GatewayService {
 			} catch (IllegalAccessException e) {
 				zzsms = null;
 			}
-			GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
+			if(zzsms!=null){
+				GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
+			}
 		}
 		return gatewayDao.insert(gateway);
 	}
@@ -57,7 +59,9 @@ public class GatewayServiceImpl implements GatewayService {
 			} catch (IllegalAccessException e) {
 				zzsms = null;
 			}
-			GatewayService.CACHE_GATEWAY.put(code, zzsms);
+			if(zzsms!=null){
+				GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
+			}
 		}
 		gatewayDao.updateEnabled(id, ENABLED_TRUE);
 	}

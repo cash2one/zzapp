@@ -140,8 +140,6 @@ public class GatewayController extends BaseController {
 		ExtResult result = new ExtResult();
 		if (zzSms != null ) {
 			zzSms.send(mobile, content);
-		}else{
-			return null;
 		}
 		result.setSuccess(true);
 		return printJson(result, out);

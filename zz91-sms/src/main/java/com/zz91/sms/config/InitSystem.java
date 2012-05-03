@@ -6,10 +6,13 @@
 package com.zz91.sms.config;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletException;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.zz91.sms.service.GatewayService;
+import com.zz91.sms.service.SmsLogService;
 
 /**
  * @author kongsj
@@ -21,9 +24,20 @@ public class InitSystem {
 	
 	@Resource
 	private GatewayService gatewayService;
-	public void startup() {
+	@Resource
+	private SmsLogService smsLogService;
+	
+	final static Logger LOG=Logger.getLogger(InitSystem.class);
+	
+	public void startup() throws ServletException {
 		//初始化发送网管帐号
 		gatewayService.initGateway();
+		
+		if(! smsLogService.shutdownRecovery(SmsLogService.SEND_PROCESS, SmsLogService.SEND_READY)){
+			LOG.error("sms was not recovery success");
+			throw new ServletException("sms was not recovery success.");
+		}
+		
 	}
 
 	public void destroy() {

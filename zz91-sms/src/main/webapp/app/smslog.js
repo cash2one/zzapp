@@ -48,14 +48,20 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 				if(value==0){
 					return "待发送";
 				}
+				
 				if(value==1){
 					return "发送中";
 				}
+				
 				if(value==2){
 					return "发送成功"
-				}if(value==3){
+				}
+				
+				if(value==3){
 					return "发送失败"
 				}
+				
+				return value;
 			}
 		},{
 			header : "发送时间",
@@ -236,14 +242,11 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 						//失去焦点
 						"blur":function(c){
 							var val = Ext.get("_receiver").dom.value;
-							var B	= _store.baseParams;
-							B	= B ||{};
 							if(val!=""){
-								B["receiver"]= val;
+								_store.baseParams["receiver"]= val;
 							}else{
-								B["receiver"]=null;
+								_store.baseParams["receiver"]=null;
 							}
-							_store.baseParams = B;
 							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
 						}
 					}

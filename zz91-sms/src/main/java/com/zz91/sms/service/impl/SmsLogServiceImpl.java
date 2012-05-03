@@ -79,36 +79,39 @@ public class SmsLogServiceImpl implements SmsLogService {
 
 	@Override
 	public Integer create(SmsLog sms) {
-		String code=sms.getTemplateCode();
-		String gatewayCode=sms.getGatewayCode();
-		Integer priority=sms.getPriority();
-		Date gmtSend=sms.getGmtSend();
-		Integer sendStatus=sms.getSendStatus();
-		Template template = templateDao.queryTemplateByCode(code);
-		if(code==null){
-			sms.setTemplateCode(template.getCode());
-		}
-		if(gatewayCode==null){
+		
+		if(sms.getGatewayCode()==null){
 			sms.setGatewayCode("emay_jar");
 		}
-		if(priority==null){
+		if(sms.getPriority()==null){
 			sms.setPriority(0);
 		}
-		if(gmtSend==null){
+		if(sms.getGmtSend()==null){
 			sms.setGmtSend(new Date());
 		}
-		if(sendStatus==null){
+		if(sms.getSendStatus()==null){
 			sms.setSendStatus(0);
 		}
-		sms.setContent(buildSmsContent(template.getContent()+template.getSigned(), sms.getSmsParameter()));		
+		
+		sms.setContent(buildSmsContent(sms.getTemplateCode(), sms.getSmsParameter()));		
+		
 		return smsLogDao.insert(sms);
 	}
 
-	private String buildSmsContent(String content, String smsParameter) {
-		String str = smsParameter.toString();
-		JSONArray obj = JSONArray.fromObject(str);
-		String[] sa = (String[]) obj.toArray();
-		return String.format(content, sa);
+	private String buildSmsContent(String code, String smsParameter) {
+		
+		JSONArray obj = JSONArray.fromObject(smsParameter);
+		
+		if(code==null){
+			return String.format("{0}", obj.toArray());
+		}
+		
+		Template template=templateDao.queryTemplateByCode(code);
+		if(template==null){
+			return String.format("{0}", obj.toArray());
+		}
+		
+		return String.format(template.getContent(), obj.toArray());
 	}
 
 	
