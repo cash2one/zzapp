@@ -20,17 +20,10 @@ public class GatewayServiceImpl implements GatewayService {
 	@Override
 	public Integer create(Gateway gateway) {
 		if(gateway.getEnabled() == 1) {
-			ZZSms zzsms = null;
-			try {
-				zzsms = (ZZSms) ClassHelper.load(gateway.getApiJar()).newInstance();
-			} catch (ClassNotFoundException e) {
-				zzsms = null;
-			} catch (InstantiationException e) {
-				zzsms = null;
-			} catch (IllegalAccessException e) {
-				zzsms = null;
+			ZZSms zzsms = getZZSms(gateway);
+			if(zzsms != null) {
+				GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
 			}
-			GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
 		}
 		return gatewayDao.insert(gateway);
 	}
@@ -47,17 +40,10 @@ public class GatewayServiceImpl implements GatewayService {
 	public void enabled(Integer id, String code) {
 		if(GatewayService.CACHE_GATEWAY.get(code) == null ) {
 			Gateway gateway = queryOne(id);
-			ZZSms zzsms = null;
-			try {
-				zzsms = (ZZSms) ClassHelper.load(gateway.getApiJar()).newInstance();
-			} catch (ClassNotFoundException e) {
-				zzsms = null;
-			} catch (InstantiationException e) {
-				zzsms = null;
-			} catch (IllegalAccessException e) {
-				zzsms = null;
+			ZZSms zzsms = getZZSms(gateway);
+			if(zzsms != null) {
+				GatewayService.CACHE_GATEWAY.put(code, zzsms);
 			}
-			GatewayService.CACHE_GATEWAY.put(code, zzsms);
 		}
 		gatewayDao.updateEnabled(id, ENABLED_TRUE);
 	}
@@ -92,22 +78,9 @@ public class GatewayServiceImpl implements GatewayService {
 	public void initGateway() {
 		List<Gateway> list = query(ENABLED_TRUE);
 		for (Gateway obj : list) {
-			
-			String key = obj.getCode();
-			String value = obj.getApiJar();
-			
-			ZZSms zzsms = null;
-			try {
-				zzsms = (ZZSms) ClassHelper.load(value).newInstance();
-			} catch (ClassNotFoundException e) {
-				zzsms = null;
-			} catch (InstantiationException e) {
-				zzsms = null;
-			} catch (IllegalAccessException e) {
-				zzsms = null;
-			}
+			ZZSms zzsms = getZZSms(obj);
 			if (zzsms != null) {
-				CACHE_GATEWAY.put(key, zzsms);
+				CACHE_GATEWAY.put(obj.getCode(), zzsms);
 			}
 		}
 	}
@@ -116,6 +89,20 @@ public class GatewayServiceImpl implements GatewayService {
 	public Object balance(String code) {
 		ZZSms sms = (ZZSms) GatewayService.CACHE_GATEWAY.get(code);
 		return sms.balance();
+	}
+	
+	public ZZSms getZZSms(Gateway gateway) {
+		ZZSms zzsms = null;
+		try {
+			zzsms = (ZZSms) ClassHelper.load(gateway.getApiJar()).newInstance();
+		} catch (ClassNotFoundException e) {
+			zzsms = null;
+		} catch (InstantiationException e) {
+			zzsms = null;
+		} catch (IllegalAccessException e) {
+			zzsms = null;
+		}
+		return zzsms;
 	}
 
 }
