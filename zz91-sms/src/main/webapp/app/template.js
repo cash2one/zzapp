@@ -257,7 +257,7 @@ com.zz91.sms.template.addFormWin = function(){
 	var win = new Ext.Window({
 		id:TEMPLATE.EDIT_WIN,
 		title:"添加短信模板",
-		width:"45%",
+		width:"60%",
 		modal:true,
 		items:[grid]
 	});
@@ -277,7 +277,7 @@ com.zz91.sms.template.editFormWin = function(id){
 	var win = new Ext.Window({
 		id:TEMPLATE.EDIT_WIN,
 		title:"编辑短信模板",
-		width:"45%",
+		width:"60%",
 		modal:true,
 		items:[form]
 	});
