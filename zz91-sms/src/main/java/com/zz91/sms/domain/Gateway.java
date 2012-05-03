@@ -16,6 +16,7 @@ public class Gateway implements java.io.Serializable {
 	private String serialNo;//网关序列号
 	private String serialPas;//网关序列号查询密码，与序列号一起，用于查询网关账户信息
 	private String apiJar;//重新包装后的网关jar包位置
+	private String apiClasspath;//依赖的网关jar包名称
 	private String docs;//网关文档（简），包括网关介绍等信息，便于开发人员了解网关信息
 	private Date gmtCreated;
 	private Date gmtModified;
@@ -25,7 +26,7 @@ public class Gateway implements java.io.Serializable {
 	}
 
 	public Gateway(Integer id, String code, String titles, Integer enabled,
-			String serialNo, String serialPas, String apiJar, String docs,
+			String serialNo, String serialPas, String apiJar,String apiClasspath, String docs,
 			Date gmtCreated, Date gmtModified) {
 		super();
 		this.id = id;
@@ -35,6 +36,7 @@ public class Gateway implements java.io.Serializable {
 		this.serialNo = serialNo;
 		this.serialPas = serialPas;
 		this.apiJar = apiJar;
+		this.apiClasspath = apiClasspath;
 		this.docs = docs;
 		this.gmtCreated = gmtCreated;
 		this.gmtModified = gmtModified;
@@ -118,6 +120,14 @@ public class Gateway implements java.io.Serializable {
 
 	public void setGmtModified(Date gmtModified) {
 		this.gmtModified = gmtModified;
+	}
+
+	public String getApiClasspath() {
+		return apiClasspath;
+	}
+
+	public void setApiClasspath(String apiClasspath) {
+		this.apiClasspath = apiClasspath;
 	}
 
 }

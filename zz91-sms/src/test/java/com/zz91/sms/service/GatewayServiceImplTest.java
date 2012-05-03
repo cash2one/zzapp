@@ -1,4 +1,4 @@
-package com.zz91.sms.service.gateway;
+package com.zz91.sms.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -143,7 +143,7 @@ public class GatewayServiceImplTest extends BaseTestCase {
 
 	public Gateway getGateway() {
 		return new Gateway(null, "测试添加", "titles", 0, "serial_no",
-				"serial_pas", "api_jar", "docs", new Date(), new Date());
+				"serial_pas", "api_jar","api_classpath", "docs", new Date(), new Date());
 	}
 
 	public int insert(String code, Integer enabled) {
@@ -179,7 +179,7 @@ public class GatewayServiceImplTest extends BaseTestCase {
 				gateway = new Gateway(rs.getInt("id"), rs.getString("code"), rs
 						.getString("titles"), rs.getInt("enabled"), rs
 						.getString("serial_no"), rs.getString("serial_pas"), rs
-						.getString("api_jar"), rs.getString("docs"), rs
+						.getString("api_jar"),rs.getString("api_classpath"), rs.getString("docs"), rs
 						.getDate("gmt_created"), rs.getDate("gmt_modified"));
 			}
 		} catch (SQLException e) {

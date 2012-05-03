@@ -6,8 +6,8 @@ import java.util.Map;
 
 import com.zz91.sms.domain.Gateway;
 
-public interface GatewayService {
 	
+public interface GatewayService {
 	public final static Map<String,Object> CACHE_GATEWAY = new HashMap<String, Object>();
 	public static final int ENABLED_TRUE = 1;
 	public static final int ENABLED_FALSE = 0;

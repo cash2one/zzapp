@@ -6,20 +6,20 @@ import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
-import com.zz91.sms.dao.BaseDao;
+import com.zz91.sms.dao.BaseDaoSupport;
 import com.zz91.sms.dao.SmsLogDao;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.dto.Pager;
 
 @Repository("smsLogDao")
-public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
+public class SmsLogDaoImpl extends BaseDaoSupport implements SmsLogDao {
 
 	final static String SQL_PREFIX = "smsLog";
 
 	@Override
 	public Integer delete(Integer id) {
 		return (Integer) getSqlMapClientTemplate().delete(
-				buildId(SQL_PREFIX, "deleteById"), id);
+				addSqlKeyPreFix(SQL_PREFIX, "deleteById"), id);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -38,7 +38,7 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 		list.put("templateCode", templateCode);
 		list.put("page", page);
 		return getSqlMapClientTemplate().queryForList(
-				buildId(SQL_PREFIX, "querySmsLog"), list);
+				addSqlKeyPreFix(SQL_PREFIX, "querySmsLog"), list);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 		list.put("templateCode", templateCode);
 		list.put("sendStatus", sendStatus);
 		return (Integer) getSqlMapClientTemplate().queryForObject(
-				buildId(SQL_PREFIX, "querySmsLogCount"), list);
+				addSqlKeyPreFix(SQL_PREFIX, "querySmsLogCount"), list);
 	}
 
 	@Override
@@ -63,20 +63,20 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 		list.put("id", id);
 		list.put("sendStatus", sendStatus);
 		return (Integer) getSqlMapClientTemplate().update(
-				buildId(SQL_PREFIX, "updateSendStatus"), list);
+				addSqlKeyPreFix(SQL_PREFIX, "updateSendStatus"), list);
 	}
 
 	@Override
 	public Integer insert(SmsLog sms) {
 		return (Integer) getSqlMapClientTemplate().insert(
-				buildId(SQL_PREFIX, "insertSms"), sms);
+				addSqlKeyPreFix(SQL_PREFIX, "insertSms"), sms);
 	}
 
 	@Override
 	public List<SmsLog> querySmsSend(Integer i) {
 		@SuppressWarnings("unchecked")
 		List<SmsLog> list = getSqlMapClientTemplate().queryForList(
-				buildId(SQL_PREFIX, "querySmsSend"), i);
+				addSqlKeyPreFix(SQL_PREFIX, "querySmsSend"), i);
 		return list;
 	}
 
@@ -86,7 +86,7 @@ public class SmsLogDaoImpl extends BaseDao implements SmsLogDao {
 		rootMap.put("fromStatus", fromStatus);
 		rootMap.put("toStatus", toStatus);
 		return (Integer) getSqlMapClientTemplate().update(
-				buildId(SQL_PREFIX, "recoverStatus"), rootMap);
+				addSqlKeyPreFix(SQL_PREFIX, "recoverStatus"), rootMap);
 	}
 
 }

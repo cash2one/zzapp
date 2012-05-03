@@ -81,7 +81,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 	public Integer create(SmsLog sms) {
 		
 		if(sms.getGatewayCode()==null){
-			sms.setGatewayCode("emay_jar");
+			sms.setGatewayCode("");
 		}
 		if(sms.getPriority()==null){
 			sms.setPriority(0);

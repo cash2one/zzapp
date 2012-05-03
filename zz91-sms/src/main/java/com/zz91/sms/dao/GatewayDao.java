@@ -17,4 +17,5 @@ public interface GatewayDao {
 	public List<Gateway> query(Integer enabled);
 	
 	public Gateway queryOne(Integer id);
+	
 }
