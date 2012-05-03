@@ -45,23 +45,8 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 			sortable:false,
 			dataIndex:"sendStatus",
 			renderer : function(value, metadata, record, rowIndex,colIndex, store) {
-				if(value==0){
-					return "待发送";
-				}
-				
-				if(value==1){
-					return "发送中";
-				}
-				
-				if(value==2){
-					return "发送成功"
-				}
-				
-				if(value==3){
-					return "发送失败"
-				}
-				
-				return value;
+				var send = ["待发送","发送中","发送成功","发送失败"];
+				return send[value];
 			}
 		},{
 			header : "发送时间",
@@ -259,14 +244,11 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 						//失去焦点
 						"blur":function(c){
 							var val = Ext.get("_gatewayCode").dom.value;
-							var B	= _store.baseParams;
-							B	= B ||{};
 							if(val!=""){
-								B["gatewayCode"]= val;
+								_store.baseParams["gatewayCode"]= val;
 							}else{
-								B["gatewayCode"]=null;
+								_store.baseParams["gatewayCode"]=null;
 							}
-							_store.baseParams = B;
 							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
 						}
 					}
@@ -279,14 +261,11 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 						//失去焦点
 						"blur":function(c){
 							var val = Ext.get("_content").dom.value;
-							var B	= _store.baseParams;
-							B	= B ||{};
 							if(val!=""){
-								B["content"]= val;
+								_store.baseParams["content"]= val;
 							}else{
-								B["content"]=null;
+								_store.baseParams["content"]=null;
 							}
-							_store.baseParams = B;
 							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
 						}
 					}
@@ -299,14 +278,11 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 						//失去焦点
 						"blur":function(c){
 							var val = Ext.get("_templateCode").dom.value;
-							var B	= _store.baseParams;
-							B	= B ||{};
 							if(val!=""){
-								B["templateCode"]= val;
+								_store.baseParams["templateCode"]= val;
 							}else{
-								B["templateCode"]=null;
+								_store.baseParams["templateCode"]=null;
 							}
-							_store.baseParams = B;
 							_store.reload({params:{"start":0,"limit":Context.PAGE_SIZE}});
 						}
 					}
