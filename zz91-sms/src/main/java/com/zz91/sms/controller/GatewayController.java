@@ -17,6 +17,8 @@ import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.Gateway;
 import com.zz91.sms.dto.ExtResult;
 import com.zz91.sms.service.GatewayService;
+import com.zz91.util.file.MvcUpload;
+import com.zz91.util.lang.StringUtils;
 
 /**
  * @author root
@@ -27,6 +29,8 @@ public class GatewayController extends BaseController {
 	
 	@Resource
 	private GatewayService gatewayService;
+
+	final static String JAR_FOLDER="/sms-gateway";
 	
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, Map<String, Object> out){
@@ -142,6 +146,22 @@ public class GatewayController extends BaseController {
 			zzSms.send(mobile, content);
 		}
 		result.setSuccess(true);
+		return printJson(result, out);
+	}
+	
+	@RequestMapping
+	public ModelAndView uploadjar(HttpServletRequest request,
+			Map<String, Object> out) throws Exception {
+		
+		String apiJar=MvcUpload.localUpload(request, MvcUpload.getDestRoot()+JAR_FOLDER,
+			null, "uploadfile", new String[]{".jar"}, 
+			new String[]{".bat", ".sh", ".exe"}, 2*1024);
+		
+		ExtResult result = new ExtResult();
+		if (StringUtils.isNotEmpty(apiJar)) {
+			result.setSuccess(true);
+			result.setData(MvcUpload.getDestRoot()+JAR_FOLDER+"/"+apiJar);
+		}
 		return printJson(result, out);
 	}
 

@@ -57,12 +57,12 @@ public class ControlThread extends Thread {
 			numQueue = mainPool.getQueue().size();
 			activeThread=mainPool.getActiveCount();
 			
-			System.out.println(
-					"总处理量: "+ numTask+
-					"  总处理时间: "+ totalTime+
-					"ns  队列中: "+ numQueue+
-					"  活动线程数："+ activeThread+
-					" 最大线程数："+mainPool.getLargestPoolSize());
+//			System.out.println(
+//					"总处理量: "+ numTask+
+//					"  总处理时间: "+ totalTime+
+//					"ns  队列中: "+ numQueue+
+//					"  活动线程数："+ activeThread+
+//					" 最大线程数："+mainPool.getLargestPoolSize());
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {

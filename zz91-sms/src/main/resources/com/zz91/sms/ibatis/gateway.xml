@@ -10,9 +10,9 @@
 	
 	<insert id="insert" parameterClass="gateway">
 		INSERT INTO 
-			gateway(code,titles,enabled,serial_no,serial_pas,api_jar,docs,gmt_created,gmt_modified)
+			gateway(api_classpath,code,titles,enabled,serial_no,serial_pas,api_jar,docs,gmt_created,gmt_modified)
 		VALUES
-			(#code#,#titles#,#enabled#,#serialNo#,#serialPas#,#apiJar#,#docs#,now(),now())
+			(#apiClasspath#,#code#,#titles#,#enabled#,#serialNo#,#serialPas#,#apiJar#,#docs#,now(),now())
 		<selectKey resultClass="java.lang.Integer" keyProperty="id" >
 			SELECT LAST_INSERT_ID()
 		</selectKey>
@@ -25,6 +25,7 @@
 	<update id="update" parameterClass="gateway">
 		UPDATE gateway
 		SET
+			api_classpath=#apiClasspath#,
 			code = #code#,
 			titles = #titles#,
 			enabled = #enabled#,
@@ -46,6 +47,7 @@
 	
 	<resultMap class="gateway" id="gatewayResult">
 		<result property="id" column="id"/>
+		<result property="apiClasspath" column="api_classpath"/>
 		<result property="code" column="code"/>
 		<result property="titles" column="titles"/>
 		<result property="enabled" column="enabled"/>
@@ -60,6 +62,7 @@
 	<select id="query" parameterClass="java.util.Map" resultMap="gatewayResult">
 		SELECT 
 			g.id,
+			g.api_classpath,
 			g.code,
 			g.titles,
 			g.enabled,
@@ -80,6 +83,7 @@
 	<select id="queryOne" parameterClass="java.util.Map" resultMap="gatewayResult">
 		SELECT 
 			g.id,
+			g.api_classpath,
 			g.code,
 			g.titles,
 			g.enabled,

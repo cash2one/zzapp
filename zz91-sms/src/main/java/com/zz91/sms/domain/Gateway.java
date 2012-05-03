@@ -10,6 +10,7 @@ public class Gateway implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+	private String apiClasspath;
 	private String code;//网关code
 	private String titles;//网关名称
 	private Integer enabled;//是否启用,0:未启用,1:启用
@@ -24,11 +25,12 @@ public class Gateway implements java.io.Serializable {
 		super();
 	}
 
-	public Gateway(Integer id, String code, String titles, Integer enabled,
+	public Gateway(Integer id, String apiClasspath,String code, String titles, Integer enabled,
 			String serialNo, String serialPas, String apiJar, String docs,
 			Date gmtCreated, Date gmtModified) {
 		super();
 		this.id = id;
+		this.apiClasspath=apiClasspath;
 		this.code = code;
 		this.titles = titles;
 		this.enabled = enabled;
@@ -38,6 +40,14 @@ public class Gateway implements java.io.Serializable {
 		this.docs = docs;
 		this.gmtCreated = gmtCreated;
 		this.gmtModified = gmtModified;
+	}
+
+	public String getApiClasspath() {
+		return apiClasspath;
+	}
+
+	public void setApiClasspath(String apiClasspath) {
+		this.apiClasspath = apiClasspath;
 	}
 
 	public Integer getId() {
