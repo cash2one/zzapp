@@ -120,7 +120,6 @@
 		init-method="startup" lazy-init="false">
 	</bean>
 	
-<<<<<<< HEAD
 	<!-- date format to 'yyyy-MM-dd HH:mm:ss' -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 		<property name="webBindingInitializer">
@@ -128,6 +127,4 @@
 		</property>
 	</bean>
 	
-=======
->>>>>>> origin/feature-sms
 </beans>
