@@ -24,6 +24,12 @@ public class GatewayServiceImpl implements GatewayService {
 			if(zzsms != null) {
 				GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
 			}
+<<<<<<< HEAD
+=======
+			if(zzsms!=null){
+				GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
+			}
+>>>>>>> origin/feature-sms
 		}
 		return gatewayDao.insert(gateway);
 	}
@@ -44,6 +50,12 @@ public class GatewayServiceImpl implements GatewayService {
 			if(zzsms != null) {
 				GatewayService.CACHE_GATEWAY.put(code, zzsms);
 			}
+<<<<<<< HEAD
+=======
+			if(zzsms!=null){
+				GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
+			}
+>>>>>>> origin/feature-sms
 		}
 		gatewayDao.updateEnabled(id, ENABLED_TRUE);
 	}

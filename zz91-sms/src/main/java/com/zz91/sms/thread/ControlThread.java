@@ -60,8 +60,7 @@ public class ControlThread extends Thread {
 			System.out.println(
 					"总处理量: "+ numTask+
 					"  总处理时间: "+ totalTime+
-					"ms  队列中: "+ numQueue+
-//					"  缓存队列："+ SmsScanThread.smsqueue.size()+
+					"ns  队列中: "+ numQueue+
 					"  活动线程数："+ activeThread+
 					" 最大线程数："+mainPool.getLargestPoolSize());
 			try {

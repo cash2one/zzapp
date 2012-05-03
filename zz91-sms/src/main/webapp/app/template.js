@@ -50,7 +50,6 @@ com.zz91.sms.template.Grid = Ext.extend(Ext.grid.GridPanel,{
 		
 		var c={
 			loadMask:MESSAGE.loadmask,
-			iconCls:"icon-grid",
 			store:_store,
 			sm:_sm,
 			cm:_cm,

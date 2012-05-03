@@ -31,44 +31,43 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		var grid = this;
 		var _sm=new Ext.grid.CheckboxSelectionModel({});
 		
-		var _cm=new Ext.grid.ColumnModel( 
-				[ _sm,{
-					header : "网关code",
-					sortable : false,
-					dataIndex : "code"
-		},{
-			header : "网关名称",
-			sortable : false,
-			dataIndex : "titles"
-		},{
-			header :"状态",
-			sortable : false,
-			dataIndex:"enabled",
-			renderer : function(value, metadata, record, rowIndex,colIndex, store) {
-				if(value==0){
-					return "未启用";
+		var _cm=new Ext.grid.ColumnModel([ _sm,{
+				header : "网关code",
+				sortable : false,
+				dataIndex : "code"
+			},{
+				header : "网关名称",
+				sortable : false,
+				dataIndex : "titles"
+			},{
+				header :"状态",
+				sortable : false,
+				dataIndex:"enabled",
+				renderer : function(value, metadata, record, rowIndex,colIndex, store) {
+					if(value==0){
+						return "未启用";
+					}
+					if(value==1){
+						return "已启用";
+					}
 				}
-				if(value==1){
-					return "已启用";
-				}
+			},{
+				header:"序列号",
+				sortable:false,
+				dataIndex:"serialNo"
+			},{
+				header : "密码",
+				sortable : false,
+				dataIndex : "serialPas"
+			},{
+				header : "网关接口",
+				sortable : false,
+				dataIndex : "apiJar"
+			},{
+				header:"开发文档",
+				sortable:false,
+				dataIndex:"docs"
 			}
-		},{
-			header:"序列号",
-			sortable:false,
-			dataIndex:"serialNo"
-		},{
-			header : "密码",
-			sortable : false,
-			dataIndex : "serialPas"
-		},{
-			header : "网关接口",
-			sortable : false,
-			dataIndex : "apiJar"
-		},{
-			header:"开发文档",
-			sortable:false,
-			dataIndex:"docs"
-		}
 		]);
 		
 		var c={
@@ -83,27 +82,26 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		
 		com.zz91.sms.gateway.Grid.superclass.constructor.call(this,c);
 	},
-	mytoolbar:[
-	{
+	mytoolbar:[{
 		text : '新增',
 		iconCls : 'add16',
 		handler : function(btn){
 			com.zz91.sms.gateway.addGate();
-	}
+		}
 	},'-',{
 		text : '修改',
 		iconCls : 'edit16',
 		handler : function(btn){
-		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelected();
-		if(row!=null){
-			com.zz91.sms.gateway.updateGate(row.get("id"));
+			var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelected();
+			if(row!=null){
+				com.zz91.sms.gateway.updateGate(row.get("id"));
+			}
 		}
-	}
 	},'-',{
 		text : '删除',
 		iconCls : 'delete16',
 		handler : function(btn){		
-		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();		
+			var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();		
 			if (row.length > 0) {
 				Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要删除选中的 ' + row.length + '条记录?', function(_btn){
 					if (_btn != "yes")
@@ -143,7 +141,7 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		text :'启用',
 		iconCls :'play16',
 		handler : function(btn){		
-		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
+			var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
 			if (row.length > 0) {
 				Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要启用选中的信息?', function(_btn){
 					if (_btn != "yes")
@@ -473,23 +471,24 @@ com.zz91.sms.gateway.updateGate = function(id){
 }
 
 com.zz91.sms.gateway.exam=function(id){
-		var form= new com.zz91.sms.gateway.Form1({
-			id:GATEWAY.GATEWAY_FORM,
-			region:"center"
-		});
-		
-		form.loadOneRecord(id);
-		var win = new Ext.Window({
-				id:GATEWAY.GATEWAY_WIN ,
-				title:"测试手机发送",
-				width:300,
-				height:100,
-				autoHeight:true,
-				modal:true,
-				items:[form]
-		});
-		win.show();
-	}
+	var form= new com.zz91.sms.gateway.Form1({
+		id:GATEWAY.GATEWAY_FORM,
+		region:"center"
+	});
+	
+	form.loadOneRecord(id);
+	
+	var win = new Ext.Window({
+			id:GATEWAY.GATEWAY_WIN ,
+			title:"测试手机发送",
+			width:300,
+			height:100,
+			autoHeight:true,
+			modal:true,
+			items:[form]
+	});
+	win.show();
+}
 com.zz91.sms.gateway.Form1 = Ext.extend(Ext.form.FormPanel,{
 	constructor:function(config){
 		config = config||{};
@@ -528,6 +527,7 @@ com.zz91.sms.gateway.Form1 = Ext.extend(Ext.form.FormPanel,{
 				text:"发送",
 				scope:this,
 				handler:function(btn){
+					//TODO 改成表单提交的方法发送
 				var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
 				for (var i = 0, len = row.length; i < len; i++) {
 					Ext.Ajax.request({						
@@ -573,8 +573,7 @@ com.zz91.sms.gateway.Form1 = Ext.extend(Ext.form.FormPanel,{
 	loadOneRecord:function(id){
 		var reader=[
 			{name:"code",mapping:"code"}
-			
-			];
+		];
 		
 		var form = this;
 		var _store = new Ext.data.JsonStore({
