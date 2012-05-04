@@ -1,5 +1,7 @@
 <script type="text/javascript" src="#springUrl('/app/gateway.js')" ></script>
-<script type="text/javascript" >
+<script type="text/javascript" src="#springUrl('/app/lib/FileUploadField.js')" ></script>
+<script type="text/javascript" src="#springUrl('/app/lib/UploadWin.js')" ></script>
+<script type="text/javascript">
 	Ext.onReady(function(){
 		var grid=new com.zz91.sms.gateway.Grid({
 			id:GATEWAY.GATEWAY_GRID,

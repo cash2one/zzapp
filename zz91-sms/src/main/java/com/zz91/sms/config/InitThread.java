@@ -17,13 +17,13 @@ public class InitThread {
 	private SmsScanThread smsScanThread;
 	@Resource
 	private ControlThread controlThread;
-	@Resource
-	private SmsSendThread smsSendThread;
+//	@Resource
+//	private SmsSendThread smsSendThread;
 	
 	public void startup(){
 		controlThread.start();
 		smsScanThread.start();
-		smsSendThread.start();
+//		smsSendThread.start();
 	}
 	
 	public void destroy(){

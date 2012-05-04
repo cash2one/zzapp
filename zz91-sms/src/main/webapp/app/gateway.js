@@ -7,6 +7,7 @@ var GATEWAY=new function(){
 }
 com.zz91.sms.gateway.Field=[
 	{name:"id",mapping:"id"},
+	{name:"apiClasspath",mapping:"apiClasspath"},
 	{name:"titles",mapping:"titles"},
 	{name:"code",mapping:"code"},
 	{name:"enabled",mapping:"enabled"},
@@ -64,6 +65,10 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 				sortable : false,
 				dataIndex : "apiJar"
 			},{
+				header : "api文档",
+				sortable : false,
+				dataIndex : "apiClasspath"
+			},{
 				header:"开发文档",
 				sortable:false,
 				dataIndex:"docs"
@@ -106,7 +111,7 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 				Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要删除选中的 ' + row.length + '条记录?', function(_btn){
 					if (_btn != "yes")
 						return;
-					for (var i = 0, len = row.length; i < len; i++) {
+					for (var i = 0; i < row.length; i++) {
 						Ext.Ajax.request({
 							url:Context.ROOT +  "/gateway/delete.htm",
 							params:{"id":row[i].get("id")},
@@ -146,7 +151,7 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 				Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要启用选中的信息?', function(_btn){
 					if (_btn != "yes")
 						return;
-					for (var i = 0, len = row.length; i < len; i++) {
+					for (var i = 0; i < row.length; i++) {
 						Ext.Ajax.request({
 							url:Context.ROOT +  "/gateway/enabledGate.htm",
 							params:{"id":row[i].get("id"),"code":row[i].get("code")},
@@ -181,12 +186,12 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		text : '关闭',
 		iconCls : 'stop16',
 		handler : function(btn){		
-		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
+			var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
 			if (row.length > 0) {
 				Ext.MessageBox.confirm(Context.MSG_TITLE, '是否要关闭选中的信息?', function(_btn){
 					if (_btn != "yes")
 						return;
-					for (var i = 0, len = row.length; i < len; i++) {
+					for (var i = 0; i < row.length; i++) {
 						Ext.Ajax.request({
 							url:Context.ROOT +  "/gateway/disenabledGate.htm",
 							params:{"id":row[i].get("id"),"code":row[i].get("code")},
@@ -221,43 +226,43 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		text : '余额',
 		iconCls : 'money16',
 		handler : function(btn){		
-		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
-					for (var i = 0, len = row.length; i < len; i++) {
-						Ext.Ajax.request({
-							url:Context.ROOT +  "/gateway/balance.htm",
-							params:{"code":row[i].get("code")},
-							success:function(response,opt){
-								var obj = Ext.decode(response.responseText);
-								if(obj.success){
-									com.zz91.utils.Msg("","当前余额为:"+obj.data);
-									Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
-								}else{
-									Ext.MessageBox.show({
-										title:MESSAGE.title,
-										msg : MESSAGE.saveFailure,
-										buttons:Ext.MessageBox.OK,
-										icon:Ext.MessageBox.ERROR
-									});
-								}
-							},
-							failure:function(response,opt){
-								Ext.MessageBox.show({
-									title:MESSAGE.title,
-									msg : MESSAGE.submitFailure,
-									buttons:Ext.MessageBox.OK,
-									icon:Ext.MessageBox.ERROR
-								});
-							}
+			var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
+			for (var i = 0; i < row.length; i++) {
+				Ext.Ajax.request({
+					url:Context.ROOT +  "/gateway/balance.htm",
+					params:{"code":row[i].get("code")},
+					success:function(response,opt){
+						var obj = Ext.decode(response.responseText);
+						if(obj.success){
+							com.zz91.utils.Msg("","当前余额为:"+obj.data);
+							Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
+						}else{
+							Ext.MessageBox.show({
+								title:MESSAGE.title,
+								msg : MESSAGE.saveFailure,
+								buttons:Ext.MessageBox.OK,
+								icon:Ext.MessageBox.ERROR
+							});
+						}
+					},
+					failure:function(response,opt){
+						Ext.MessageBox.show({
+							title:MESSAGE.title,
+							msg : MESSAGE.submitFailure,
+							buttons:Ext.MessageBox.OK,
+							icon:Ext.MessageBox.ERROR
 						});
 					}
+				});
+			}
 		}
 	},'-',{
 		text : '测试网关',
 		iconCls : 'network16',
 		handler : function(btn){
-		var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelected();
-		if(row!=null){
-			com.zz91.sms.gateway.exam(row.get("id"));
+			var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelected();
+			if(row!=null){
+				com.zz91.sms.gateway.exam(row.get("id"));
 			}
 		}
 	},"->",{
@@ -281,11 +286,10 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 		listeners:{
 		"change":function(field,newValue,oldValue){
 			var grid=Ext.getCmp(GATEWAY.GATEWAY_GRID);
-			grid.getStore().baseParams["enabled"]=newValue;
-			grid.getStore().reload({params:{"start":0, "limit":Context.PAGE_SIZE}});
+				grid.getStore().baseParams["enabled"]=newValue;
+				grid.getStore().reload({params:{"start":0, "limit":Context.PAGE_SIZE}});
+			}
 		}
-	}
-
 	}]
 });
 com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
@@ -300,7 +304,10 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 			frame:true,
 			labelAlign : "right",
 			labelWidth : 80,
-			defaults:{
+			items:[{
+				columnWidth:0.5,
+				layout:"form",
+				defaults:{
 				anchor:"100%",
 				xtype:"textfield",
 				labelSeparator:""
@@ -318,7 +325,7 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 				fieldLabel : "网关名称",
 				allowBlank : false,
 				itemCls :"required",
-				name : "titles",
+				name : "titles"
 			},{
 				fieldLabel : "序列号",
 				allowBlank : false,
@@ -348,6 +355,37 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 				allowBlank : false,
 				itemCls :"required",
 				name : "apiJar"
+			}]
+			},{
+				columnWidth:0.5,
+				layout:"form",
+				defaults:{
+				anchor:"100%",
+				xtype:"textfield",
+				labelSeparator:""
+			},
+			items:[{
+				xtype:"textfield",
+				id:"apiClasspath",
+				fieldLabel: 'api文档',
+				itemCls:"required",
+				name:"apiClasspath",
+				listeners:{
+					"focus":function(c){
+					com.zz91.sms.gateway.UploadConfig.uploadURL=Context.ROOT+"/gateway/uploadjar.htm"
+					var win = new com.zz91.sms.gateway.UploadWin({
+						title:"上传jar",
+					});
+					com.zz91.sms.gateway.UploadConfig.uploadSuccess=function(f,o){
+						if(o.result.success){
+							win.close();
+							Ext.getCmp("apiClasspath").setValue(o.result.data);
+							}
+						}
+						win.show();
+						}
+					}
+				}]
 			},{
 				xtype:"htmleditor",
 				fieldLabel:"接口文档",
@@ -404,6 +442,7 @@ com.zz91.sms.gateway.Form = Ext.extend(Ext.form.FormPanel,{
 	loadOneRecord:function(id){
 		var reader=[
 			{name:"id",mapping:"id"},
+			{name:"apiClasspath",mapping:"apiClasspath"},
 			{name:"code",mapping:"code"},
 			{name:"titles",mapping:"titles"},
 			{name:"enabled",mapping:"enabled"},
@@ -527,49 +566,47 @@ com.zz91.sms.gateway.Form1 = Ext.extend(Ext.form.FormPanel,{
 				text:"发送",
 				scope:this,
 				handler:function(btn){
-					//TODO 改成表单提交的方法发送
-				var row = Ext.getCmp(GATEWAY.GATEWAY_GRID).getSelectionModel().getSelections();
-				for (var i = 0, len = row.length; i < len; i++) {
-					Ext.Ajax.request({						
-						url : Context.ROOT+ "/gateway/testGateway.htm",
-						params:{"gatewayCode":Ext.get("code").dom.value,"receiver":Ext.get("mobile").dom.value},
-						success:function(response,opt){
-							var obj = Ext.decode(response.responseText);
-							if(obj.success){
+					if (this.getForm().isValid()) {
+						this.getForm().submit({
+							url :Context.ROOT+ "/gateway/testGateway.htm",
+							method : "post",
+							type:"json",
+							params:{"gatewayCode":Ext.get("code").dom.value,"receiver":Ext.get("mobile").dom.value},
+							success : function(_form,_action){
 								com.zz91.utils.Msg("","测试成功");
 								Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
 								Ext.getCmp(GATEWAY.GATEWAY_WIN).close();
-							}else{
-//								Ext.MessageBox.show({
-//									title:MESSAGE.title,
-//									msg : MESSAGE.saveFailure,
-//									buttons:Ext.MessageBox.OK,
-//									icon:Ext.MessageBox.ERROR
-//								});
+							},
+							failure : function(_form,_action){
+								Ext.MessageBox.show({
+									title:MESSAGE.title,
+									msg : MESSAGE.saveFailure,
+									buttons:Ext.MessageBox.OK,
+									icon:Ext.MessageBox.ERROR
+								});
 							}
-						},
-						failure:function(response,opt){
-							Ext.MessageBox.show({
-								title:MESSAGE.title,
-								msg : MESSAGE.submitFailure,
-								buttons:Ext.MessageBox.OK,
-								icon:Ext.MessageBox.ERROR
-							});
-						}
-					});
-					}					
+						});
+					} else {
+						Ext.MessageBox.show({
+							title:MESSAGE.title,
+							msg : MESSAGE.submitFailure,
+							buttons:Ext.MessageBox.OK,
+							icon:Ext.MessageBox.ERROR
+						});
+					}
+					
 				}
 			},{
-				text:"关闭",
+				text:"取消",
 				handler:function(btn){
-					Ext.getCmp(GATEWAY.GATEWAY_WIN).close();
+					Ext.getCmp(MAILINFO.MAILINFO_WIN).close();
 				}
 			}]
 		};
-		
+			
 		com.zz91.sms.gateway.Form1.superclass.constructor.call(this,c);
 	},
-	saveUrl:Context.ROOT+ "/gateway/testGateway.htm",
+	
 	loadOneRecord:function(id){
 		var reader=[
 			{name:"code",mapping:"code"}

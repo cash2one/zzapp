@@ -30,6 +30,7 @@ public class Gateway implements java.io.Serializable {
 			Date gmtCreated, Date gmtModified) {
 		super();
 		this.id = id;
+		this.apiClasspath=apiClasspath;
 		this.code = code;
 		this.titles = titles;
 		this.enabled = enabled;

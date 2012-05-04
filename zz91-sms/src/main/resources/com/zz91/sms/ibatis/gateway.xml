@@ -64,6 +64,7 @@
 	
 	<resultMap class="gateway" id="gatewayResult">
 		<result property="id" column="id"/>
+		<result property="apiClasspath" column="api_classpath"/>
 		<result property="code" column="code"/>
 		<result property="titles" column="titles"/>
 		<result property="enabled" column="enabled"/>

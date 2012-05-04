@@ -6,6 +6,7 @@ import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.service.GatewayService;
 import com.zz91.sms.service.SmsLogService;
+import com.zz91.util.cache.MemcachedUtils;
 
 @Service
 public class SmsSendThread extends Thread {
@@ -32,22 +33,26 @@ public class SmsSendThread extends Thread {
 			if (sms == null) {
 				sms = getDefault();
 			}
-			// 发送短信
-//			sendStatus = sms.send(smsLog.getReceiver(), smsLog.getContent());
-			
+			// 判断是否发送短信
+			if ("false".equals(MemcachedUtils.getInstance().getClient().get("debug"))) {
+				sendStatus = sms.send(smsLog.getReceiver(), smsLog.getContent());
+			}else{
+				System.out.println("send mobile:"+smsLog.getReceiver()+" ; send message:"+smsLog.getContent());
+			}
+
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
 			}
-			smsLogService.updateSuccess(smsLog.getId(),SmsLogService.SEND_FAILURE);
+			smsLogService.updateSuccess(smsLog.getId(), sendStatus);
 		} while (false);
 	}
-	
-	private ZZSms getDefault(){
-		ZZSms obj=null;
-		for(String key:GatewayService.CACHE_GATEWAY.keySet()){
+
+	private ZZSms getDefault() {
+		ZZSms obj = null;
+		for (String key : GatewayService.CACHE_GATEWAY.keySet()) {
 			obj = (ZZSms) GatewayService.CACHE_GATEWAY.get(key);
-			if(obj!=null){
+			if (obj != null) {
 				return obj;
 			}
 		}

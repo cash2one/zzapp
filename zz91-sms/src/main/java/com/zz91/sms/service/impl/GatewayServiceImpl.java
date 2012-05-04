@@ -1,5 +1,6 @@
 package com.zz91.sms.service.impl;
 
+import java.net.MalformedURLException;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,11 +18,12 @@ import com.zz91.util.ClassHelper;
 public class GatewayServiceImpl implements GatewayService {
 	@Resource
 	private GatewayDao gatewayDao;
+
 	@Override
 	public Integer create(Gateway gateway) {
-		if(gateway.getEnabled() == 1) {
+		if (gateway.getEnabled() == 1) {
 			ZZSms zzsms = getZZSms(gateway);
-			if(zzsms != null) {
+			if (zzsms != null) {
 				GatewayService.CACHE_GATEWAY.put(gateway.getCode(), zzsms);
 			}
 		}
@@ -30,7 +32,7 @@ public class GatewayServiceImpl implements GatewayService {
 
 	@Override
 	public void disabled(Integer id, String code) {
-		if(GatewayService.CACHE_GATEWAY.get(code) != null) {
+		if (GatewayService.CACHE_GATEWAY.get(code) != null) {
 			GatewayService.CACHE_GATEWAY.remove(code);
 		}
 		gatewayDao.updateEnabled(id, ENABLED_FALSE);
@@ -38,10 +40,10 @@ public class GatewayServiceImpl implements GatewayService {
 
 	@Override
 	public void enabled(Integer id, String code) {
-		if(GatewayService.CACHE_GATEWAY.get(code) == null ) {
+		if (GatewayService.CACHE_GATEWAY.get(code) == null) {
 			Gateway gateway = queryOne(id);
 			ZZSms zzsms = getZZSms(gateway);
-			if(zzsms != null) {
+			if (zzsms != null) {
 				GatewayService.CACHE_GATEWAY.put(code, zzsms);
 			}
 		}
@@ -90,16 +92,18 @@ public class GatewayServiceImpl implements GatewayService {
 		ZZSms sms = (ZZSms) GatewayService.CACHE_GATEWAY.get(code);
 		return sms.balance();
 	}
-	
+
 	public ZZSms getZZSms(Gateway gateway) {
 		ZZSms zzsms = null;
 		try {
-			zzsms = (ZZSms) ClassHelper.load(gateway.getApiJar()).newInstance();
-		} catch (ClassNotFoundException e) {
+			zzsms = (ZZSms) ClassHelper.load(gateway.getApiClasspath(),gateway.getApiJar()).newInstance();
+		} catch (MalformedURLException e) {
 			zzsms = null;
 		} catch (InstantiationException e) {
 			zzsms = null;
 		} catch (IllegalAccessException e) {
+			zzsms = null;
+		} catch (ClassNotFoundException e) {
 			zzsms = null;
 		}
 		return zzsms;
