@@ -5,6 +5,16 @@ var GATEWAY=new function(){
 	this.GATEWAY_FORM="gatewayform";
 	this.GATEWAY_WIN="gatewaywin"
 }
+//var DEBUG =new function(){
+//	Ext.Ajax.request({
+//		url:Context.ROOT +  "/gateway/getSendModel.htm",
+//		success:function(response,opt){
+//			this.DEBUG_STATUS = "1";
+//		},
+//		failure:function(response,opt){
+//		}
+//	});
+//}
 com.zz91.sms.gateway.Field=[
 	{name:"id",mapping:"id"},
 	{name:"apiClasspath",mapping:"apiClasspath"},
@@ -265,7 +275,44 @@ com.zz91.sms.gateway.Grid = Ext.extend(Ext.grid.GridPanel,{
 				com.zz91.sms.gateway.exam(row.get("id"));
 			}
 		}
-	},"->",{
+	},'-',{
+		text : '开启发送模式',
+		test : Ext.getCmp(GATEWAY.GATEWAY_GRID),
+		iconCls : 'accept16',
+		handler : function(btn){
+			Ext.Ajax.request({
+				url:Context.ROOT +  "/gateway/switchSendModel.htm",
+				params:{"debug":false},
+				success:function(response,opt){
+					com.zz91.utils.Msg("","成功启用<span style='color:red'>发送</span>模式");
+					Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
+				},
+				failure:function(response,opt){
+					com.zz91.utils.Msg("","启用失败");
+					Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
+				}
+			});
+		}
+	}
+	,{
+		text : '开启调试模式',
+		iconCls : 'stop16',
+		handler : function(btn){
+			Ext.Ajax.request({
+				url:Context.ROOT +  "/gateway/switchSendModel.htm",
+				params:{"debug":true},
+				success:function(response,opt){
+					com.zz91.utils.Msg("","成功启用<span style='color:red'>调试</span>模式");
+					Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
+				},
+				failure:function(response,opt){
+					com.zz91.utils.Msg("","启用失败");
+					Ext.getCmp(GATEWAY.GATEWAY_GRID).getStore().reload();
+				}
+			});
+		}
+	}
+	,'-',"->",{
 		xtype:"combo",
 		itemCls:"required",
 		name:"categoryCombo",

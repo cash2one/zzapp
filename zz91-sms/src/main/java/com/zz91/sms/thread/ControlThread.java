@@ -24,6 +24,8 @@ public class ControlThread extends Thread {
 	private static long lastMonitorTime=0;
 
 	public static boolean runSwitch = true;
+	
+	public static boolean DEBUG=false;
 
 	public ControlThread(int corePoolSize, int maximumPoolSize,
 			long keepAliveTime, int workQueueSize) {

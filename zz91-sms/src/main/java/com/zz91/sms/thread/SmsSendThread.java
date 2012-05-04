@@ -34,10 +34,10 @@ public class SmsSendThread extends Thread {
 				sms = getDefault();
 			}
 			// 判断是否发送短信
-			if ("false".equals(MemcachedUtils.getInstance().getClient().get("debug"))) {
-				sendStatus = sms.send(smsLog.getReceiver(), smsLog.getContent());
-			}else{
+			if (ControlThread.DEBUG) {
 				System.out.println("send mobile:"+smsLog.getReceiver()+" ; send message:"+smsLog.getContent());
+			}else{
+				sendStatus = sms.send(smsLog.getReceiver(), smsLog.getContent());
 			}
 
 			try {

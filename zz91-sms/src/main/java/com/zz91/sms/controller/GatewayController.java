@@ -17,6 +17,7 @@ import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.Gateway;
 import com.zz91.sms.dto.ExtResult;
 import com.zz91.sms.service.GatewayService;
+import com.zz91.sms.thread.ControlThread;
 import com.zz91.util.file.MvcUpload;
 import com.zz91.util.lang.StringUtils;
 
@@ -34,6 +35,7 @@ public class GatewayController extends BaseController {
 	
 	@RequestMapping
 	public ModelAndView index(HttpServletRequest request, Map<String, Object> out){
+		out.put("sendDebug", ControlThread.DEBUG);
 		return null;
 	}
 	
@@ -164,5 +166,17 @@ public class GatewayController extends BaseController {
 		}
 		return printJson(result, out);
 	}
-
+	@RequestMapping
+	public ModelAndView switchSendModel(Map<String,Object>out,Boolean debug){
+		ExtResult result = new ExtResult();
+		ControlThread.DEBUG=debug;
+		return printJson(result, out);
+	}
+	
+	@RequestMapping
+	public ModelAndView getSendModel(Map<String,Object>out){
+		ExtResult result = new ExtResult();
+		result.setData(ControlThread.DEBUG);
+		return printJson(result, out);
+	}
 }
