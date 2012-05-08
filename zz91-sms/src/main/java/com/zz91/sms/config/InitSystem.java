@@ -38,9 +38,6 @@ public class InitSystem {
 		//初始化 memcached
 		MemcachedUtils.getInstance().init("web.properties");
 		
-		//初始化 项目数据
-		initBaseConfig();
-		
 		//初始化发送网管帐号
 		gatewayService.initGateway();
 		
@@ -55,25 +52,4 @@ public class InitSystem {
 
 	}
 	
-	public void initBaseConfig() {
-		LOG.info(">>>>>>>>Init system properties cache start...");
-		InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("web.properties");
-		Properties p = new Properties();
-
-		try {
-			p.load(inputStream);
-		} catch (IOException e1) {
-			LOG.error("error read web.properties", e1);
-		}
-
-		String tmp = null;
-		for (Object key : p.keySet()) {
-			tmp = String.valueOf(key);
-			if (tmp != null && tmp.startsWith("debug")) {
-				MemcachedUtils.getInstance().getClient().set(String.valueOf(key), 0, String.valueOf(p.get(key)));
-			}
-		}
-
-		LOG.info(">>>>>>>>Init system properties cache end...");
-	}
 }

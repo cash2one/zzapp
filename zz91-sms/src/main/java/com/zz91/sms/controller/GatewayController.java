@@ -117,12 +117,11 @@ public class GatewayController extends BaseController {
 		return printJson(result, out);
 	}
 	
-	@SuppressWarnings("static-access")
 	@RequestMapping
 	public ModelAndView balance(HttpServletRequest request,Map<String, Object>out,
 			String code){
 		
-		ZZSms sms = (ZZSms) gatewayService.CACHE_GATEWAY.get(code);
+		ZZSms sms = (ZZSms) GatewayService.CACHE_GATEWAY.get(code);
 		
 		ExtResult result=new ExtResult();
 			if (sms != null ) {
@@ -136,17 +135,25 @@ public class GatewayController extends BaseController {
 
 
 	
-	@SuppressWarnings("static-access")
 	@RequestMapping
 	public ModelAndView testGateway(HttpServletRequest request,
-			Map<String, Object> out, String mobile,String content,String gatewayCode) {
+			Map<String, Object> out, String mobile,String gatewayCode) {
 
-		ZZSms zzSms=(ZZSms) gatewayService.CACHE_GATEWAY.get(gatewayCode);
+		ZZSms zzSms=(ZZSms) GatewayService.CACHE_GATEWAY.get(gatewayCode);
 
 		ExtResult result = new ExtResult();
-		if (zzSms != null ) {
-			zzSms.send(mobile, content);
-		}
+		do{
+			if (zzSms == null ) {
+				break;
+			}
+			if (ControlThread.DEBUG){
+				System.out.println("send mobile:"+mobile+" ; send message:网管测试短信【test】");
+			}else{
+				zzSms.send(mobile, "网管测试短信【test】");
+				result.setData("=======调试状态短信发送:send mobile(发送目标):"+mobile+" ; send message(发送内容):网管测试短信【test】");
+			}
+			
+		}while(false);
 		result.setSuccess(true);
 		return printJson(result, out);
 	}

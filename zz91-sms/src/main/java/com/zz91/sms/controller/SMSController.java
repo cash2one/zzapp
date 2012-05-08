@@ -30,7 +30,7 @@ public class SMSController extends BaseController{
 		
 		ExtResult result = new ExtResult();	
 		if (i!=null && i > 0) {
-			result.setSuccess(true);			
+			result.setSuccess(true);
 		}
 		return printJson(result, out); 
 		

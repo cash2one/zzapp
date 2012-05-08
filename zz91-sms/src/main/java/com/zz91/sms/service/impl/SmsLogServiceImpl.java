@@ -1,5 +1,6 @@
 package com.zz91.sms.service.impl;
 
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import com.zz91.sms.domain.Template;
 import com.zz91.sms.dto.Pager;
 import com.zz91.sms.service.SmsLogService;
 import com.zz91.util.Assert;
+import com.zz91.util.lang.StringUtils;
 
 @Component("smsLogService")
 public class SmsLogServiceImpl implements SmsLogService {
@@ -92,8 +94,9 @@ public class SmsLogServiceImpl implements SmsLogService {
 		if(sms.getSendStatus()==null){
 			sms.setSendStatus(0);
 		}
-		
-		sms.setContent(buildSmsContent(sms.getTemplateCode(), sms.getSmsParameter()));		
+		if(StringUtils.isNotEmpty(sms.getTemplateCode())){
+			sms.setContent(buildSmsContent(sms.getTemplateCode(), sms.getSmsParameter()));		
+		}
 		
 		return smsLogDao.insert(sms);
 	}
@@ -110,9 +113,16 @@ public class SmsLogServiceImpl implements SmsLogService {
 		if(template==null){
 			return String.format("{0}", obj.toArray());
 		}
-		
-		return String.format(template.getContent(), obj.toArray());
+		String[] str = coverJsonArrayToStringArray(obj);
+		MessageFormat descriptionFormat = new MessageFormat(template.getContent());
+		return descriptionFormat.format(str);
 	}
 
-	
+	private String[] coverJsonArrayToStringArray(JSONArray obj){
+		String[] str = new String[obj.size()];
+		for(int i=0;i<obj.size();i++){
+			str[i] = obj.getString(i);
+		}
+		return str;
+	}
 }

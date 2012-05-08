@@ -30,13 +30,12 @@ public class SmsScanThread extends Thread {
 			int queueSize = ControlThread.mainPool.getQueue().size();
 			if (queueSize <= 50) {
 				List<SmsLog> smsList = smsLogService.queryLogs(50);
-				System.out.println("total "+smsList.size()+" sms to send");
+//				System.out.println("total "+smsList.size()+" sms to send");
 				if (smsList != null && smsList.size() > 0) {
 					for (SmsLog smsLog : smsList) {
 
 						smsLogService.updateSuccess(smsLog.getId(),smsLogService.SEND_PROCESS);
-						ControlThread.excute(new SmsSendThread(smsLog,
-								smsLogService));
+						ControlThread.excute(new SmsSendThread(smsLog,smsLogService));
 
 //						if (queueSize < 50) {
 //						} else if (queueSize == 50

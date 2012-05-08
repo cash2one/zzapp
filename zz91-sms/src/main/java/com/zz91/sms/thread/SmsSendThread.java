@@ -6,7 +6,6 @@ import com.zz91.sms.common.ZZSms;
 import com.zz91.sms.domain.SmsLog;
 import com.zz91.sms.service.GatewayService;
 import com.zz91.sms.service.SmsLogService;
-import com.zz91.util.cache.MemcachedUtils;
 
 @Service
 public class SmsSendThread extends Thread {
@@ -35,7 +34,7 @@ public class SmsSendThread extends Thread {
 			}
 			// 判断是否发送短信
 			if (ControlThread.DEBUG) {
-				System.out.println("send mobile:"+smsLog.getReceiver()+" ; send message:"+smsLog.getContent());
+				System.out.println("=======调试状态短信发送:send mobile(发送目标):"+smsLog.getReceiver()+" ; send message(发送内容):"+smsLog.getContent());
 			}else{
 				sendStatus = sms.send(smsLog.getReceiver(), smsLog.getContent());
 			}
