@@ -115,7 +115,7 @@ public class SmsLogServiceImpl implements SmsLogService {
 		}
 		String[] str = coverJsonArrayToStringArray(obj);
 		MessageFormat descriptionFormat = new MessageFormat(template.getContent());
-		return descriptionFormat.format(str);
+		return descriptionFormat.format(str)+template.getSigned();
 	}
 
 	private String[] coverJsonArrayToStringArray(JSONArray obj){

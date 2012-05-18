@@ -54,7 +54,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 			dataIndex : "gmtSend",
 			renderer : function(value, metadata, record, rowIndex,colIndex, store) {
 				if(value!=null){
-					return Ext.util.Format.date(new Date(value.time), 'Y-m-d H:m:s');
+					return Ext.util.Format.date(new Date(value.time), 'Y-m-d H:i:s');
 				}
 				else{
 					return "";
@@ -78,7 +78,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 			sm:_sm,
 			cm:_cm,
 			tbar:[
-			  	{
+				{
 					text : '重发',
 					iconCls : 'stats16',
 					handler : function(btn){		
