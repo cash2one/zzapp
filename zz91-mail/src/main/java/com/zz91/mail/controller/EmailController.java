@@ -37,7 +37,7 @@ public class EmailController extends BaseController {
 		do {
 			if(StringUtils.isNotEmpty(gmtPostStr)){
 			    try {
-                    mailInfoDomain.setGmtPost(DateUtil.getDate(gmtPostStr, "yyyy-mm-dd HH:mm:ss"));
+                    mailInfoDomain.setGmtPost(DateUtil.getDate(gmtPostStr, "yyyy-MM-dd HH:mm:ss"));
                 } catch (ParseException e) {
                 }
 			}else{
