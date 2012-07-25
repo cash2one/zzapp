@@ -46,6 +46,9 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 			dataIndex:"sendStatus",
 			renderer : function(value, metadata, record, rowIndex,colIndex, store) {
 				var send = ["待发送","发送中","发送成功","发送失败"];
+				if(value>3){
+					return value;
+				}
 				return send[value];
 			}
 		},{

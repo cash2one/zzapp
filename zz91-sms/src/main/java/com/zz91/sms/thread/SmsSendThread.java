@@ -34,7 +34,7 @@ public class SmsSendThread extends Thread {
 			}
 			// 判断手机号码是否规范,取前11位数字发送
 			if(smsLog.getReceiver().length()>11){
-				smsLog.setReceiver(smsLog.getReceiver().substring(0,11));
+				smsLog.setReceiver(smsLog.getReceiver().trim().substring(0,11));
 			}
 			
 			// 判断是否发送短信
@@ -61,5 +61,11 @@ public class SmsSendThread extends Thread {
 			}
 		}
 		return null;
+	}
+	public static void main(String[] args) {
+		String str="13410899887/13590448959";
+		if(str.length()>11){
+			System.out.println(str.substring(0, 11));
+		}
 	}
 }

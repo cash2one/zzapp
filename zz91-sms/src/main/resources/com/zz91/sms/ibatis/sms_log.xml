@@ -71,6 +71,7 @@
 		set send_status=#sendStatus#,gmt_modified=now()
 		where id = #id#
 	</update>
+	
 	<!-- ******************************************** -->
 	<insert id="insertSms" parameterClass="smsLog">
 		insert into sms_log
