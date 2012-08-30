@@ -58,7 +58,7 @@ public class LogRecordServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		
-//		try {
+		try {
 			Map<String,Object> map =new HashMap<String, Object>();
 			if (request.getParameter("appCode")!=null) {
 				map.put("appCode", request.getParameter("appCode"));
@@ -88,9 +88,9 @@ public class LogRecordServlet extends HttpServlet {
 				LOG.debug("insert error:full!");
 			}
 			
-//		} catch (JSONParseException e) {
-//			System.out.println("json转换出错!");
-//		}
+		} catch (Exception e) {
+			LOG.error("mongo日志记录出错:"+e.getMessage());
+		}
 		
 		
 	}

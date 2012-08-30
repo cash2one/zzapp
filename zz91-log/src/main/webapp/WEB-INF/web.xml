@@ -20,13 +20,13 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>logRecordServer</servlet-name>
+		<servlet-name>mongoServer</servlet-name>
 		<servlet-class>com.zz91.log.servlet.LogRecordServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>logRecordServer</servlet-name>
-		<url-pattern>/logRecord</url-pattern>
+		<servlet-name>mongoServer</servlet-name>
+		<url-pattern>/mongo</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

@@ -50,7 +50,7 @@ public class LogReadServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		Map<String, String> map =null;
 		try {
-			 map = FileUtils.readPropertyFile("file:/usr/tools/config/db/db-zzlog-mongo.properties", "utf-8");
+			map = FileUtils.readPropertyFile("file:/usr/tools/config/db/db-zzlog-mongo.properties", "utf-8");
 	        
 		} catch (Exception e) {
 			LOG.error("read propertyFile Exception:"+e.getMessage());
@@ -93,6 +93,8 @@ public class LogReadServlet extends HttpServlet {
 	 	try {
 	 		//所有参数
 	 		Map<String,Object> search = (Map<String,Object>)JSONSerializer.toJSON(request.getParameter("params"));
+	 		search.put("start", request.getParameter("start"));
+	 		search.put("limit", request.getParameter("limit"));
 	 		//分页参数
 	 		JSONObject pageObj = new JSONObject();
 	        
