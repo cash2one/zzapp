@@ -3,8 +3,8 @@ package com.zz91.log.config;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import com.zz91.log.thread.ControlThread;
-import com.zz91.util.db.pool.DBPoolFactory;
+import com.zz91.log.thread.LogThread;
+import com.zz91.log.util.MongoUtil;
 
 /**
  * 
@@ -16,14 +16,17 @@ public class InitServlet extends HttpServlet {
 	private static final long serialVersionUID = 1315545405117443146L;
 
 	public void init() throws ServletException {
-		DBPoolFactory.getInstance().init("file:/usr/tools/config/db/db-zzlog.properties");
+//		DBPoolFactory.getInstance().init("file:/usr/tools/config/db/db-zzlog.properties");
 
-		ControlThread controlThread = new ControlThread();
-		controlThread.start();
+//		ControlThread controlThread = new ControlThread();
+//		controlThread.start();
 		
+		MongoUtil.getInstance().init("file:/usr/tools/config/db/db-zzlog-mongo.properties");
+		Thread logRecord = new Thread(new LogThread());
+		logRecord.start();
 	}
 
 	public void destroy() {
-
+		//MongoUtil.getInstance().destroy();
 	}
 }

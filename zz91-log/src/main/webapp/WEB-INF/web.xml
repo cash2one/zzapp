@@ -4,11 +4,11 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
 	http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-	<!--
+	
 		<servlet> <servlet-name>initSystem</servlet-name>
 		<servlet-class>com.zz91.log.config.InitServlet</servlet-class>
 		<load-on-startup>2</load-on-startup> </servlet>
-	-->
+	
 	<servlet>
 		<servlet-name>logReadServer</servlet-name>
 		<servlet-class>com.zz91.log.servlet.LogReadServlet</servlet-class>
