@@ -108,6 +108,8 @@ public class LogReadServlet extends HttpServlet {
 	}
 	//对查询游标做分页处理
 	private DBCursor pageResult(JSONObject pageObj,DBCursor cursor){
+		//totals
+		pageObj.put("totals",cursor.size());
 		//start
 		if (pageObj.get("start")!=null) {
 			cursor.skip(pageObj.getInt("start"));
@@ -135,15 +137,12 @@ public class LogReadServlet extends HttpServlet {
 	}
 	//查询结果封装,以PageDto为格式
 	private JSONObject resultResolve(DBCursor cursor,JSONObject pageObj){
-		//totals
-		pageObj.put("totals", cursor.size());
 		
         JSONArray records = new JSONArray();
         while(cursor.hasNext()){
         	JSONObject cur=JSONObject.fromObject(cursor.next());
         	records.add(cur);
         }
-        
         pageObj.put("records", records);
         
         return pageObj;
