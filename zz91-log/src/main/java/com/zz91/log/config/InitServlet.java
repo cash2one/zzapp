@@ -3,7 +3,6 @@ package com.zz91.log.config;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import com.zz91.log.thread.LogThread;
 import com.zz91.log.util.MongoUtil;
 
 /**
@@ -17,11 +16,12 @@ public class InitServlet extends HttpServlet {
 
 	public void init() throws ServletException {
 		MongoUtil.getInstance().init("file:/usr/tools/config/db/db-zzlog-mongo.properties");
-		Thread logRecord = new Thread(new LogThread());
-		logRecord.start();
+//		Thread logRecord = new Thread(new LogThread());
+//		logRecord.start();
 	}
 
 	public void destroy() {
+//		LogThread.RUNING=false;
 		MongoUtil.getInstance().destroy();
 	}
 }

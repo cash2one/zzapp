@@ -10,7 +10,7 @@
 	<groupId>com.zz91</groupId>
 	<artifactId>zz91-log</artifactId>
 	<packaging>war</packaging>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<name>zz91-log</name>
 	<dependencies>
 		<dependency>
@@ -110,7 +110,7 @@
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<configuration>
 					<path>/zz91-log</path>
-					<port>580</port>
+					<port>8080</port>
 				</configuration>
 			</plugin>
 		</plugins>

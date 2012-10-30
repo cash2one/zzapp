@@ -1,6 +1,5 @@
 package com.zz91.log.domain;
 
-import java.util.Date;
 
 /**
  * 记录日志信息对应的实体bean

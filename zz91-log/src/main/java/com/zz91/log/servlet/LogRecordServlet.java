@@ -13,7 +13,9 @@ import net.sf.json.JSONSerializer;
 
 import org.apache.log4j.Logger;
 
-import com.zz91.log.thread.LogThread;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.zz91.log.util.MongoUtil;
 
 
 
@@ -29,43 +31,47 @@ public class LogRecordServlet extends HttpServlet {
 	
 	public static int NUM_LOG=0;
 	
-	final static Logger LOG= Logger.getLogger("com.zz91.log4z");
+	final static Logger LOG= Logger.getLogger(LogReadServlet.class);
 	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		
 		request.setCharacterEncoding("utf-8");
 		
+		Map<String,Object> map =new HashMap<String, Object>();
+		if (request.getParameter("appCode")!=null) {
+			map.put("appCode", request.getParameter("appCode"));
+		}
+		if (request.getParameter("operator")!=null) {
+			map.put("operator", request.getParameter("operator").toString());
+		}
+		if (request.getParameter("operation")!=null) {
+			map.put("operation", request.getParameter("operation").toString());
+		}
+		if (request.getParameter("ip")!=null) {
+			map.put("ip", request.getParameter("ip").toString());
+		}
+		if (request.getParameter("time")!=null) {
+			map.put("time", request.getParameter("time").toString());
+		}
+		if (request.getParameter("data")!=null) {
+			if(request.getParameter("data").startsWith("{")){
+				map.put("data", JSONSerializer.toJSON(request.getParameter("data")));
+			}else{
+				map.put("data", request.getParameter("data").toString());
+			}
+		}
 		
 		try {
-			Map<String,Object> map =new HashMap<String, Object>();
-			if (request.getParameter("appCode")!=null) {
-				map.put("appCode", request.getParameter("appCode"));
-			}
-			if (request.getParameter("operator")!=null) {
-				map.put("operator", request.getParameter("operator").toString());
-			}
-			if (request.getParameter("operation")!=null) {
-				map.put("operation", request.getParameter("operation").toString());
-			}
-			if (request.getParameter("ip")!=null) {
-				map.put("ip", request.getParameter("ip").toString());
-			}
-			if (request.getParameter("time")!=null) {
-				map.put("time", request.getParameter("time").toString());
-			}
-			if (request.getParameter("data")!=null) {
-				if(request.getParameter("data").startsWith("{")){
-					map.put("data", JSONSerializer.toJSON(request.getParameter("data")));
-				}else{
-					map.put("data", request.getParameter("data").toString());
-				}
-				
-			}
 			
-			if(!LogThread.logsQueue.offer(map)){
-				LOG.debug("insert error:full!");
-			}
+			DBObject dbo = new BasicDBObject();
+			dbo.putAll(map);
+			MongoUtil.getInstance().dbc.save(dbo);
+			
+//			if(!LogThread.logsQueue.offer(map)){
+//				LOG.debug("insert error:full!");
+//			}
 			
 		} catch (Exception e) {
 			LOG.error("mongo日志记录出错:"+e.getMessage());

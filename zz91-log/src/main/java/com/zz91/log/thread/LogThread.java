@@ -28,6 +28,8 @@ public class LogThread implements Runnable {
 	 */
 	public static BlockingQueue<Map<String, Object>> logsQueue = new LinkedBlockingQueue<Map<String,Object>>(10000);
 	private static Logger LOG=Logger.getLogger(LogThread.class);
+	
+	public static boolean RUNING=true;
 
 	
 	/**
@@ -36,7 +38,7 @@ public class LogThread implements Runnable {
 	@Override
 	public void run() {
 		
-		while(true){
+		while(RUNING){
 			try {
 				DBObject dbo = new BasicDBObject();
 				//取出日志队列数据存入mongo
@@ -46,16 +48,10 @@ public class LogThread implements Runnable {
 				
 				MongoUtil.getInstance().dbc.save(dbo);
 				
-				
 			} catch (Exception e) {
-//				mongo.close();
 				LOG.debug(">>"+e.getMessage());
 			}
 		}
-		
-		
-//		LogService.getInstance().insertLog(logInfo);
-//		LOG.debug("LogService.getInstance().insertLog(logInfo) run success!");
 		
 	}
 

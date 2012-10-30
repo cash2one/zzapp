@@ -29,7 +29,7 @@ import com.zz91.log.util.MongoUtil;
 public class LogReadServlet extends HttpServlet {
 	
 
-	final static Logger LOG= Logger.getLogger("com.zz91.log4z");
+	final static Logger LOG= Logger.getLogger(LogReadServlet.class);
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse resp)
