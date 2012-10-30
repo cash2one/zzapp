@@ -9,18 +9,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
-import org.apache.commons.httpclient.NameValuePair;
 import org.apache.log4j.Logger;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
-import com.mongodb.util.JSONParseException;
 import com.zz91.log.thread.LogThread;
-import com.zz91.util.lang.StringUtils;
 
 
 
@@ -37,20 +30,6 @@ public class LogRecordServlet extends HttpServlet {
 	public static int NUM_LOG=0;
 	
 	final static Logger LOG= Logger.getLogger("com.zz91.log4z");
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		LogThread.init();
-		Thread thr=new Thread(new LogThread());
-		thr.start();
-		super.init();
-	}
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		LogThread.destroy();
-		super.destroy();
-	}
 	
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response)
@@ -58,7 +37,7 @@ public class LogRecordServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		
-//		try {
+		try {
 			Map<String,Object> map =new HashMap<String, Object>();
 			if (request.getParameter("appCode")!=null) {
 				map.put("appCode", request.getParameter("appCode"));
@@ -88,11 +67,9 @@ public class LogRecordServlet extends HttpServlet {
 				LOG.debug("insert error:full!");
 			}
 			
-//		} catch (JSONParseException e) {
-//			System.out.println("json转换出错!");
-//		}
-		
-		
+		} catch (Exception e) {
+			LOG.error("mongo日志记录出错:"+e.getMessage());
+		}
 	}
 
 }

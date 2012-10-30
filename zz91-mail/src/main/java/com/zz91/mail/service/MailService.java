@@ -99,7 +99,6 @@ public class MailService {
      * @param hostName
      * @return
      */
-    @SuppressWarnings("unchecked")
 	public String buildEmailContent(Map<String, Object> map, String content) {
         Iterator it = map.entrySet().iterator();
         while (it.hasNext()) {

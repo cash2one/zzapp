@@ -5,10 +5,6 @@
  */
 package com.zz91.sms.config;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 

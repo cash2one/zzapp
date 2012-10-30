@@ -43,7 +43,6 @@ public class MailSendThread extends Thread {
 		this.mailInfoService = mailInfoService;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
 

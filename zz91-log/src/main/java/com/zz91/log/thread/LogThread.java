@@ -12,12 +12,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.log4j.Logger;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-import com.mongodb.MongoOptions;
-import com.zz91.util.file.FileUtils;
+import com.zz91.log.util.MongoUtil;
 
 /**
  * 项目名称：日志统计
@@ -31,51 +27,8 @@ public class LogThread implements Runnable {
 	 * 日志队列,测试版,此同步方式可能不是线程安全的,后续优化
 	 */
 	public static BlockingQueue<Map<String, Object>> logsQueue = new LinkedBlockingQueue<Map<String,Object>>(10000);
-	private static Mongo mongo = null;
-	private static DB db = null;
-	private static DBCollection dbc = null;
 	private static Logger LOG=Logger.getLogger(LogThread.class);
 
-	public LogThread() {
-
-	}
-
-//	public LogThread(LogInfo log) {
-//		this.logInfo = log;
-//	}
-	public static void init(){
-		Map<String, String> map =null;
-		try {
-			 map = FileUtils.readPropertyFile("file:/usr/tools/config/db/db-zzlog-mongo.properties", "utf-8");
-	        
-		} catch (Exception e) {
-			LOG.error("read propertyFile Exception:"+e.getMessage());
-		}
-		try {
-			if(map!=null){
-				//连接池配置
-				MongoOptions options = new MongoOptions(); 
-		        options.autoConnectRetry = true; 
-		        options.connectionsPerHost = 20; 
-		        options.connectTimeout = 0; 
-		        options.maxAutoConnectRetryTime = 12000; 
-		        options.maxWaitTime = 12000; 
-		        options.socketKeepAlive = true; 
-		        options.socketTimeout = 0;
-				
-				mongo = new Mongo(map.get("mongo.host"),options);
-				db = mongo.getDB(map.get("mongo.db"));
-				dbc = db.getCollection(map.get("mongo.collection"));
-				
-			}
-		} catch (Exception e) {
-			LOG.error("MongoDB connection Exception:"+e.getMessage());
-		}
-	}
-	public static void destroy(){
-		logsQueue.clear();
-		mongo.close();
-	}
 	
 	/**
 	 * 此处插入数据,测试版,现为单机跑,后续依数据插入时间和效率看是否需要线程池托管跑多个线程.
@@ -91,7 +44,7 @@ public class LogThread implements Runnable {
 								
 				dbo.putAll(data);
 				
-				dbc.save(dbo);
+				MongoUtil.getInstance().dbc.save(dbo);
 				
 				
 			} catch (Exception e) {

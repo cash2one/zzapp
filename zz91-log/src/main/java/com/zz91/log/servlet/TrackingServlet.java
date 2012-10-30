@@ -65,7 +65,7 @@ public class TrackingServlet extends HttpServlet {
 
 		response.setContentType("text/html;charset=utf-8");
 
-		long now = System.currentTimeMillis();
+//		long now = System.currentTimeMillis();
 		int size = secondQueue.size();
 		if (size < 100) {
 			secondQueue.add(LogServerServlet.NUM_LOG);

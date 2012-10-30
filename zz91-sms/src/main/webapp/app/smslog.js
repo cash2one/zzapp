@@ -46,6 +46,9 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 			dataIndex:"sendStatus",
 			renderer : function(value, metadata, record, rowIndex,colIndex, store) {
 				var send = ["待发送","发送中","发送成功","发送失败"];
+				if(value>3){
+					return value;
+				}
 				return send[value];
 			}
 		},{
@@ -54,7 +57,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 			dataIndex : "gmtSend",
 			renderer : function(value, metadata, record, rowIndex,colIndex, store) {
 				if(value!=null){
-					return Ext.util.Format.date(new Date(value.time), 'Y-m-d H:m:s');
+					return Ext.util.Format.date(new Date(value.time), 'Y-m-d H:i:s');
 				}
 				else{
 					return "";
@@ -78,7 +81,7 @@ com.zz91.sms.smslog.Grid = Ext.extend(Ext.grid.GridPanel,{
 			sm:_sm,
 			cm:_cm,
 			tbar:[
-			  	{
+				{
 					text : '重发',
 					iconCls : 'stats16',
 					handler : function(btn){		

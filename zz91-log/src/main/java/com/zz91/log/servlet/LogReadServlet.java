@@ -2,12 +2,7 @@ package com.zz91.log.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -19,19 +14,11 @@ import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 import org.apache.log4j.Logger;
-import org.springframework.context.ApplicationContextException;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import com.mongodb.Mongo;
-import com.mongodb.MongoOptions;
-import com.mongodb.QueryOperators;
-import com.mongodb.util.JSON;
-import com.zz91.util.file.FileUtils;
-import com.zz91.util.lang.StringUtils;
+import com.zz91.log.util.MongoUtil;
 /**
  * 项目名称：日志统计
  * 模块描述：读取日志数据servlet
@@ -40,48 +27,10 @@ import com.zz91.util.lang.StringUtils;
  */
 @SuppressWarnings("serial")
 public class LogReadServlet extends HttpServlet {
-	private Mongo mongo=null;
-	private DB db = null;
-	private DBCollection dbc;
+	
 
 	final static Logger LOG= Logger.getLogger("com.zz91.log4z");
-	@Override
-	public void init() throws ServletException {
-		// TODO Auto-generated method stub
-		Map<String, String> map =null;
-		try {
-			 map = FileUtils.readPropertyFile("file:/usr/tools/config/db/db-zzlog-mongo.properties", "utf-8");
-	        
-		} catch (Exception e) {
-			LOG.error("read propertyFile Exception:"+e.getMessage());
-		}
-		try {
-			if(map!=null){
-				//连接池配置
-				MongoOptions options = new MongoOptions(); 
-		        options.autoConnectRetry = true; 
-		        options.connectionsPerHost = 20; 
-		        options.connectTimeout = 0; 
-		        options.maxAutoConnectRetryTime = 12000; 
-		        options.maxWaitTime = 12000; 
-		        options.socketKeepAlive = true; 
-		        options.socketTimeout = 0;
-				
-		        mongo = new Mongo(map.get("mongo.host"));
-				db = mongo.getDB(map.get("mongo.db"));
-				dbc = db.getCollection(map.get("mongo.collection"));
-			}
-		} catch (Exception e) {
-			LOG.error("MongoDB connection Exception:"+e.getMessage());
-		}
-		super.init();
-	}
-	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		mongo.close();
-		super.destroy();
-	}
+
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -93,6 +42,8 @@ public class LogReadServlet extends HttpServlet {
 	 	try {
 	 		//所有参数
 	 		Map<String,Object> search = (Map<String,Object>)JSONSerializer.toJSON(request.getParameter("params"));
+	 		search.put("start", request.getParameter("start"));
+	 		search.put("limit", request.getParameter("limit"));
 	 		//分页参数
 	 		JSONObject pageObj = new JSONObject();
 	        
@@ -148,10 +99,12 @@ public class LogReadServlet extends HttpServlet {
 			search.put("$or", JSONArray.fromObject(search.get("or").toString()));
 			search.remove("or");
 		}
-		return dbc.find(new BasicDBObject(search),columns);
+		return MongoUtil.getInstance().dbc.find(new BasicDBObject(search),columns);
 	}
 	//对查询游标做分页处理
 	private DBCursor pageResult(JSONObject pageObj,DBCursor cursor){
+		//totals
+		pageObj.put("totals",cursor.size());
 		//start
 		if (pageObj.get("start")!=null) {
 			cursor.skip(pageObj.getInt("start"));
@@ -179,15 +132,12 @@ public class LogReadServlet extends HttpServlet {
 	}
 	//查询结果封装,以PageDto为格式
 	private JSONObject resultResolve(DBCursor cursor,JSONObject pageObj){
-		//totals
-		pageObj.put("totals", cursor.size());
 		
         JSONArray records = new JSONArray();
         while(cursor.hasNext()){
         	JSONObject cur=JSONObject.fromObject(cursor.next());
         	records.add(cur);
         }
-        
         pageObj.put("records", records);
         
         return pageObj;
