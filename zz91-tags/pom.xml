@@ -135,7 +135,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>tags</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
