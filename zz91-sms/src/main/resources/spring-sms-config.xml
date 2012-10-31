@@ -116,9 +116,11 @@
 	</bean>
 	
 	<!-- Thread Init -->
+	<!-- 
 	<bean id="initThread" class="com.zz91.sms.config.InitThread"
 		init-method="startup" lazy-init="false">
 	</bean>
+	 -->
 	
 	<!-- date format to 'yyyy-MM-dd HH:mm:ss' -->
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">

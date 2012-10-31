@@ -121,9 +121,11 @@
 		init-method="startup" lazy-init="false">
 	</bean>
 	<!-- Thread Init -->
+	<!-- 
 	<bean id="initThread" class="com.zz91.mail.config.InitThread"
         init-method="startup" lazy-init="false">
     </bean>
+	 -->
 
 	<!-- javamail config -->
 
